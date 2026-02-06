@@ -5,31 +5,31 @@ using UnityEngine.InputSystem;
 
 namespace localizer.product.animation
 {
-    public class DoorAnimation : MonoBehaviour
+    public class DoorAnimation : MonoBehaviour,IClickable
     {
         [SerializeField] private Animator doorAnimator;
 
-        [SerializeField] private InputActionAsset doorActionAsset;
-        private InputActionMap doorActionMap;
-        private InputAction doorAction;
+        //[SerializeField] private InputActionAsset doorActionAsset;
+        //private InputActionMap doorActionMap;
+        //private InputAction doorAction;
 
         private void Awake()
         {
-            doorActionMap = doorActionAsset.FindActionMap("GamePlay");
-            doorAction = doorActionMap.FindAction("doorAction");
+            //doorActionMap = doorActionAsset.FindActionMap("GamePlay");
+            //doorAction = doorActionMap.FindAction("doorAction");
 
-            doorAction.performed += context => MoveDoor();
+            //doorAction.performed += context => MoveDoor();
         }
 
-        private void OnEnable()
-        {
-            doorAction.Enable();
-        }
+        //private void OnEnable()
+        //{
+        //    doorAction.Enable();
+        //}
 
-        private void OnDisable()
-        {
-            doorAction.Disable();
-        }
+        //private void OnDisable()
+        //{
+        //    doorAction.Disable();
+        //}
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -45,13 +45,17 @@ namespace localizer.product.animation
             bool currentState = doorAnimator.GetBool("isOpen");
             doorAnimator.SetBool("isOpen", !currentState);
 
-            if (!currentState)
+            if (currentState)
             {
                 doorAnimator.SetBool("isResting", false);
             }
 
         }
 
+        public void ClickAction()
+        {
+            MoveDoor();
+        }
     }
 }
 

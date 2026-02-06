@@ -147,15 +147,6 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""doorActionMouse"",
-                    ""type"": ""Button"",
-                    ""id"": ""f9fb5a85-11a4-446a-a784-f9d3e27584f6"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""MoveCamera"",
                     ""type"": ""Value"",
                     ""id"": ""54a0d0e5-a6d9-428f-946d-e553c97197e6"",
@@ -276,17 +267,6 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
                 },
                 {
                     ""name"": """",
-                    ""id"": ""886fb92b-172d-4858-9076-999cc2bb705c"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""doorActionMouse"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7b58b39d-e12f-4e25-8fa4-23c45c4a16a0"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
@@ -342,7 +322,6 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
         m_Gameplay_ScreenButton3 = m_Gameplay.FindAction("ScreenButton3", throwIfNotFound: true);
         m_Gameplay_ScreenButton4 = m_Gameplay.FindAction("ScreenButton4", throwIfNotFound: true);
         m_Gameplay_SpinCamera = m_Gameplay.FindAction("SpinCamera", throwIfNotFound: true);
-        m_Gameplay_doorActionMouse = m_Gameplay.FindAction("doorActionMouse", throwIfNotFound: true);
         m_Gameplay_MoveCamera = m_Gameplay.FindAction("MoveCamera", throwIfNotFound: true);
         m_Gameplay_sideCameraMove = m_Gameplay.FindAction("sideCameraMove", throwIfNotFound: true);
     }
@@ -431,7 +410,6 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
     private readonly InputAction m_Gameplay_ScreenButton3;
     private readonly InputAction m_Gameplay_ScreenButton4;
     private readonly InputAction m_Gameplay_SpinCamera;
-    private readonly InputAction m_Gameplay_doorActionMouse;
     private readonly InputAction m_Gameplay_MoveCamera;
     private readonly InputAction m_Gameplay_sideCameraMove;
     /// <summary>
@@ -469,10 +447,6 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
         /// Provides access to the underlying input action "Gameplay/SpinCamera".
         /// </summary>
         public InputAction @SpinCamera => m_Wrapper.m_Gameplay_SpinCamera;
-        /// <summary>
-        /// Provides access to the underlying input action "Gameplay/doorActionMouse".
-        /// </summary>
-        public InputAction @doorActionMouse => m_Wrapper.m_Gameplay_doorActionMouse;
         /// <summary>
         /// Provides access to the underlying input action "Gameplay/MoveCamera".
         /// </summary>
@@ -525,9 +499,6 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
             @SpinCamera.started += instance.OnSpinCamera;
             @SpinCamera.performed += instance.OnSpinCamera;
             @SpinCamera.canceled += instance.OnSpinCamera;
-            @doorActionMouse.started += instance.OnDoorActionMouse;
-            @doorActionMouse.performed += instance.OnDoorActionMouse;
-            @doorActionMouse.canceled += instance.OnDoorActionMouse;
             @MoveCamera.started += instance.OnMoveCamera;
             @MoveCamera.performed += instance.OnMoveCamera;
             @MoveCamera.canceled += instance.OnMoveCamera;
@@ -563,9 +534,6 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
             @SpinCamera.started -= instance.OnSpinCamera;
             @SpinCamera.performed -= instance.OnSpinCamera;
             @SpinCamera.canceled -= instance.OnSpinCamera;
-            @doorActionMouse.started -= instance.OnDoorActionMouse;
-            @doorActionMouse.performed -= instance.OnDoorActionMouse;
-            @doorActionMouse.canceled -= instance.OnDoorActionMouse;
             @MoveCamera.started -= instance.OnMoveCamera;
             @MoveCamera.performed -= instance.OnMoveCamera;
             @MoveCamera.canceled -= instance.OnMoveCamera;
@@ -654,13 +622,6 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSpinCamera(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "doorActionMouse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnDoorActionMouse(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "MoveCamera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
