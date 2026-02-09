@@ -4,10 +4,10 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - homepage
   - menupage
   - alertspage
   - monitorpage
+  - statuspage
   layers:
   - Default
   - TransparentFX

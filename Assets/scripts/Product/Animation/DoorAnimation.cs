@@ -34,6 +34,7 @@ namespace localizer.product.animation
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
+
             if (doorAnimator == null)
             {
                 doorAnimator.SetBool("isResting", true);
@@ -45,10 +46,12 @@ namespace localizer.product.animation
             bool currentState = doorAnimator.GetBool("isOpen");
             doorAnimator.SetBool("isOpen", !currentState);
 
-            if (currentState)
+            if (!currentState)
             {
                 doorAnimator.SetBool("isResting", false);
+                return;
             }
+            //doorAnimator.SetBool("isResting", true);
 
         }
 

@@ -14,7 +14,7 @@ namespace localizer.utilities.buttons
         public static string _button1;
         public static string _button2;
         public static string _button3;
-        public static string _button4 = "home";
+        public static string _button4 = "status";
         //public string _buttonKeyCode;
 
         [SerializeField] private InputActionAsset _actionAsset;

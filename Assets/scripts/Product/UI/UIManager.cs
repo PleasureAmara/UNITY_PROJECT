@@ -17,7 +17,7 @@ namespace localizer.product.ui
 
         private void Start()
         {
-            LoadHomePage();
+            LoadStatusPage();
 
             //sample code to blink the light
             //lEDManager.isEmissionEnabled = true;
@@ -66,10 +66,9 @@ namespace localizer.product.ui
 
         }
 
-        private void LoadHomePage()
+        private void LoadStatusPage()
         {
-            LoadAnyPage("homepage");
-            AssignButtonNames();
+            LoadAnyPage("statuspage");
         }
 
     }

@@ -13,7 +13,7 @@ namespace localizer.product.ui
         }
         public override void ClickAction()
         {
-            Debug.Log("Button2 clicked.");
+            Debug.Log($"Button2 clicked opening {_button2}page");
             _uiManager.LoadAnyPage($"{_button2}page");
         }
 

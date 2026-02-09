@@ -147,22 +147,13 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""MoveCamera"",
+                    ""name"": ""moveCamera"",
                     ""type"": ""Value"",
-                    ""id"": ""54a0d0e5-a6d9-428f-946d-e553c97197e6"",
-                    ""expectedControlType"": ""Axis"",
+                    ""id"": ""953e8fd1-34ba-4141-bc82-9c9966278844"",
+                    ""expectedControlType"": ""Vector3"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""sideCameraMove"",
-                    ""type"": ""Button"",
-                    ""id"": ""a794742c-803f-45bb-b66f-3e81f3970cb6"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -222,19 +213,8 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""0c93d1f6-baea-40ee-b7a5-0b7875bdfb3a"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""SpinCamera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""1D Axis"",
-                    ""id"": ""e56e5577-ecc8-43b2-b83e-0870a12c45db"",
+                    ""id"": ""cfb00b22-8504-4318-bce9-22ce3068c64c"",
                     ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -245,7 +225,7 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
                 },
                 {
                     ""name"": ""negative"",
-                    ""id"": ""02d0dc3f-530c-452f-9b7e-f3e1121240a7"",
+                    ""id"": ""54829401-a932-40c3-a35c-7f95385f0f48"",
                     ""path"": ""<Keyboard>/leftArrow"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -256,7 +236,7 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
                 },
                 {
                     ""name"": ""positive"",
-                    ""id"": ""4dd78c2a-994c-4f81-b98e-8244b6f5b7e5"",
+                    ""id"": ""e011950d-3d6f-4abb-b0b3-2ced83f3574c"",
                     ""path"": ""<Keyboard>/rightArrow"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -267,47 +247,91 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7b58b39d-e12f-4e25-8fa4-23c45c4a16a0"",
-                    ""path"": ""<Keyboard>/w"",
+                    ""id"": ""088778b3-0d29-4abc-9046-a01a64b12a31"",
+                    ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveCamera"",
+                    ""action"": ""moveCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""bcd3b77f-2087-44c0-ae0d-266c6cded956"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""name"": ""3D Vector"",
+                    ""id"": ""754edece-8604-4b62-a9fd-b23f948ad98f"",
+                    ""path"": ""3DVector"",
                     ""interactions"": """",
-                    ""processors"": ""Invert"",
+                    ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MoveCamera"",
-                    ""isComposite"": false,
+                    ""action"": ""moveCamera"",
+                    ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""3c937764-6cd2-442b-9f03-de68134b278b"",
+                    ""name"": ""up"",
+                    ""id"": ""7fac14ec-54cc-4362-b1ab-d54a5c2b82f2"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""moveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""eba19922-0ff5-4608-a4c0-fee5a8b858dd"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""moveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""06b8962c-753b-437c-8b45-8b68f52dee4e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""moveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""9d4edd53-e293-40b9-9041-dc9777e76b41"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""sideCameraMove"",
+                    ""action"": ""moveCamera"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""7718e0fa-f562-49eb-8b56-5d17a26b0203"",
-                    ""path"": ""<Keyboard>/a"",
+                    ""name"": ""forward"",
+                    ""id"": ""c9e86d69-dcd0-4bf4-bebb-29a86b794302"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
-                    ""processors"": ""Invert"",
+                    ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""sideCameraMove"",
+                    ""action"": ""moveCamera"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""backward"",
+                    ""id"": ""16f0911a-4a3c-4a91-b1dd-e775452d6061"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""moveCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -322,8 +346,7 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
         m_Gameplay_ScreenButton3 = m_Gameplay.FindAction("ScreenButton3", throwIfNotFound: true);
         m_Gameplay_ScreenButton4 = m_Gameplay.FindAction("ScreenButton4", throwIfNotFound: true);
         m_Gameplay_SpinCamera = m_Gameplay.FindAction("SpinCamera", throwIfNotFound: true);
-        m_Gameplay_MoveCamera = m_Gameplay.FindAction("MoveCamera", throwIfNotFound: true);
-        m_Gameplay_sideCameraMove = m_Gameplay.FindAction("sideCameraMove", throwIfNotFound: true);
+        m_Gameplay_moveCamera = m_Gameplay.FindAction("moveCamera", throwIfNotFound: true);
     }
 
     ~@LocaliserCustomActions()
@@ -410,8 +433,7 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
     private readonly InputAction m_Gameplay_ScreenButton3;
     private readonly InputAction m_Gameplay_ScreenButton4;
     private readonly InputAction m_Gameplay_SpinCamera;
-    private readonly InputAction m_Gameplay_MoveCamera;
-    private readonly InputAction m_Gameplay_sideCameraMove;
+    private readonly InputAction m_Gameplay_moveCamera;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -448,13 +470,9 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
         /// </summary>
         public InputAction @SpinCamera => m_Wrapper.m_Gameplay_SpinCamera;
         /// <summary>
-        /// Provides access to the underlying input action "Gameplay/MoveCamera".
+        /// Provides access to the underlying input action "Gameplay/moveCamera".
         /// </summary>
-        public InputAction @MoveCamera => m_Wrapper.m_Gameplay_MoveCamera;
-        /// <summary>
-        /// Provides access to the underlying input action "Gameplay/sideCameraMove".
-        /// </summary>
-        public InputAction @sideCameraMove => m_Wrapper.m_Gameplay_sideCameraMove;
+        public InputAction @moveCamera => m_Wrapper.m_Gameplay_moveCamera;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -499,12 +517,9 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
             @SpinCamera.started += instance.OnSpinCamera;
             @SpinCamera.performed += instance.OnSpinCamera;
             @SpinCamera.canceled += instance.OnSpinCamera;
-            @MoveCamera.started += instance.OnMoveCamera;
-            @MoveCamera.performed += instance.OnMoveCamera;
-            @MoveCamera.canceled += instance.OnMoveCamera;
-            @sideCameraMove.started += instance.OnSideCameraMove;
-            @sideCameraMove.performed += instance.OnSideCameraMove;
-            @sideCameraMove.canceled += instance.OnSideCameraMove;
+            @moveCamera.started += instance.OnMoveCamera;
+            @moveCamera.performed += instance.OnMoveCamera;
+            @moveCamera.canceled += instance.OnMoveCamera;
         }
 
         /// <summary>
@@ -534,12 +549,9 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
             @SpinCamera.started -= instance.OnSpinCamera;
             @SpinCamera.performed -= instance.OnSpinCamera;
             @SpinCamera.canceled -= instance.OnSpinCamera;
-            @MoveCamera.started -= instance.OnMoveCamera;
-            @MoveCamera.performed -= instance.OnMoveCamera;
-            @MoveCamera.canceled -= instance.OnMoveCamera;
-            @sideCameraMove.started -= instance.OnSideCameraMove;
-            @sideCameraMove.performed -= instance.OnSideCameraMove;
-            @sideCameraMove.canceled -= instance.OnSideCameraMove;
+            @moveCamera.started -= instance.OnMoveCamera;
+            @moveCamera.performed -= instance.OnMoveCamera;
+            @moveCamera.canceled -= instance.OnMoveCamera;
         }
 
         /// <summary>
@@ -623,18 +635,11 @@ public partial class @LocaliserCustomActions: IInputActionCollection2, IDisposab
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSpinCamera(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "MoveCamera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "moveCamera" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMoveCamera(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "sideCameraMove" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSideCameraMove(InputAction.CallbackContext context);
     }
 }
