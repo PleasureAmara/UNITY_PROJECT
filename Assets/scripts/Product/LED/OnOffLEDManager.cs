@@ -14,7 +14,7 @@ namespace localizer.product.led
         /// <summary>
         /// this field is used by other scripts to activate the emissive property of the LED.
         /// </summary>
-        public bool isEmissive;
+        public bool isEmissive = true;
 
         /// <summary>
         /// it is set by other scripts to have more control over the emissive feature of the Light.
@@ -47,13 +47,20 @@ namespace localizer.product.led
                 {
                     targetMaterial.EnableKeyword("_EMISSION");
                     yield return new WaitForSeconds(1);
-                }
 
-                if (isBlinking)
+                    if (isBlinking)
+                    {
+                        targetMaterial.DisableKeyword("_EMISSION");
+                        yield return new WaitForSeconds(1);
+                    }
+                }
+                else
                 {
                     targetMaterial.DisableKeyword("_EMISSION");
-                    yield return new WaitForSeconds(1);
+                    yield return null;
                 }
+                    
+                
             }
         
         }

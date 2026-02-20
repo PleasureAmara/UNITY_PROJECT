@@ -3,7 +3,517 @@ guid: cdbac8c276be65d45998016670ba430f
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM100_A07_Crimson_Depth
+    second: {fileID: 2100000, guid: 97cb317dbf106b2408b3d511413c2b82, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM101_H01_Misty_Ice
+    second: {fileID: 2100000, guid: e2a0f4cd87886e74b98202fa33c298a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM102_M09_Shadow_Night
+    second: {fileID: 2100000, guid: fd37b781fa777a446bb3a6dfcd45a022, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM103_H08_Emerald_Abyss
+    second: {fileID: 2100000, guid: dd16752dc593219419d7f6755b1d55e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM10_Color M08
+    second: {fileID: 2100000, guid: 91e9d17fda817e4478158d6fa779f08f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM11_Color M09
+    second: {fileID: 2100000, guid: b67fc871f228fa146acedb2b5cf7025f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM12_Color M07
+    second: {fileID: 2100000, guid: cfcbff6e4824f0847a0f06c2fdd5b9ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM13_Color M06
+    second: {fileID: 2100000, guid: 2d8d552bd5128584b9dbab1a0940e71a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM14_Color M02
+    second: {fileID: 2100000, guid: e5485f9cc84cfe84f8bb3f04de1933e3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM15_Color A03
+    second: {fileID: 2100000, guid: 56ffacb4f54b7904dbbd1b1ba949353d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM16_Color A05
+    second: {fileID: 2100000, guid: 7f4b34a7cd1b04d42bec871921b6d398, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM17_Color G04
+    second: {fileID: 2100000, guid: a701cb044d77009469120f61e9d12480, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM18_Metal Silver_124
+    second: {fileID: 2100000, guid: e58839f97ffe87146b8387f31b3b85e7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM19_Color M05
+    second: {fileID: 2100000, guid: 9c4b1e3bca6da87448324d6af3d9615e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM20_Vaso
+    second: {fileID: 2100000, guid: a7a630945a32b854c8f8e7d3365d3fcd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM21_Pedrinhas_143
+    second: {fileID: 2100000, guid: d7b0323bd7eb4d34b9c9d84ff8dcae1c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM22_.Suculenta_136
+    second: {fileID: 2100000, guid: 1f33a28eb2fdc104cb325d7a983f2011, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM23_.Suculenta_136_6_5262
+    second: {fileID: 2100000, guid: 6ce6647fb1c4ff844b3df3528ed07eee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM24_.Suculenta_136_7_5277
+    second: {fileID: 2100000, guid: 221ab02a6b609454a8dec4904c0e27a7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM25_.Suculenta_136_8_5303
+    second: {fileID: 2100000, guid: a9bd92f6d8eeb8f45a40cd670554515b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM26_.Suculenta_136_9_5325
+    second: {fileID: 2100000, guid: d9252ea1505246048aa44438ca0099be, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM27_.Suculenta_136_10_496
+    second: {fileID: 2100000, guid: 49a28c971e56e8e45a16f76a6d71917e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM28_.Suculenta_136_11_497
+    second: {fileID: 2100000, guid: 29e0c97ae96627347bfc434bea088d3d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM29_.Suculenta_136_12_501
+    second: {fileID: 2100000, guid: 2e4aaa4d01c322f4b9a16879bef6ba1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM2_Adesivos LG
+    second: {fileID: 2100000, guid: 59c69e5235bde7643ac108ee2b8f088a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM30_.Suculenta_136_13_502
+    second: {fileID: 2100000, guid: f272609f4d0e8ce479f00edcfb987d0e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM31_Tecido liso_147
+    second: {fileID: 2100000, guid: 08afa7145ab52574fb55b06c74c3acf0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM32_Cover 56_180
+    second: {fileID: 2100000, guid: a712c08c00062aa45b5de686441876da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM33_pages 17_168_16
+    second: {fileID: 2100000, guid: 366409c5410b8ae44b142b066633bdaf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM34_pages 17_168
+    second: {fileID: 2100000, guid: ba34288be1c24ce42a73853d450b8f77, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM35_Cover 71_156
+    second: {fileID: 2100000, guid: 739328a9433f7ac469b0c009a20793a5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM36_Cover 71_156_17
+    second: {fileID: 2100000, guid: fc419142bc44ea042a27954972c44125, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM37_pages 10_160
+    second: {fileID: 2100000, guid: 0871676bdc16fa441b995ceb633bcb2b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM38_pages 10_160_18
+    second: {fileID: 2100000, guid: b752179365601b64f950abb39641a151, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM39_Cover 59_164
+    second: {fileID: 2100000, guid: 8607224b1da1780479a9f7dd7b64b466, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "GDLM3_S\xEDmbolo LG_101"
+    second: {fileID: 2100000, guid: a804b9efdc0cbb44aa9b79ba038f1876, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM40_Cover 63_172
+    second: {fileID: 2100000, guid: 1b4aed6008b5e5840903e238ef4833f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM41_Cover 60_184
+    second: {fileID: 2100000, guid: df0c2228745e788458fc2b6e1a061efc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM42_pages 13_188
+    second: {fileID: 2100000, guid: f49a8d33d0c59914892c9f9fa8e11980, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM43_pages 13_188_22
+    second: {fileID: 2100000, guid: aae746873e6085441ab34c100636cb0d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM44_Cover 64_176
+    second: {fileID: 2100000, guid: d2b785571024019428e70ba4053beb5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM45_Cover 64_176_23
+    second: {fileID: 2100000, guid: d1072920fb070654ea1827229d5c0c87, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM46_Cover 67_192
+    second: {fileID: 2100000, guid: 7792aaa146188aa4faac929e347e56f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM47___134_25
+    second: {fileID: 2100000, guid: 8b6e78f4cfe526c47ace5ed9c1770887, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM48__1_196_26
+    second: {fileID: 2100000, guid: a6fa016ed3624b34c9dd2cd322ff2ba0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM49__2_198
+    second: {fileID: 2100000, guid: fc15bebcac9830e479caf2c9c4167aca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "GDLM4_Pl\xE1stico"
+    second: {fileID: 2100000, guid: ea184f7aee8abe246bdeaea417b8e6f6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM50__1_200
+    second: {fileID: 2100000, guid: eaa7f49948fecca419ac7e155de468c2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: "GDLM51_\uACE0\uC694\uD37C\uB2C8\uCCD0 \uB370\uC2A4\uD06C_202"
+    second: {fileID: 2100000, guid: cbfc4dfd6c049e84aadfc0dca929ac31, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM52_Color_F15 plastic_206
+    second: {fileID: 2100000, guid: 34defab2168510b439ef280ed1bf3abd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM53_NW070_204
+    second: {fileID: 2100000, guid: a9a57e01cdc47c246ab71713775b66bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM54_Color_F15 plastic_206
+    second: {fileID: 2100000, guid: edf84f1d2ca23314fafeac3b2bd1b760, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM55_Color_F15 plastic_206
+    second: {fileID: 2100000, guid: 4e56b0a2b0458d7489128acbd39f04d2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM56_Color_F15 plastic_206
+    second: {fileID: 2100000, guid: bc50236e6c6b0f242be83781e877b991, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM57_Color_F15 plastic_206
+    second: {fileID: 2100000, guid: 723f9a1b9db5aa240b26198a210fa4ee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM58_Color_F15 plastic_206
+    second: {fileID: 2100000, guid: 1552bda8b24c30646b21404a42c38666, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM59_Color_F15 plastic_206
+    second: {fileID: 2100000, guid: ac1fdaad13070f441a7646c4f4065494, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM5_Green
+    second: {fileID: 2100000, guid: bd3d265ca50ce174ab420b50f74e7e55, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM60_Color_C16
+    second: {fileID: 2100000, guid: 3122a14f6a23c464d9fcc37f2494b5aa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM61_Color_E17
+    second: {fileID: 2100000, guid: f98da97d6d60efa40ba377daca045fa4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM62_[Metal Silver]1_408
+    second: {fileID: 2100000, guid: a77429621e2220845b88a5e95ba3b6e8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM63_[Metal Silver]1_408_3
+    second: {fileID: 2100000, guid: 3d2d74d3efb8f0d4bbf52b4656aa3e78, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM64_Metal Seamed_410
+    second: {fileID: 2100000, guid: f940084e39b2b5c47876aa4f90e120b8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM65_Translucent Glass Gra
+    second: {fileID: 2100000, guid: d97c77722c11f994d95b51187666dc17, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM66_[0076_Green]1
+    second: {fileID: 2100000, guid: 97485bd7c27a9614a9317ee7fc45a0d4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM67_0056_Yellow
+    second: {fileID: 2100000, guid: a8b67c37e34e4c1479df04cc310df71b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM68_0128_White
+    second: {fileID: 2100000, guid: f0d3b0266a798c043b5bfd9f17bc375d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM69_0020_Red
+    second: {fileID: 2100000, guid: 26a77b28215b8c84aa947cd9d75eda77, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM6_Default
+    second: {fileID: 2100000, guid: f63b5977e779c1f4790a8257dda53476, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM70_0137_Black
+    second: {fileID: 2100000, guid: 6ce4e42fa18aad449908981f9eef1a94, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM71_Cast Aluminum_457
+    second: {fileID: 2100000, guid: 8da08079d311ea64aa838e5b2e694635, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM72_0135_DarkGray
+    second: {fileID: 2100000, guid: ae588af2648f1b340a8a4b1b13196f25, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM73_Metal_Rough_463
+    second: {fileID: 2100000, guid: cd7a587f57013bd4aaaffc39eb7680be, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM74_Metal_Brushed_467
+    second: {fileID: 2100000, guid: 66a1a7d81fd1cb04c817c628289efbba, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM75_[Metal_Aluminum_Anodi
+    second: {fileID: 2100000, guid: d86e6735db88b4e42922f756ea6a46f8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM76_[Metal_Aluminum_Anodi
+    second: {fileID: 2100000, guid: 521157db6d657cd48a0291a14b6e56ee, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM77_0014_DarkSalmon
+    second: {fileID: 2100000, guid: 1db33f9766c4182498895b84001703e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM78_[0021_DarkRed]1
+    second: {fileID: 2100000, guid: d692fc612fc61d2408d043bb2eb874c1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM79_[Color_007]1
+    second: {fileID: 2100000, guid: 4ca4acee4be45084295b6452578b34b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM7_Paint A
+    second: {fileID: 2100000, guid: c0146a0a8ff8298408da6eb8f4a350fa, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM80_Color_003
+    second: {fileID: 2100000, guid: e1924bf985e2bde4f8a2918ebde9b7d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM81_Color_005
+    second: {fileID: 2100000, guid: 0c8ac83f5fd383749b935317d50ce45b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM82_[Color_002]2
+    second: {fileID: 2100000, guid: 272664612f07fe8429ec64a41a45fc26, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM83_Color_006
+    second: {fileID: 2100000, guid: 48c88a649460a1742be197b757fa8af8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM84_0025_Coral
+    second: {fileID: 2100000, guid: eecb5a6ae6a31f54384db38c7f5e4db7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM85_Aluminum_406
+    second: {fileID: 2100000, guid: 2991add522ab0a24f8759f93f5d03be9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM86_Metal Aluminum Anodiz
+    second: {fileID: 2100000, guid: c963f341294ff2344a4273715f88d5e2, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM87_[Metal Rough]2_568
+    second: {fileID: 2100000, guid: 4f138380cf8d8f54ba8d5d7af9315981, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM88_Wood Board Cork_564
+    second: {fileID: 2100000, guid: 9b425c47f43017547b3d887a91a0454a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM89_Sophie_Shoes2
+    second: {fileID: 2100000, guid: 06844fad0c3e892438f13c81b3ae688f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM8_Black2
+    second: {fileID: 2100000, guid: c8b1bf35be02c954e8e16547ef14967d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM90_[Metal Rough]1_566_47
+    second: {fileID: 2100000, guid: aa641c81b36bd174f97183ed8eff807f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM91_Wood Board Cork_564_4
+    second: {fileID: 2100000, guid: 392f266e7b5a8f248842f2ca083e98b0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM92_[Metal Rough]1_566
+    second: {fileID: 2100000, guid: 09d6b373a9e2bbe468b3240ff4954bed, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM93_Color E01
+    second: {fileID: 2100000, guid: 03443a8a84836c54fb0037870f414343, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM94_Sophie_Skin1
+    second: {fileID: 2100000, guid: 6ba48e0401ca20d44baa2f21742ee225, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM95_Wood_Cherry_Original_
+    second: {fileID: 2100000, guid: 5cee3df532fae0247b39fc41252c1c0e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM96_[Metal_Aluminum_Anodi
+    second: {fileID: 2100000, guid: 1cb4c951ea3592a478b6a9158178f32f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM97_[Color_000]2
+    second: {fileID: 2100000, guid: 8709f0a6f80eacb4c92d342c7ba72212, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM98_Metal_Brass_Ceiling_5
+    second: {fileID: 2100000, guid: dec18ba7f5b272d41a742315e0f6aa56, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM99_Aluminum_406_43
+    second: {fileID: 2100000, guid: 79c14fc3e4842154984d7bff460abfdd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GDLM9_Color M00
+    second: {fileID: 2100000, guid: 24d627f6707c2a744aaec3c7ac28766c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
