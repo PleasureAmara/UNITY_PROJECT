@@ -17,38 +17,38 @@ namespace localizer.utilities.buttons
         public static string _button4 = "status";
         //public string _buttonKeyCode;
 
-        [SerializeField] private InputActionAsset _actionAsset;
-        protected InputActionMap _actionMap;
-        protected InputAction _buttonAction1;
-        protected InputAction _buttonAction2;
-        protected InputAction _buttonAction3;
-        protected InputAction _buttonAction4;
+        //[SerializeField] private InputActionAsset _actionAsset;
+        //protected InputActionMap _actionMap;
+        //protected InputAction _buttonAction1;
+        //protected InputAction _buttonAction2;
+        //protected InputAction _buttonAction3;
+        //protected InputAction _buttonAction4;
 
-        void Awake()
-        {
-            _actionMap = _actionAsset.FindActionMap("GamePlay");
-            _buttonAction1 = _actionMap.FindAction("ScreenButton1");
-            _buttonAction2 = _actionMap.FindAction("ScreenButton2");
-            _buttonAction3 = _actionMap.FindAction("ScreenButton3");
-            _buttonAction4 = _actionMap.FindAction("ScreenButton4");
+        //void Awake()
+        //{
+        //    _actionMap = _actionAsset.FindActionMap("GamePlay");
+        //    _buttonAction1 = _actionMap.FindAction("ScreenButton1");
+        //    _buttonAction2 = _actionMap.FindAction("ScreenButton2");
+        //    _buttonAction3 = _actionMap.FindAction("ScreenButton3");
+        //    _buttonAction4 = _actionMap.FindAction("ScreenButton4");
 
-        }
+        //}
 
-        void OnEnable()
-        {
-            _buttonAction1.Enable();
-            _buttonAction2.Enable();
-            _buttonAction3.Enable();
-            _buttonAction4.Enable();
-        }
+        //void OnEnable()
+        //{
+        //    _buttonAction1.Enable();
+        //    _buttonAction2.Enable();
+        //    _buttonAction3.Enable();
+        //    _buttonAction4.Enable();
+        //}
 
-        void OnDisable()
-        {
-            _buttonAction1.Disable();
-            _buttonAction2.Disable();
-            _buttonAction3.Disable();
-            _buttonAction4.Disable();
-        }
+        //void OnDisable()
+        //{
+        //    _buttonAction1.Disable();
+        //    _buttonAction2.Disable();
+        //    _buttonAction3.Disable();
+        //    _buttonAction4.Disable();
+        //}
 
         /// <summary>
         /// the method executes only when there is a click on the gameobject.
@@ -59,7 +59,7 @@ namespace localizer.utilities.buttons
         // gameobject in the editor.
         public virtual void ClickAction()
         {
-            Debug.Log("Button Clicked buit not performing as intended... To ensure your button performs well, override the method ClickAction with custom logic.");
+            Debug.Log("Button Clicked but not performing as intended... To ensure your button performs well, override the method ClickAction with custom logic.");
         }
     }
 }

@@ -8,7 +8,7 @@ namespace localizer.product.ui
         [SerializeField] private UIManager _uiManager;
         private void Start()
         {
-            _buttonAction1.performed += context => ClickAction();
+            //_buttonAction1.performed += context => ClickAction();
         }
         public override void ClickAction()
         {

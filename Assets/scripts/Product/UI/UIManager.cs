@@ -51,17 +51,31 @@ namespace localizer.product.ui
             if (_activeScreen != null)
             {
                 //get all the texts showing the upcoming screen names
-                Transform button1 = _activeScreen.transform.Find("buttonText1"); 
+                Transform button1 = _activeScreen.transform.Find("buttonText1");
                 Transform button2 = _activeScreen.transform.Find("buttonText2");
                 Transform button3 = _activeScreen.transform.Find("buttonText3");
                 Transform button4 = _activeScreen.transform.Find("buttonText4");
 
                 //set the texts to the buttons
-                if (button1 != null) ButtonBase._button1 = button1.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
-                if (button2 != null) ButtonBase._button2 = button2.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
-                if (button3 != null) ButtonBase._button3 = button3.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
-                if (button4 != null) ButtonBase._button4 = button4.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
+                if (button1 != null)
+                    ButtonBase._button1 = button1.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
+                else
+                    ButtonBase._button1 = "status";
 
+                if (button2 != null) 
+                    ButtonBase._button2 = button2.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
+                else
+                    ButtonBase._button2 = "status";
+                
+                if (button3 != null) 
+                    ButtonBase._button3 = button3.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
+                else
+                    ButtonBase._button3 = "status";
+
+                if (button4 != null) 
+                    ButtonBase._button4 = button4.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
+                else
+                    ButtonBase._button1 = "status";
             }
 
         }

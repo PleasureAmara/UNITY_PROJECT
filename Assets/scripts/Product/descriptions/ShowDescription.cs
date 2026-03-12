@@ -1,37 +1,35 @@
 using localizer.core.interfaces;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace localizer.product.descriptions
 {
-    public class ShowDescription : MonoBehaviour, IClickable
+    public class ShowDescription : MonoBehaviour
     {
-        [SerializeField] private string equipmentName;
-        [SerializeField] private GameObject canvasScreen;
-        private bool isShowing= false;
+        [Tooltip("This is a string, it must match key inside the ActionsDescriptions._allActionsDictionary. Its the title which holds the words to be displayed to the user in the game")]
+        [SerializeField] 
+        private string actionToPerform;
 
-        public void ClickAction()
+        [Tooltip("The screen gameobject inside the canvas used for rendering text descriptions")]
+        [SerializeField] 
+        private GameObject canvasScreen;
+
+        public void RenderScreen()
         {
-            if (equipmentName == null) return;
+            var targetAction = ActionsDescriptions._allActionsArray.First(a => a.Name == actionToPerform);
 
-            if (!isShowing)
-            {
-                string textOnCanvas = canvasScreen.GetComponentInChildren<TextMeshProUGUI>().text;
+            canvasScreen.GetComponentInChildren<TextMeshProUGUI>().text  = targetAction.Description;
 
-                Debug.Log($"String passed {equipmentName}. ");
-                textOnCanvas = AllEquipment.equipmentToDescribe[equipmentName];
-
-                canvasScreen.transform.Translate(new Vector3(transform.position.x, transform.position.y + 5, transform.position.z));
-                canvasScreen.SetActive(true);
-                isShowing = true;
-                return;
-            }
-            isShowing = false;
-            canvasScreen.SetActive(false);
-
-
+            //canvasScreen.GetComponentInParent<Transform>().position = Camera.main.transform.forward * 1;
+            canvasScreen.transform.position = Camera.main.transform.position + new Vector3(2,0,0);
+            //canvasScreen.transform.position = (canvasScreen.transform.position - transform.position).normalized;
+            //canvasScreen.transform.rotation = transform.localRotation;
+            //canvasScreen.transform.LookAt(Camera.main.transform);
+            canvasScreen.SetActive(true);
+           
         }
-
 
     }
 }

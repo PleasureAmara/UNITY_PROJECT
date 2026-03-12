@@ -18,7 +18,7 @@ public class LightSwitchInteraction : MonoBehaviour
         interactable = GetComponent<XRSimpleInteractable>();
 
         lightsOn = false;
-        foreach (Light l in shelterLights) 
+        foreach (Light l in shelterLights)
         {
             l.enabled = false;
         }
@@ -34,21 +34,21 @@ public class LightSwitchInteraction : MonoBehaviour
         interactable.selectEntered.RemoveListener(OnSelected);
     }
 
-    private void OnSelected(SelectEnterEventArgs args) 
+    private void OnSelected(SelectEnterEventArgs args)
     {
         ActivateSwitch();
     }
-    public void ActivateSwitch() 
+    public void ActivateSwitch()
     {
         lightsOn = !lightsOn;
-        
-        foreach (Light L in shelterLights) 
+
+        foreach (Light L in shelterLights)
         {
             L.enabled = lightsOn;
         }
         LightsToggle?.Invoke(this, lightsOn);
 
-       
+
     }
 }
 

@@ -5,18 +5,11 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
-    path: Assets/Assets/Scenes/LocalizerScene.unity
-    guid: 0b991fcb67af3334eb6713e5063a5b9f
-  - enabled: 0
-    path: Assets/myPracticeScene.unity
-    guid: d72a94c2cd917e349ab46ddcbc1136e3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 60e79e82e74264941bde296bc27a7450, type: 2}
-    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 74fb848c5c3c099499f006c0b0fc4364, type: 2}
-    xr.sdk.mock-hmd.settings: {fileID: 11400000, guid: 919e34e834e713e4b89e05d5b9dfbbc2, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 248df220f15a2c2459a4067a36783f52, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: cef9aaf50b46d3547addd687836fc77e, type: 2}
   m_UseUCBPForAssetBundles: 0

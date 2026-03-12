@@ -3,11 +3,22 @@ using System.Collections.Generic;
 
 namespace localizer.product.descriptions
 {
-    public static class AllEquipment
+
+    public class ActionsModel
     {
-        public static Dictionary<string, string> equipmentToDescribe = new Dictionary<string, string>
+        public string Name { get; set; }
+        public string Description { get; set; }
+    } 
+    public static class ActionsDescriptions
+    {
+        public static ActionsModel[] _allActionsArray = new ActionsModel[]
         {
-            {"stabilizer","This regulates the power supplied to the Localizer equipment before its passed. " }
+            new ActionsModel()
+            {
+                Name="openShelterDoorText",
+                Description = "To open the Localizer door, come closer and grab the door handle with your left hand, then pull it."
+            },
+            
         };
     }
 }

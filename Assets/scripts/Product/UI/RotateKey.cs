@@ -2,12 +2,18 @@ using localizer.core.interfaces;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class RotateKey : MonoBehaviour, IClickable
 {
+    [Tooltip("Attach the normal lighton the left side of the screen")]
     [SerializeField] private GameObject normalObject;
     [SerializeField] private GameObject warningObject;
     [SerializeField] private GameObject alarmObject;
+
+    [Tooltip("Attach the socket prepared to attach key in warning state.")]
+    [SerializeField] private XRSocketInteractor socketInteractorWarning;
+    [SerializeField] private XRSocketInteractor socketInteractorAlarm;
 
     private Material normalColorMaterial;
     private Material warningColorMaterial;
@@ -48,18 +54,29 @@ public class RotateKey : MonoBehaviour, IClickable
         switch (triggerPressCount)
         {
             case 0:
+                socketInteractorAlarm.gameObject.SetActive(false);
+                socketInteractorWarning.gameObject.SetActive(false);
                 Debug.Log("Normal is shining");
                 normalColorMaterial.EnableKeyword("_EMISSION");
                 break;
 
             case 1:
-                Debug.Log("Warning is shining");
-                warningColorMaterial.EnableKeyword("_EMISSION");
+                socketInteractorWarning.gameObject.SetActive(true);
+                if (socketInteractorWarning.hasSelection)
+                {
+                    Debug.Log("Warning is shining");
+                    warningColorMaterial.EnableKeyword("_EMISSION");
+                } 
                 break;
 
             case 2:
-                Debug.Log("Alarm is shining");
-                alarmColorMaterial.EnableKeyword("_EMISSION");
+                socketInteractorWarning.gameObject.SetActive(false);
+                socketInteractorAlarm.gameObject.SetActive(true);
+                if (!socketInteractorAlarm.hasSelection)
+                {
+                    Debug.Log("Alarm is shining");
+                    alarmColorMaterial.EnableKeyword("_EMISSION");
+                }
                 break;
         }
     }
@@ -77,13 +94,13 @@ public class RotateKey : MonoBehaviour, IClickable
         switch (triggerPressCount)
         {
             case 0:
-                transform.rotation = Quaternion.Euler(0,0,0);
+                transform.rotation = Quaternion.Euler(0,0,90);
                 break;
             case 1:
-                transform.rotation = Quaternion.Euler(0, 0, -45);
+                transform.rotation = Quaternion.Euler(0, 0, 45);
                 break;
             case 2:
-                transform.rotation = Quaternion.Euler(0, 0, -90);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
                 break;
         }
         

@@ -9,7 +9,7 @@ namespace localizer.product.ui
 
         private void Start()
         {
-            _buttonAction2.performed += context => ClickAction();
+            //_buttonAction2.performed += context => ClickAction();
         }
         public override void ClickAction()
         {
