@@ -37,10 +37,10 @@ namespace localizer.product.player
 
         void RunIntroOne()
         {
-            teleportPlayer.Teleport(introAnchor, teleportationProvider);
-
+            teleportPlayer.TeleportToAnchor(introAnchor, teleportationProvider);
         }
     }
 
 }
 
+    

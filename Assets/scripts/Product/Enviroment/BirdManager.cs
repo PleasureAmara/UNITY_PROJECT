@@ -41,8 +41,8 @@ namespace localizer.product.environment
         {
             while (true)
             {
-                soundController.PlaySound(sound, soundDelay);
-                yield return null;
+                sound.PlayDelayed(soundDelay);
+                                        yield return null;
             }
         }
     }

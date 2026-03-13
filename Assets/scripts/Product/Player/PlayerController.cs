@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.InputSystem;
-//using UnityEngine.XR.Interaction.Toolkit;
-//using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
-//using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 
 using localizer.product.environment;
 using localizer.core.enums;
@@ -14,157 +14,78 @@ namespace localizer.product.player
 {
     public class PlayerController : MonoBehaviour
     {
-        //public float zValue;
-        [SerializeField]private float rwyMoveSpeed = 100.0f;
-        [SerializeField] private float sidesMoveSpeed = 30.0f;
-        public float moveDelay =0.1f;
-        [SerializeField] private float rotationUnitAngle = 90.0f;
-        private float rotationDelay = 0.2f;
+        [SerializeField] private float movementSpeed;
+        [SerializeField] private float rotationSpeed;
 
         private CharacterController playerController;
 
-        //[SerializeField]private Transform locAntennaTransform;
-        //[SerializeField] private Transform locShelterTransform;
+        [SerializeField] private InputActionAsset inputActionAsset;
+        private InputActionMap inputActionMap;
+        private InputAction movePlayer;
+        private InputAction rotatePlayer;
 
-        
-        //We create variables for storing various coroutines, this is because you cant stop an active coroutine by calling it directly since Unity engine
-        //will create a new instance of the coroutine and stop that instead of stop the active coroutine.
-        //To solve this, we store the coroutine when starting it, this way we stop the actively runnig coroutine.
-        Coroutine MovePlayerToAntennaCoroutine;
-        Coroutine MovePlayerToLocShelterCoroutine;
-        Coroutine MovePlayerToLocDoorCoroutine;
-        Coroutine RotateTowardsLocDoorCoroutine;
+        // Add missing field for camera3DMovement
+        private Vector3 camera3DMovement = Vector3.zero;
+        // Add missing field for cameraRotate
+        private float cameraRotate = 0.0f;
 
-
-
-        void Start()
+        private void Awake()
         {
-            playerController = GetComponent<CharacterController>();
-            StageManager(Stages.stage0 );
-        }
+            inputActionMap = inputActionAsset.FindActionMap("Gameplay");
+            movePlayer = inputActionMap.FindAction("MoveCamera");
+            //movePlayerSides = inputActionMap.FindAction("sideCameraMove");
+            rotatePlayer = inputActionMap.FindAction("SpinCamera");
 
-        void StageManager(Enum stageAccomplished)
-        {
-            //we use enums instead of strings, to prevent bugs that come from typos "stage1" vs "stge1"
-            switch (stageAccomplished)
-            {
-                case Stages.stage0:
-                    DisablePlayerHands();
-                    MovePlayerToAntennaCoroutine = StartCoroutine(MovePlayerToAntenna());
-                    break;
+            movePlayer.performed += context => camera3DMovement = context.ReadValue<Vector3>();
+            movePlayer.canceled += context => camera3DMovement = Vector3.zero;
 
-                case Stages.stage1:
-                    if (MovePlayerToAntennaCoroutine == null) return;
-                    StopCoroutine(MovePlayerToAntennaCoroutine);
-                    MovePlayerToLocShelterCoroutine = StartCoroutine(MovePlayerToLocShelter());
-                    break;
-
-                case Stages.stage2:
-                    if (MovePlayerToLocShelterCoroutine == null) return;
-                    StopCoroutine(MovePlayerToLocShelterCoroutine);
-                    MovePlayerToLocDoorCoroutine = StartCoroutine(MovePlayerToLocDoor());
-                    break;
-
-                case Stages.stage3:
-                    if (MovePlayerToLocDoorCoroutine == null) return;
-                    StopCoroutine(MovePlayerToLocDoorCoroutine);
-                    RotateTowardsLocDoorCoroutine = StartCoroutine(RotateTowardsLocDoor());
-                    break;
-
-                case Stages.stage4:
-                    if (RotateTowardsLocDoorCoroutine == null) return ;
-                    StopCoroutine(RotateTowardsLocDoorCoroutine);
-                    EnablePlayerHands();
-
-
-                    break;
-            }
+            rotatePlayer.performed += context => cameraRotate = context.ReadValue<float>();
+            rotatePlayer.canceled += context => cameraRotate = 0.0f;
         }
 
         void DisablePlayerHands()
         {
-            transform.Find("Locomotion").gameObject.SetActive(false);
-            //transform.Find("Camera Offset/Right Controller").gameObject.SetActive(false);
+            throw new System.NotImplementedException();
         }
 
-        void EnablePlayerHands()
+        private void OnEnable()
         {
-            transform.Find("Locomotion").gameObject.SetActive(true);
-            //transform.Find("Camera Offset/Right Controller").gameObject.SetActive(true);
-        }
-        IEnumerator MovePlayerToAntenna()
-        {
-            while (transform.position.z < 350)
-            {
-                playerController.Move(Vector3.forward * rwyMoveSpeed * Time.deltaTime);
-
-                //waiting for frames is more efficient than waiting for seconds.
-                yield return null;
-            }
-            //To prevent overshooting due to player movement along limit, we can snap their final position.
-            Vector3 finalPosition = transform.position;
-            finalPosition.z = 350;
-            transform.position = finalPosition;
-
-            //calls the method StageManager with the stage it belongs to as a parameter.
-            StageManager(Stages.stage1);
+            movePlayer.Enable();
+            rotatePlayer.Enable();
         }
 
-        IEnumerator MovePlayerToLocShelter()
+        private void OnDisable()
         {
-            while (transform.position.x > 1307)
-            {
-                playerController.Move(Vector3.left * sidesMoveSpeed * Time.deltaTime);
-                yield return null;
-            }
-
-            Vector3 finalPosition = transform.position;
-            finalPosition.x = 1307;
-            transform.position = finalPosition;
-
-            StageManager(Stages.stage2);
+            movePlayer.Disable();
+            rotatePlayer.Disable();
         }
 
-        IEnumerator MovePlayerToLocDoor()
+        void Start()
         {
-            while (transform.position.z < 360)
-            {
-                playerController.Move(Vector3.forward * sidesMoveSpeed * Time.deltaTime);
-                yield return null;
-            }
-
-            Vector3 finalPosition = transform.position;
-            finalPosition.z = 360;
-            transform.position = finalPosition;
-
-            StageManager(Stages.stage3);
+            // Removed the StageManager line as it's not defined in the provided context
         }
 
-        IEnumerator RotateTowardsLocDoor()
+        void MoveCamera()
         {
-            float duration = 1.0f; // How many seconds the turn should take
-            float elapsed = 0.0f;
+            float forwardMovement = camera3DMovement.x;
+            float sideMovement = camera3DMovement.y;
+            float upwardMovement = camera3DMovement.z;
 
-            Quaternion startRotation = transform.rotation;
-            // Calculate the target: Current rotation + 90 degrees on Y axis
-            Quaternion targetRotation = transform.rotation * Quaternion.Euler(0, 90, 0);
+            transform.Translate(Vector3.forward * sideMovement * movementSpeed * Time.deltaTime);
+            transform.Translate(Vector3.right * forwardMovement * movementSpeed * Time.deltaTime);
+            transform.Translate(Vector3.up * upwardMovement * movementSpeed * Time.deltaTime);
 
-            while (elapsed < duration)
-            {
-                // Calculate how far we are through the duration (0.0 to 1.0)
-                elapsed += Time.deltaTime;
-                float percent = elapsed / duration;
+        }
 
-                // Smoothly interpolate between start and target
-                transform.rotation = Quaternion.Slerp(startRotation, targetRotation, percent);
+        void RotateCamera()
+        {
+            transform.Rotate(Vector3.up * cameraRotate * rotationSpeed * Time.deltaTime);
+        }
 
-                yield return null; // Wait for the next frame
-            }
-
-            // Ensure we land exactly on the rotation
-            transform.rotation = targetRotation;
-
-            StageManager(Stages.stage4);
+        void Update()
+        {
+            MoveCamera();
+            RotateCamera();
         }
 
     }

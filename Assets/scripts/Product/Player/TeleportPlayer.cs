@@ -8,26 +8,20 @@ namespace localizer.product.player
     /// </summary>
     public class TeleportPlayer : MonoBehaviour
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="anchor">The provider used to request the teleportation</param>
-        /// <param name="provider">The anchor the player is teleported to</param>
-        public void Teleport(TeleportationAnchor anchor, TeleportationProvider provider)
+        // Add a method to accept an anchor parameter
+        public void TeleportToAnchor(TeleportationAnchor anchor, TeleportationProvider provider)
         {
             Transform anchorTransform = anchor.teleportAnchorTransform;
 
-            TeleportRequest request = new()
+            var request = new TeleportRequest
             {
                 requestTime = Time.time,
                 matchOrientation = anchor.matchOrientation,
-
                 destinationPosition = anchorTransform.position,
                 destinationRotation = anchorTransform.rotation
             };
 
             provider.QueueTeleportRequest(request);
-            
         }
     }
 }
