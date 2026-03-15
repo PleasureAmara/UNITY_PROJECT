@@ -1720,10 +1720,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b4e1df4c547464f8b01a7cc761d2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::localizer.product.player.PlayerController
-  rwyMoveSpeed: 10
-  sidesMoveSpeed: 20
-  moveDelay: 0.1
-  rotationUnitAngle: 10
+  movementSpeed: 0
+  rotationSpeed: 0
+  inputActionAsset: {fileID: 0}
 --- !u!114 &301820401
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,6 +18,17 @@ namespace localizer.product.descriptions
                 Name="openShelterDoorText",
                 Description = "To open the Localizer door, come closer and grab the door handle with your left hand, then pull it."
             },
+
+            new ActionsModel()
+            {
+                Name = "manageShelterLights",
+                Description = "Once you've entered, on your left, there is a switch, press it to turn on the lights, and again to turn off."
+            },
+            new ActionsModel()
+            {
+                Name="openLZZFrontDoor",
+                Description = "Now face the front of the localizer and grab the front door handle and pull to open the door."
+            }
             
         };
     }

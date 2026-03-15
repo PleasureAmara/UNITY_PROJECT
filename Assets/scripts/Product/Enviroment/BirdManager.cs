@@ -6,15 +6,14 @@ namespace localizer.product.environment
     public class BirdManager : MonoBehaviour
     {
         [SerializeField] private AudioSource[] birdSounds;
-        private SoundController soundController;
+
+        [Tooltip("Drag the Sound Controller component attached to this game object.")]
+        [SerializeField] private SoundController soundController;
 
 
         private void Start()
         {
-            soundController = new();
             StartBirds();
-
-            
         }
 
         /// <summary>

@@ -1,31 +1,24 @@
-using UnityEngine;
-using TMPro;
 using localizer.utilities.buttons;
-
-// test 
-using localizer.product.led;
+using TMPro;
+using UnityEngine;
 
 namespace localizer.product.ui
 {
     public class UIManager : MonoBehaviour
     {
         [SerializeField] private GameObject[] _screens;
-
         private GameObject _activeScreen;
-        
-        [SerializeField] private OnOffLEDManager lEDManager;
+        private bool isScreenFound;
 
         private void Start()
         {
             LoadStatusPage();
-
-            //sample code to blink the light
-            //lEDManager.isEmissionEnabled = true;
-            //lEDManager.isBlinking = false;
         }
 
         internal void LoadAnyPage(string pageName)
         {
+            isScreenFound = false;
+
             foreach (var screen in _screens)
             {
                 if (screen.gameObject.tag == pageName)
@@ -34,15 +27,17 @@ namespace localizer.product.ui
 
                     //store the active screen for usage in giving value to the buttons.
                     _activeScreen = screen;
+                    isScreenFound = true;
                 }
                 else
                 {
                     screen.gameObject.SetActive(false);
                 }
-                
             }
-
-            AssignButtonNames();
+            if (!isScreenFound) 
+                Debug.Log("Didnt find the screen you're  looking for.");
+            else
+                AssignButtonNames();
 
         }
 
@@ -56,26 +51,15 @@ namespace localizer.product.ui
                 Transform button3 = _activeScreen.transform.Find("buttonText3");
                 Transform button4 = _activeScreen.transform.Find("buttonText4");
 
-                //set the texts to the buttons
-                if (button1 != null)
-                    ButtonBase._button1 = button1.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
-                else
-                    ButtonBase._button1 = "status";
+                //set the texts to the buttons.
+                //TODO: we dont have to check if these buttons are null, cause they will not be, but at this moment
+                //further pressing of the button leads to pages not created yet, thus when we reach those pages, we shall log the
+                //status screen for now. 
 
-                if (button2 != null) 
-                    ButtonBase._button2 = button2.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
-                else
-                    ButtonBase._button2 = "status";
-                
-                if (button3 != null) 
-                    ButtonBase._button3 = button3.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
-                else
-                    ButtonBase._button3 = "status";
-
-                if (button4 != null) 
-                    ButtonBase._button4 = button4.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim();
-                else
-                    ButtonBase._button1 = "status";
+                ButtonBase._button1 = button1 != null? button1.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim(): "status";
+                ButtonBase._button2 = button2 != null? button2.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim(): "status"; 
+                ButtonBase._button3 = button3 != null? button3.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim(): "status";
+                ButtonBase._button4 = button4 != null? button4.gameObject.GetComponent<TextMeshProUGUI>().text.ToLower().Trim(): "status";
             }
 
         }
