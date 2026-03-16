@@ -67,10 +67,12 @@ namespace localizer.product.led
 
         private IEnumerator MakeEmissive()
         {
+            if (targetMaterial == null) yield return null;
+
             while (isEmissive)
             {
-                //if (isEmissive)
-                //{
+
+
                     targetMaterial.EnableKeyword("_EMISSION");
                     yield return new WaitForSeconds(blinkingRate);
 
@@ -79,12 +81,6 @@ namespace localizer.product.led
                         targetMaterial.DisableKeyword("_EMISSION");
                         yield return new WaitForSeconds(blinkingRate);
                     }
-                ////}
-                //else
-                //{
-                //    targetMaterial.DisableKeyword("_EMISSION");
-                //    yield return null;
-                //}
             }
 
             targetMaterial.DisableKeyword("_EMISSION");
