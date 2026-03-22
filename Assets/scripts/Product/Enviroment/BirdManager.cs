@@ -10,7 +10,10 @@ namespace localizer.product.environment
         [Tooltip("Drag the Sound Controller component attached to this game object.")]
         [SerializeField] private SoundController soundController;
 
-
+        /// <summary>
+        /// the time between the birds sound repetitions.
+        /// </summary>
+        private float chirppingDelay = 2.0f;
         private void Start()
         {
             StartBirds();
@@ -22,12 +25,9 @@ namespace localizer.product.environment
         public void StartBirds()
         {
             if (birdSounds == null) return;
-
-            int delay = 0;
             foreach (var birdSound in birdSounds)
             {
-                StartCoroutine(PlaySounds(birdSound, delay));
-                delay += 5;
+                StartCoroutine(PlaySounds(birdSound, chirppingDelay) );
             }
         }
 
@@ -36,12 +36,12 @@ namespace localizer.product.environment
             StopAllCoroutines();
         }
 
-        IEnumerator PlaySounds(AudioSource sound, int soundDelay)
+        IEnumerator PlaySounds(AudioSource sound, float soundDelay)
         {
             while (true)
             {
-                sound.PlayDelayed(soundDelay);
-                                        yield return null;
+                sound.Play();
+                yield return new WaitForSeconds(soundDelay);
             }
         }
     }

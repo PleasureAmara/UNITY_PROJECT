@@ -67,7 +67,6 @@ namespace localizer.product.player
 
         void Start()
         {
-
             StageManager(Stages.stage0);
         }
         void DisablePlayerHands()

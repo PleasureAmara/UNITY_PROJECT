@@ -8,9 +8,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/localizer108.unity
     guid: a5da3a5cc0bd45940939c8137ea38ef3
+  - enabled: 0
+    path: Assets/Scenes/localizer107.unity
+    guid: 101fa89a9a024e844baf476b96c9f603
+  - enabled: 1
+    path: Assets/Scenes/localizer109.unity
+    guid: 98166d9d67bbb914ab35c1caf5cf86d3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 248df220f15a2c2459a4067a36783f52, type: 2}
