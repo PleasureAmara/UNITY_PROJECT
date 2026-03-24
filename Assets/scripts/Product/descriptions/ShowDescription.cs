@@ -16,6 +16,10 @@ namespace localizer.product.descriptions
         [SerializeField] 
         private GameObject canvasScreen;
 
+        [SerializeField] private TextMeshProUGUI textInScreen;
+
+        
+
         //[Tooltip("Drag the XR ORIGIN gameobject here.")]
         //[SerializeField] private Transform xrOriginTransform;
 
@@ -23,7 +27,8 @@ namespace localizer.product.descriptions
         {
             var targetAction = ActionsDescriptions._allActionsArray.First(a => a.Name == actionToPerform);
 
-            canvasScreen.GetComponentInChildren<TextMeshProUGUI>().text  = targetAction.Description;
+            //canvasScreen.GetComponentInChildren<TextMeshProUGUI>().text  = targetAction.Description;
+            textInScreen.text  = targetAction.Description;
 
             //canvasScreen.GetComponentInParent<Transform>().position = Camera.main.transform.forward *;
             //canvasScreen.transform.position = Camera.main.transform.position;  + new Vector3(2,0,0);
@@ -32,6 +37,12 @@ namespace localizer.product.descriptions
             //canvasScreen.transform.LookAt(Camera.main.transform);
 
             //canvasScreen.transform.position = xrOriginTransform.position + new Vector3(1, 0, 0);
+
+            //float general_padding = 5.0f;
+            //float text_height = textInScreen.preferredHeight;
+            //float text_width = textInScreen.preferredWidth;
+
+            //canvasScreen.GetComponent<RectTransform>().sizeDelta = new Vector2(text_height + general_padding, text_width + general_padding);
             canvasScreen.SetActive(true);
            
         }
