@@ -2,6 +2,7 @@ using localizer.core.interfaces;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Searcher;
 using UnityEngine;
 
 namespace localizer.product.descriptions
@@ -14,36 +15,22 @@ namespace localizer.product.descriptions
 
         [Tooltip("The screen gameobject inside the canvas used for rendering text descriptions")]
         [SerializeField] 
-        private GameObject canvasScreen;
+        public GameObject descriptionScreen;
 
         [SerializeField] private TextMeshProUGUI textInScreen;
 
-        
-
-        //[Tooltip("Drag the XR ORIGIN gameobject here.")]
-        //[SerializeField] private Transform xrOriginTransform;
-
         public void RenderScreen()
         {
-            var targetAction = ActionsDescriptions._allActionsArray.First(a => a.Name == actionToPerform);
+            var targetDescription = ActionsDescriptions.FindDescription(actionToPerform);
+            if (string.IsNullOrEmpty(targetDescription))
+            {
+                Debug.LogError($"The search key: '{targetDescription}' doesnt exist.");
+                return;
+            }
+            //var targetAction = ActionsDescriptions._allActionsArray.First(a => a.Name == actionToPerform);
 
-            //canvasScreen.GetComponentInChildren<TextMeshProUGUI>().text  = targetAction.Description;
-            textInScreen.text  = targetAction.Description;
-
-            //canvasScreen.GetComponentInParent<Transform>().position = Camera.main.transform.forward *;
-            //canvasScreen.transform.position = Camera.main.transform.position;  + new Vector3(2,0,0);
-            //canvasScreen.transform.position = (canvasScreen.transform.position - transform.position).normalized;
-            //canvasScreen.transform.rotation = transform.localRotation;
-            //canvasScreen.transform.LookAt(Camera.main.transform);
-
-            //canvasScreen.transform.position = xrOriginTransform.position + new Vector3(1, 0, 0);
-
-            //float general_padding = 5.0f;
-            //float text_height = textInScreen.preferredHeight;
-            //float text_width = textInScreen.preferredWidth;
-
-            //canvasScreen.GetComponent<RectTransform>().sizeDelta = new Vector2(text_height + general_padding, text_width + general_padding);
-            canvasScreen.SetActive(true);
+            textInScreen.text  = targetDescription;
+            descriptionScreen.SetActive(true);
            
         }
 

@@ -1,18 +1,37 @@
 using localizer.core.enums;
 using localizer.product.descriptions;
+using localizer.product.airplane;
 using System;
+using System.Reflection;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
+
+//TODO: under the NavigateIntroductionMenu() method, we have finished instantiating the  TeleoportPlayer
+//instance. so the next part is to make sure we await the bool hasTeleported of TeleportPlayer class. so we shall make
+//the method an asynchronous one, then test.
+//we shall make everyother method waiting for teleportation as the one above, this is to make sure we dont do anything
+//until the player has teleported. 
+
 
 namespace localizer.product.player
 {
     [Serializable]
     public class GeneralSettings
     {
+        [Tooltip("Drag the Teleport Player component that is attached to this game object.")]
         public TeleportPlayer teleportPlayer;
+
         public SoundController soundController;
-        public TeleportationProvider teleportationProvider;
+
+        //[Tooltip("Drag the Teleport gameobject under the XR origin")]
+        //public TeleportationProvider teleportationProvider;
+
+        [Tooltip("Drag the show description component attached to this gameobject.")]
+        [SerializeField] public ShowDescription showDescription;
     }
 
     [Serializable]
@@ -21,158 +40,283 @@ namespace localizer.product.player
         [Header("Introduction anchor")]
         public TeleportationAnchor introAnchor;
 
+        [Header("taxiway position anchor")]
+        public TeleportationAnchor taxiwayAnchor;
+
+        [Header("runway position anchor")]
+        public TeleportationAnchor runwayAnchor;
+
+        [Header("access road position anchor")]
+        public TeleportationAnchor accessRoadAnchor;
+
+        [Header("localizer antenna position anchor")]
+        public TeleportationAnchor locAntennaAnchor;
+
         [Header("Final position anchor")]
         public TeleportationAnchor finalAnchor;
 
+        
     }
 
     [Serializable]
     public class TargetedAudios
     {
-        public AudioSource antennaDescriptionAudio;
-        public AudioSource shelterDescriptionAudio;
+        public AudioSource taxiway_1;
+        public AudioSource taxiway_2;
+        public AudioSource runway;
+        public AudioSource accessRoad;
+        public AudioSource locAntenna_1;
+        public AudioSource locAntenna_2;
+        public AudioSource locShelter_1;
+        public AudioSource locShelter_2;
+        //public AudioSource antennaDescriptionAudio;
+        //public AudioSource shelterDescriptionAudio;
     }
 
     [Serializable]
-    public class CharacterMovementSettings
+    public class CharacterSettings
     {
         [Tooltip("Attach the XR ORIGIN gameobject")]
         public CharacterController playerController;
 
-        [Tooltip("The speed with which the character is to move forward along the runway")]
-        public float forwardMovementSpeed;
+        //[Tooltip("The speed with which the character is to move forward along the runway")]
+        //public float forwardMovementSpeed;
 
-        [Tooltip("The speed with which player is moving sideways from loc antennas to the shelter")]
-        public float sidesMovementSpeed;
+        //[Tooltip("The speed with which player is moving sideways from loc antennas to the shelter")]
+        //public float sidesMovementSpeed;
+    }
+
+    [Serializable]
+    public class LearnVRSettings
+    {
+        [Tooltip("Drag the 'learn Vr controllers' component attached to this gameobject ")]
+        public LearnVRControllers1 learnVRControllers;
+
+        /// <summary>
+        /// The introduction screen is used to teach the user how to use controllers.
+        /// Why dont we have one single screen? 
+        /// this is because the layout is different for either, so choosing one for both isnt ideal.
+        /// </summary>
+        [Tooltip("Drag the 'introduction screen' under the items canvas game object")]
+        public GameObject introScreen;
+
+        /// <summary>
+        /// The Description screen is used to describe features in the scene.
+        /// </summary>
+        //[Tooltip("Drag the 'description screen' under the items canvas game object")]
+        //public GameObject descriptionScreen;
     }
     public class IntroductionManager : MonoBehaviour
     {
-
-        [SerializeField] private GeneralSettings generalComponents;
+        [SerializeField] private LearnVRSettings learnVRSettings;
+        [SerializeField] private GeneralSettings generalSettings;
         [SerializeField] private SpecificAnchor specificAnchor;
-        [SerializeField] private CharacterMovementSettings characterMovementSettings;
+        [SerializeField] private CharacterSettings characterSettings;
         [SerializeField] private TargetedAudios targetedAudios;
+        [SerializeField] private AirplaneTakeOff airplaneTakeOff;
+        [SerializeField] private AirplaneTaxi airplaneTaxi;
 
-        [Header("Introduction audios")]
-        [Tooltip("Add audio sources in the order you want them to play")]
-        [SerializeField] private AudioSource[] audioSources;
 
-        [Tooltip("Drag the show description component attached to this gameobject.")]
-        [SerializeField] private ShowDescription showDescription;
-
-        //these variables control how far the player is moved forward -> z-value and left -> x-value
-        private float finalXValue = 1317.0f;
-        private float finalZValue = 350.0f;
-    
+        [Tooltip("Drag the canvas game object which contains the 'description screen' game object.")]
+        [SerializeField] private Canvas itemsCanvas;
 
         void Start()
         {
+            generalSettings.showDescription.descriptionScreen.SetActive(false);
+            learnVRSettings.introScreen.SetActive(false);
+            itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
             StageManager(Stages.stage0);
+
         }
+
+        private void Update()
+        {
+            if (airplaneTakeOff != null) airplaneTakeOff.DestroyAircraft();
+        }
+
         void DisablePlayerHands()
         {
             //transform.Find("Locomotion").gameObject.SetActive(false);
-            characterMovementSettings.playerController.gameObject.transform.Find("Camera Offset/Right Controller").gameObject.SetActive(false);
+            characterSettings.playerController.gameObject.transform.Find("Camera Offset/Right Controller").gameObject.SetActive(false);
         }
 
         void EnablePlayerHands()
         {
             //transform.Find("Locomotion").gameObject.SetActive(true);
-            characterMovementSettings.playerController.gameObject.transform.Find("Camera Offset/Right Controller").gameObject.SetActive(true);
+            characterSettings.playerController.gameObject.transform.Find("Camera Offset/Right Controller").gameObject.SetActive(true);
         }
 
 
-        void StageManager(Enum stageAccomplished)
+        void StageManager(Enum stageToAccomplish)
         {
             //we use enums instead of strings, to prevent bugs that come from typos "stage1" vs "stge1"
-            switch (stageAccomplished)
+            switch (stageToAccomplish)
             {
                 case Stages.stage0:
-                    DisablePlayerHands();
-
-                    StartCoroutine(MovePlayerToAntennaCoroutine());
-                    StartCoroutine(RunIntroAudioCoroutine());
+                    NavigateIntroductionMenu();
                     break;
 
                 case Stages.stage1:
                     StopAllCoroutines();
-                    StartCoroutine(RunAntennaAudioCoroutine());
+                    DescribeTaxiway();
                     break;
 
                 case Stages.stage2:
                     StopAllCoroutines();
-                    StartCoroutine(MovePlayerToLocShelter());
-                    StartCoroutine(RunShelterAudioCoroutine());
+                    DescribeRunway();   
                     break;
 
                 case Stages.stage3:
                     StopAllCoroutines();
+                    DescribeAccessRoad();
+                    break;
+
+                case Stages.stage4:
+                    StopAllCoroutines();
+                    DescribeLocAntenna();
+                    break;
+                case Stages.stage5:
+                    StopAllCoroutines();
                     PositionPlayerToFinalAnchor();
-                    showDescription.RenderScreen();
-                    EnablePlayerHands();
+                    break;
+                case Stages.stage6:
+                    StopAllCoroutines();
+                    airplaneTaxi.DestroyAircraft();
+                    generalSettings.showDescription.RenderScreen();
                     break;
 
             }
         }
 
-        IEnumerator RunIntroAudioCoroutine()
+        //awaiting before the player teleports makes the method an asynchronous method.
+        void NavigateIntroductionMenu()
         {
-            if (audioSources == null) yield return null;
-
-            foreach (var source in audioSources)
-            {
-                generalComponents.soundController.PlaySound(source);
-                yield return new WaitWhile(() => source.isPlaying);
-            }
-            
-            
-            
-        }
-        IEnumerator MovePlayerToAntennaCoroutine()
-        {
-            generalComponents.teleportPlayer.TeleportToAnchor(specificAnchor.introAnchor, generalComponents.teleportationProvider);
-
-            while (characterMovementSettings.playerController.gameObject.transform.position.z < finalZValue)
-            {
-                characterMovementSettings.playerController.Move(characterMovementSettings.forwardMovementSpeed * Time.deltaTime *Vector3.forward );
-                yield return null;
-            }
-            //To prevent overshooting due to player movement along limit, we can snap their final position.
-            //Vector3 finalPosition = transform.position;
-            //finalPosition.z = finalZValue;
-            //transform.position = finalPosition;
-
-            StageManager(Stages.stage1);
+            //we set the boolean to false to track the next stage of teleportation.
+            learnVRSettings.learnVRControllers.isIntroFinished = false;
+            ManagePlayerTeleportation(ActionsAfterInitialTeleportation, specificAnchor.introAnchor);
+        
         }
 
-        IEnumerator RunAntennaAudioCoroutine()
+        void ActionsAfterInitialTeleportation()
         {
-            generalComponents.soundController.PlaySound(targetedAudios.antennaDescriptionAudio);
-            yield return new WaitWhile(() => targetedAudios.antennaDescriptionAudio.isPlaying);
-            StageManager(Stages.stage2);
+            learnVRSettings.introScreen.SetActive(true);
+
+            //Start the learn VR screens.
+            learnVRSettings.learnVRControllers.SetUpInitialState();
+
+            StartCoroutine(WaitForAnyCondition(
+                conditionMethod: () => learnVRSettings.learnVRControllers.isIntroFinished,
+                actionMethod: () => {
+                    learnVRSettings.introScreen.SetActive(false);
+
+                    StageManager(Stages.stage1);
+                }
+            ));
         }
 
-        IEnumerator MovePlayerToLocShelter()
+        void DescribeTaxiway()
         {
-            while (characterMovementSettings.playerController.gameObject.transform.position.x > finalXValue)
-            {
-                characterMovementSettings.playerController.Move( characterMovementSettings.sidesMovementSpeed * Time.deltaTime *Vector3.left );
-                yield return null;
-            }
-
-            StageManager(Stages.stage3);
+            airplaneTaxi.StartTaxing();
+            ManagePlayerTeleportation( ActionsAfterTaxiwayTeleportation, specificAnchor.taxiwayAnchor);
         }
 
-        IEnumerator RunShelterAudioCoroutine()
+        void ActionsAfterTaxiwayTeleportation()
         {
-            generalComponents.soundController.PlaySound(targetedAudios.shelterDescriptionAudio);
-            yield return new WaitWhile(() => targetedAudios.shelterDescriptionAudio.isPlaying);
+            AudioSource[] taxiwayAudios = new AudioSource[] {targetedAudios.taxiway_1, targetedAudios.taxiway_2};
+            StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
+        }
+
+        void DescribeRunway()
+        {
+            airplaneTakeOff.StartTakeOff();
+            ManagePlayerTeleportation(ActionsAfterRunwayTeleportation, specificAnchor.runwayAnchor);
+        }
+
+        void ActionsAfterRunwayTeleportation()
+        {
+            StartCoroutine(WaitForAudio(targetAudio: targetedAudios.runway, nextStage: Stages.stage3));
+        }
+        void DescribeAccessRoad()
+        {
+            ManagePlayerTeleportation(ActionsAfterAccessRoadTeleportation, specificAnchor.accessRoadAnchor);
+        }
+
+        void ActionsAfterAccessRoadTeleportation()
+        {
+            StartCoroutine(WaitForAudio(targetAudio: targetedAudios.accessRoad, nextStage: Stages.stage4));
+        }
+
+        void DescribeLocAntenna()
+        {
+            ManagePlayerTeleportation(ActionsAfterLocAntennaTeleportation, specificAnchor.locAntennaAnchor);
+        }
+
+        void ActionsAfterLocAntennaTeleportation()
+        {
+            AudioSource[] locAntennaAudios = new AudioSource[] { targetedAudios.locAntenna_1, targetedAudios.locAntenna_2 };
+            StartCoroutine(WaitForAudio(targetAudios: locAntennaAudios, nextStage: Stages.stage5));
         }
 
         void PositionPlayerToFinalAnchor()
         {
-            generalComponents.teleportPlayer.TeleportToAnchor(specificAnchor.finalAnchor, generalComponents.teleportationProvider);
+            ManagePlayerTeleportation(ActionsAfterFinalAnchorTeleportation, specificAnchor.finalAnchor);
+        }
 
+        void ActionsAfterFinalAnchorTeleportation()
+        {
+            AudioSource[] locshelterAudios = new AudioSource[] { targetedAudios.locShelter_1, targetedAudios.locShelter_2 };
+            StartCoroutine(WaitForAudio(targetAudios: locshelterAudios, nextStage: Stages.stage6));
+        }
+
+        /// <summary>
+        /// This method is used to wait for any event controlled by a booolean, any other actions performed after the boolean is true will be passed to the actionMethod 
+        /// parameter when wrapped inside a method without parameters and which returns no value.
+        /// </summary>
+        /// <param name="conditionMethod">The method which controls the event, it must return a bool (true) when event is accompliseh</param>
+        /// <param name="actionMethod"> (Optional) The method that contains logic that runs after the control boolean becomes true. This method must not have parameters and must 
+        /// not return any value</param>
+        /// <returns></returns>
+        IEnumerator WaitForAnyCondition(Func<bool> conditionMethod, Action actionMethod = null)
+        {
+            while (!conditionMethod())
+            {
+                yield return null;
+            }
+
+            actionMethod?.Invoke();
+        }
+
+
+        IEnumerator WaitForAudio(AudioSource[] targetAudios, Enum nextStage)
+        {
+            foreach(AudioSource audioSource in targetAudios)
+            {
+                generalSettings.soundController.PlaySound(audioSource);
+                yield return new WaitWhile(() => audioSource.isPlaying);
+            }
+
+            StageManager(nextStage);
+        }
+
+        IEnumerator WaitForAudio(AudioSource targetAudio, Enum nextStage = null)
+        {
+            generalSettings.soundController.PlaySound(targetAudio);
+            yield return new WaitWhile(() => targetAudio.isPlaying);
+
+            if (nextStage != null) StageManager(nextStage);
+        }
+
+        private void ManagePlayerTeleportation(Action ExecuteLogicAfterTeleport, TeleportationAnchor targetAnchor)
+        {
+            generalSettings.teleportPlayer.hasTeleported = false;
+            generalSettings.teleportPlayer.RequestToTeleportToAnchor(targetAnchor);
+
+            StartCoroutine(WaitForAnyCondition(
+                () => generalSettings.teleportPlayer.hasTeleported,
+                () => {
+                    ExecuteLogicAfterTeleport();
+                }
+            ));
         }
     }
 

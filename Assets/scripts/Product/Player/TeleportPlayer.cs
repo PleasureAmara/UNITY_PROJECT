@@ -1,4 +1,6 @@
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 namespace localizer.product.player
@@ -8,8 +10,29 @@ namespace localizer.product.player
     /// </summary>
     public class TeleportPlayer : MonoBehaviour
     {
-        // Add a method to accept an anchor parameter
-        public void TeleportToAnchor(TeleportationAnchor anchor, TeleportationProvider provider)
+        [SerializeField]
+        [Tooltip("Drag the Teleport gameobject under the XR origin")]
+        private TeleportationProvider provider;
+
+        /// <summary>
+        /// We use this field to track if the teleportation request was successful, and it activates only after the user
+        /// has teleported, with this we can control when to render the introduction audios and screens. 
+        /// </summary>
+        public bool hasTeleported;
+
+        public void OnEnable()
+        {
+            provider.locomotionStarted += ManageLocomotionStart;
+            provider.locomotionEnded += ManageLocomotionEnd;
+        }
+
+        public void OnDisable()
+        {
+            provider.locomotionStarted -= ManageLocomotionStart;
+            provider.locomotionEnded -= ManageLocomotionEnd;
+        }
+
+        public void RequestToTeleportToAnchor(TeleportationAnchor anchor)
         {
             Transform anchorTransform = anchor.teleportAnchorTransform;
 
@@ -22,6 +45,18 @@ namespace localizer.product.player
             };
 
             provider.QueueTeleportRequest(request);
+        }
+
+        private void ManageLocomotionEnd(LocomotionProvider locomotionProvider)
+        {
+            Debug.Log("Locomotion has ended.");
+            hasTeleported = true;
+        }
+
+        private void ManageLocomotionStart(LocomotionProvider locomotionProvider)
+        {
+            Debug.Log("Locomotion has started.");
+            //hasTeleported = false;
         }
     }
 }
