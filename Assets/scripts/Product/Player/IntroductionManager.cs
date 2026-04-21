@@ -122,13 +122,13 @@ namespace localizer.product.player
 
         void Start()
         {
-            generalSettings.showDescription.descriptionScreen.SetActive(true);
-            learnVRSettings.introScreen.SetActive(false);
+            generalSettings.showDescription.descriptionScreen.SetActive(false);
+            learnVRSettings.introScreen.SetActive(true);
             itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            //StageManager(Stages.stage0);
+            StageManager(Stages.stage0);
 
             //testing
-            generalSettings.showDescription.RenderScreen();
+            // generalSettings.showDescription.RenderScreen();
         }
 
         private void Update()
