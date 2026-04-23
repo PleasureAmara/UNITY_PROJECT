@@ -1,6 +1,5 @@
-using TMPro;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -10,140 +9,121 @@ public class TutorialManager : MonoBehaviour
     public HighlightController doorKnob;
     public HighlightController lightSwitch;
     public HighlightController localiserKnob;
+    public HighlightController distributionBoard;
 
+    [Header("Step UI Prefabs")]
+    public GameObject outsideShelterUI;
+    public GameObject distributionBoardUI;
+   
 
-    [Header("Prompt System")]
-    public GameObject promptPrefab;
-    public GameObject localiserPrompt;
-    private GameObject currentPrompt;
+    private GameObject currentUI;
+    private TutorialStep nextStep;
 
     [Header("Interactions")]
     public LightSwitchInteraction lightSwitchInteraction;
-   
-    [Header("UI Panels")]
-    public GameObject localiserUIPanels;
-    private GameObject currentInfoScreen;
-
-
-    private HighlightController currentHighlightTarget;
-    //private TextMeshProUGUI promptTexts;
-
-
 
     void Start()
     {
-        ProximityTrigger.PlayerEntered += HandlePlayerEntered;
-        ProximityTrigger.PlayerExited += HandlePlayerExited;
+        DoorInteraction.DoorOpened += HandleDoorOpened;
         LightSwitchInteraction.LightsToggle += HandleLightsToggled;
-        CloseBtn.CloseBtnPressed += HandleCloseBtnPressed;
-
-
+       // CloseBtn.CloseBtnPressed += HandleCloseBtnPressed;
 
         SetState(TutorialStep.OutsideShelter);
-
     }
 
     private void OnDestroy()
     {
-        ProximityTrigger.PlayerEntered -= HandlePlayerEntered;
-        ProximityTrigger.PlayerExited -= HandlePlayerExited;
+        DoorInteraction.DoorOpened -= HandleDoorOpened;
         LightSwitchInteraction.LightsToggle -= HandleLightsToggled;
-        CloseBtn.CloseBtnPressed -= HandleCloseBtnPressed;
+        //CloseBtn.CloseBtnPressed -= HandleCloseBtnPressed;
     }
 
-    private void HandlePlayerEntered(ProximityTrigger trigger)
-    {
-        if (currentHighlightTarget == null)
-            return;
-
-        HighlightController highlight =
-            trigger.GetComponentInParent<HighlightController>();
-
-        if (highlight == currentHighlightTarget)
-        {
-            currentHighlightTarget.SetHighlight(true);
-            //ShowPrompt(currentHighlightTarget.transform);
-            currentPrompt = Instantiate(promptPrefab);
-        }
-
-    }
-
-    private void HandlePlayerExited(ProximityTrigger trigger)
-    {
-        if (currentHighlightTarget == null)
-            return;
-
-        HighlightController highlight =
-            trigger.GetComponentInParent<HighlightController>();
-
-        if (highlight == currentHighlightTarget)
-        {
-            currentHighlightTarget.SetHighlight(false);
-            HidePrompt();
-        }
-
-        if (currentState == TutorialStep.OutsideShelter && highlight == doorKnob)
-        {
-            SetState(TutorialStep.TurnOnLights);
-        }
-    }
+    // ===================== STATE MANAGEMENT =====================
 
     public void SetState(TutorialStep newState)
     {
         currentState = newState;
 
-        // Reset everything
+        // Reset highlights
         doorKnob.SetHighlight(false);
         lightSwitch.SetHighlight(false);
         localiserKnob.SetHighlight(false);
-        HidePrompt();
 
-        currentHighlightTarget = null;
-        
+        HideCurrentUI();
 
         switch (currentState)
         {
             case TutorialStep.OutsideShelter:
-                currentHighlightTarget = doorKnob;
+                doorKnob.SetHighlight(true);
+                ShowUI(outsideShelterUI);
+                nextStep = TutorialStep.TurnOnLights;
                 break;
 
             case TutorialStep.TurnOnLights:
-                currentHighlightTarget = lightSwitch;
-                currentHighlightTarget.SetHighlight(true);
+                lightSwitch.SetHighlight(true);
+                nextStep = TutorialStep.DistributionBoard;
                 break;
 
-            case TutorialStep.LocaliserOverView:
+            case TutorialStep.DistributionBoard:
+                distributionBoard.SetHighlight(true);
+                ShowUI(distributionBoardUI);
+                nextStep = TutorialStep.FireExtinguishers;
                 break;
 
             case TutorialStep.HighlightLocaliserKnob:
-                currentHighlightTarget = localiserKnob;
-                currentHighlightTarget.SetHighlight(true);
+
+
                 break;
-
-
         }
     }
 
-    //private void ShowPrompt(Transform target)
-    //{
-    //    if (promptPrefab == null)
-    //    {
-    //        Debug.LogError("Prompt Prefab not assigned.");
-    //        return;
-    //    }
+    // ===================== UI SYSTEM =====================
 
-    //    currentPrompt = Instantiate(promptPrefab);
-    //}
-
-    private void HidePrompt()
+    private void ShowUI(GameObject prefab)
     {
-        if (currentPrompt != null)
+        if (prefab == null)
         {
-            Destroy(currentPrompt);
-            currentPrompt = null;
+            Debug.LogError("UI prefab is null!");
+            return;
+        }
+
+        currentUI = Instantiate(prefab);
+
+        // No positioning logic ? prefab keeps its designed position
+        currentUI.SetActive(true);
+        XRBaseInteractable xrButton = currentUI.GetComponentInChildren<XRBaseInteractable>(true);
+
+        if (xrButton != null)
+        {
+            xrButton.selectEntered.RemoveAllListeners();
+            xrButton.selectEntered.AddListener(_ => OnUIClosePressed());
         }
     }
 
+    private void HideCurrentUI()
+    {
+        if (currentUI != null)
+        {
+            Destroy(currentUI);
+            currentUI = null;
+        }
+    }
+
+    private void OnUIClosePressed() 
+    {
+        HideCurrentUI();
+        SetState(nextStep);
+    }
+
+    // ===================== EVENTS =====================
+
+    private void HandleDoorOpened(DoorInteraction door)
+    {
+        if (currentState != TutorialStep.OutsideShelter)
+            return;
+
+        SetState(TutorialStep.TurnOnLights);
+    }
 
     private void HandleLightsToggled(LightSwitchInteraction swh, bool isOn)
     {
@@ -152,25 +132,17 @@ public class TutorialManager : MonoBehaviour
 
         if (currentState == TutorialStep.TurnOnLights && isOn)
         {
-            SetState(TutorialStep.LocaliserOverView);
-            //ShowPrompt(currentHighlightTarget.transform);
-            currentPrompt = Instantiate(localiserPrompt);
-
+            SetState(TutorialStep.DistributionBoard);
         }
     }
 
-    private void HandleCloseBtnPressed(CloseBtn button) 
-    {
-        //if (currentInfoScreen == null)
-        //    return;
+    //private void HandleCloseBtnPressed(CloseBtn button)
+    //{
+    //    HideCurrentUI();
 
-        //Destroy(currentInfoScreen);
-        //currentInfoScreen = null;
-
-        HidePrompt();
-        if (currentState == TutorialStep.LocaliserOverView) 
-        {
-            SetState(TutorialStep.HighlightLocaliserKnob);
-        }
-    }
+    //    if (currentState == TutorialStep.LocaliserOverView)
+    //    {
+    //        SetState(TutorialStep.HighlightLocaliserKnob);
+    //    }
+    //}
 }

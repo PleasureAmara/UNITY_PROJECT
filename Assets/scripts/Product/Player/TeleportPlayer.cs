@@ -1,4 +1,4 @@
-using Unity.Android.Gradle.Manifest;
+//using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
