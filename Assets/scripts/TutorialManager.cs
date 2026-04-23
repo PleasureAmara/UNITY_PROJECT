@@ -10,10 +10,12 @@ public class TutorialManager : MonoBehaviour
     public HighlightController lightSwitch;
     public HighlightController localiserKnob;
     public HighlightController distributionBoard;
+    //public HighlightController fireExtinguishers;
 
     [Header("Step UI Prefabs")]
     public GameObject outsideShelterUI;
     public GameObject distributionBoardUI;
+    public GameObject fireExtinguishersUI;
    
 
     private GameObject currentUI;
@@ -47,7 +49,8 @@ public class TutorialManager : MonoBehaviour
         // Reset highlights
         doorKnob.SetHighlight(false);
         lightSwitch.SetHighlight(false);
-        localiserKnob.SetHighlight(false);
+        distributionBoard.SetHighlight(false);
+        
 
         HideCurrentUI();
 
@@ -70,9 +73,9 @@ public class TutorialManager : MonoBehaviour
                 nextStep = TutorialStep.FireExtinguishers;
                 break;
 
-            case TutorialStep.HighlightLocaliserKnob:
-
-
+            case TutorialStep.FireExtinguishers:
+                ShowUI(fireExtinguishersUI);
+                nextStep = TutorialStep.AirConditioners;
                 break;
         }
     }

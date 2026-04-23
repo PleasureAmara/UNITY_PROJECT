@@ -2447,10 +2447,9 @@ MonoBehaviour:
   doorKnob: {fileID: 8918356454847519606}
   lightSwitch: {fileID: 21067350}
   localiserKnob: {fileID: 8201503833825503523}
-  distributionBoard: {fileID: 5870191291915793196}
+  distributionBoard: {fileID: 9205652021144106681}
   outsideShelterUI: {fileID: 2522542112776797855, guid: a0972a78e74f66c4f95c7e65899b571e, type: 3}
   distributionBoardUI: {fileID: 2863428912352763304, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
-  fireExtinguishersUI: {fileID: 3404992446679214436, guid: d5889aea3a4430a4b8ace2d6773604af, type: 3}
   lightSwitchInteraction: {fileID: 21067349}
 --- !u!4 &236963318
 Transform:
@@ -26690,7 +26689,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 39fe45dc5f8d89a439d4282209e91b79, type: 2}
+  - {fileID: 2100000, guid: 637c377a8b57a7644b8c7693de6e9203, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -35577,7 +35576,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 637c377a8b57a7644b8c7693de6e9203, type: 2}
+  - {fileID: 2100000, guid: 86db4313b231659488a1d536a728d93d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -38402,7 +38401,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f56ee96d4642dc347a7ac827db884f7c, type: 2}
+  - {fileID: 2100000, guid: 637c377a8b57a7644b8c7693de6e9203, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -39430,6 +39429,7 @@ GameObject:
   - component: {fileID: 8091673022903456731}
   - component: {fileID: 9205652021144106680}
   - component: {fileID: 2752335347235852938}
+  - component: {fileID: 9205652021144106681}
   m_Layer: 0
   m_Name: DB Door
   m_TagString: Untagged
@@ -53714,9 +53714,8 @@ GameObject:
   - component: {fileID: 5856360735566000861}
   - component: {fileID: 5870191291915793195}
   - component: {fileID: 2395800929504514556}
-  - component: {fileID: 5870191291915793196}
   m_Layer: 0
-  m_Name: DB Frame
+  m_Name: Mesh3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63401,20 +63400,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4643330861258982044}
   m_Mesh: {fileID: 7059488439374195479, guid: fa864f85dea278f448e2e8978300a3b1, type: 3}
---- !u!114 &5870191291915793196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4643330861258982044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59ef253be1203cb4c815773b1e9b8726, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HighlightController
-  glowOnValue: 150
-  glowOffValue: 0
 --- !u!4 &5873465986343634894
 Transform:
   m_ObjectHideFlags: 0
@@ -74176,7 +74161,7 @@ GameObject:
   - component: {fileID: 8031396130957115816}
   - component: {fileID: 8488134045415944310}
   m_Layer: 0
-  m_Name: Extinguishers
+  m_Name: GDLM77_0014_DarkSalmon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83803,7 +83788,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 513df0fdccbbe594db28cae03738db7d, type: 2}
+  - {fileID: 2100000, guid: 26a77b28215b8c84aa947cd9d75eda77, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -89114,6 +89099,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2878086257531351775}
   m_Mesh: {fileID: -8089699231438940418, guid: fa864f85dea278f448e2e8978300a3b1, type: 3}
+--- !u!114 &9205652021144106681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2878086257531351775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ef253be1203cb4c815773b1e9b8726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightController
+  glowOnValue: 150
+  glowOffValue: 0
 --- !u!4 &9206477021348447042
 Transform:
   m_ObjectHideFlags: 0

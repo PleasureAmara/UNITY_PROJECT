@@ -6,7 +6,7 @@ public enum TutorialStep
     TurnOnLights,
     DistributionBoard,
     FireExtinguishers,
-    HighlightLocaliserKnob,
+    AirConditioners,
     ShowUIPanels,
     Completed
 
