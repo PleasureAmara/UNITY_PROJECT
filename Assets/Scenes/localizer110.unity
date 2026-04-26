@@ -2448,9 +2448,23 @@ MonoBehaviour:
   lightSwitch: {fileID: 21067350}
   localiserKnob: {fileID: 8201503833825503523}
   distributionBoard: {fileID: 5870191291915793196}
+  statusPanel: {fileID: 6240346728966855254}
+  alertButton: {fileID: 7758110936861441915}
+  localiserDoor: {fileID: 8201503833825503523}
+  powerAmplifiers1:
+  - {fileID: 8895742422368630829}
+  - {fileID: 9045360540473471886}
+  powerAmplifiers2:
+  - {fileID: 6942812061751465888}
+  - {fileID: 6539392186302901591}
   outsideShelterUI: {fileID: 2522542112776797855, guid: a0972a78e74f66c4f95c7e65899b571e, type: 3}
   distributionBoardUI: {fileID: 2863428912352763304, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
   fireExtinguishersUI: {fileID: 3404992446679214436, guid: d5889aea3a4430a4b8ace2d6773604af, type: 3}
+  statusPanelUI: {fileID: 6322037671057184729, guid: 4c56ad709d0d3ec45a4366b997cf3117, type: 3}
+  alertButtonUI: {fileID: 666297032915794023, guid: 304af8647dcefa04796fc84c32a17512, type: 3}
+  localiserDoorUI: {fileID: 3470925379423034038, guid: 0d894fac795601d46b679c534cfe0bf4, type: 3}
+  powerAmplifiers1UI: {fileID: 656302624615150189, guid: 353541ecaa1336c47a4589157706bdab, type: 3}
+  powerAmplifiers2UI: {fileID: 1397837522829723296, guid: c1bb0771d0530af4ea1ae7956232b25c, type: 3}
   lightSwitchInteraction: {fileID: 21067349}
 --- !u!4 &236963318
 Transform:
@@ -9678,7 +9692,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1144939683
 Transform:
   m_ObjectHideFlags: 0
@@ -18188,7 +18202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AERIAL
+  m_text: LOAD
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -20356,6 +20370,7 @@ GameObject:
   - component: {fileID: 9045360540473471885}
   - component: {fileID: 46068426105108416}
   - component: {fileID: 3680390210818084288}
+  - component: {fileID: 9045360540473471886}
   m_Layer: 0
   m_Name: module 2
   m_TagString: Untagged
@@ -26690,7 +26705,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 39fe45dc5f8d89a439d4282209e91b79, type: 2}
+  - {fileID: 2100000, guid: 42306e2888eeea448a51ba8c3a5a23f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -29549,7 +29564,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 39fe45dc5f8d89a439d4282209e91b79, type: 2}
+  - {fileID: 2100000, guid: 42306e2888eeea448a51ba8c3a5a23f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -31319,7 +31334,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LOAD
+  m_text: AERIAL
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -37123,7 +37138,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "All Parameters OK!\tMode: remote"
+  m_text: 'Executive pre-alarm
+
+    Standby pre-alarm'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -37686,6 +37703,7 @@ GameObject:
   - component: {fileID: 4363560594580481128}
   - component: {fileID: 6539392186302901590}
   - component: {fileID: 2810665116592779509}
+  - component: {fileID: 6539392186302901591}
   m_Layer: 0
   m_Name: module 4
   m_TagString: Untagged
@@ -38794,7 +38812,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c4d3845d8ef536947b0ce6aa00828707, type: 2}
+  - {fileID: 2100000, guid: 42306e2888eeea448a51ba8c3a5a23f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -44147,6 +44165,7 @@ GameObject:
   - component: {fileID: 428362505736496890}
   - component: {fileID: 6240346728966855253}
   - component: {fileID: 3743493370092035969}
+  - component: {fileID: 6240346728966855254}
   m_Layer: 0
   m_Name: Screen
   m_TagString: Untagged
@@ -45642,7 +45661,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c4d3845d8ef536947b0ce6aa00828707, type: 2}
+  - {fileID: 2100000, guid: 42306e2888eeea448a51ba8c3a5a23f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -45979,9 +45998,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f6e2a99ce5b37164584de1ff8f4983bb, type: 2}
-  - {fileID: 2100000, guid: a6512cba9fa13914ba365e6619958d86, type: 2}
-  - {fileID: 2100000, guid: 4a6863589c03fb74382de9d9ae9f76c2, type: 2}
+  - {fileID: 2100000, guid: 637c377a8b57a7644b8c7693de6e9203, type: 2}
+  - {fileID: 2100000, guid: 637c377a8b57a7644b8c7693de6e9203, type: 2}
+  - {fileID: 2100000, guid: 637c377a8b57a7644b8c7693de6e9203, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -48054,7 +48073,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c4d3845d8ef536947b0ce6aa00828707, type: 2}
+  - {fileID: 2100000, guid: 42306e2888eeea448a51ba8c3a5a23f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -53808,6 +53827,7 @@ GameObject:
   - component: {fileID: 265834983594903225}
   - component: {fileID: 8895742422368630828}
   - component: {fileID: 5043497788635115549}
+  - component: {fileID: 8895742422368630829}
   m_Layer: 0
   m_Name: module 1
   m_TagString: Untagged
@@ -54268,7 +54288,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: MAIN
+  m_text: STANDBY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -56871,7 +56891,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c4d3845d8ef536947b0ce6aa00828707, type: 2}
+  - {fileID: 2100000, guid: 42306e2888eeea448a51ba8c3a5a23f2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -58818,7 +58838,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: STANDBY
+  m_text: MAIN
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -65857,6 +65877,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3478618477077349450}
   m_Mesh: {fileID: -1875780437015597444, guid: de4da151bedb5f74b9cc5b1e9f197500, type: 3}
+--- !u!114 &6240346728966855254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3478618477077349450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ef253be1203cb4c815773b1e9b8726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightController
+  glowOnValue: 150
+  glowOffValue: 0
 --- !u!23 &6243797015858781193
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -68217,6 +68251,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2662569151724223447}
   m_Mesh: {fileID: 8303330963202500452, guid: de4da151bedb5f74b9cc5b1e9f197500, type: 3}
+--- !u!114 &6539392186302901591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2662569151724223447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ef253be1203cb4c815773b1e9b8726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightController
+  glowOnValue: 150
+  glowOffValue: 0
 --- !u!4 &6541739940819896864
 Transform:
   m_ObjectHideFlags: 0
@@ -71301,6 +71349,7 @@ GameObject:
   - component: {fileID: 3471161159692754679}
   - component: {fileID: 1759434756591220794}
   - component: {fileID: 4009442705807015249}
+  - component: {fileID: 6942812061751465888}
   m_Layer: 0
   m_Name: module 3
   m_TagString: Untagged
@@ -71308,6 +71357,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6942812061751465888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6942812061751465887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ef253be1203cb4c815773b1e9b8726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightController
+  glowOnValue: 150
+  glowOffValue: 0
 --- !u!1 &6949932126284535357
 GameObject:
   m_ObjectHideFlags: 0
@@ -77245,6 +77308,7 @@ GameObject:
   - component: {fileID: 533572566082879977}
   - component: {fileID: 4504332767184972920}
   - component: {fileID: 1566749129}
+  - component: {fileID: 7758110936861441915}
   m_Layer: 0
   m_Name: button 3
   m_TagString: Untagged
@@ -77252,6 +77316,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &7758110936861441915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7758110936861441914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ef253be1203cb4c815773b1e9b8726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightController
+  glowOnValue: 150
+  glowOffValue: 0
 --- !u!23 &7760685258341077722
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -82508,7 +82586,7 @@ GameObject:
   - component: {fileID: 6767392373733087839}
   - component: {fileID: 5497621592030848814}
   m_Layer: 0
-  m_Name: GDLM9_Color M00
+  m_Name: Weird Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86504,6 +86582,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4655134719232055563}
   m_Mesh: {fileID: 9131657920413800018, guid: de4da151bedb5f74b9cc5b1e9f197500, type: 3}
+--- !u!114 &8895742422368630829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4655134719232055563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ef253be1203cb4c815773b1e9b8726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightController
+  glowOnValue: 150
+  glowOffValue: 0
 --- !u!1 &8896651171507255130
 GameObject:
   m_ObjectHideFlags: 0
@@ -87819,6 +87911,20 @@ Transform:
   - {fileID: 2638592410811887840}
   m_Father: {fileID: 7233957241776713017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9045360540473471886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481946774749321778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59ef253be1203cb4c815773b1e9b8726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighlightController
+  glowOnValue: 150
+  glowOffValue: 0
 --- !u!4 &9048739421998136798
 Transform:
   m_ObjectHideFlags: 0

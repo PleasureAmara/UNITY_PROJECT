@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
@@ -10,13 +11,22 @@ public class TutorialManager : MonoBehaviour
     public HighlightController lightSwitch;
     public HighlightController localiserKnob;
     public HighlightController distributionBoard;
-    //public HighlightController fireExtinguishers;
+    public HighlightController statusPanel;
+    public HighlightController alertButton;
+    public HighlightController localiserDoor;
+    public HighlightController[] powerAmplifiers1;
+    public HighlightController[] powerAmplifiers2;
 
     [Header("Step UI Prefabs")]
     public GameObject outsideShelterUI;
     public GameObject distributionBoardUI;
     public GameObject fireExtinguishersUI;
-   
+    public GameObject statusPanelUI;
+    public GameObject alertButtonUI;
+    public GameObject localiserDoorUI;
+    public GameObject powerAmplifiers1UI;
+    public GameObject powerAmplifiers2UI;
+
 
     private GameObject currentUI;
     private TutorialStep nextStep;
@@ -50,7 +60,19 @@ public class TutorialManager : MonoBehaviour
         doorKnob.SetHighlight(false);
         lightSwitch.SetHighlight(false);
         distributionBoard.SetHighlight(false);
-        
+        statusPanel.SetHighlight(false);
+        alertButton.SetHighlight(false);
+        localiserDoor.SetHighlight(false);
+       foreach(var pa in powerAmplifiers1)
+        {
+            pa.SetHighlight(false);
+        }
+
+       foreach (var pa in powerAmplifiers2)
+        {
+            pa.SetHighlight(false);
+        }
+
 
         HideCurrentUI();
 
@@ -70,13 +92,49 @@ public class TutorialManager : MonoBehaviour
             case TutorialStep.DistributionBoard:
                 distributionBoard.SetHighlight(true);
                 ShowUI(distributionBoardUI);
-                nextStep = TutorialStep.FireExtinguishers;
+                nextStep = TutorialStep.StatusPanel;
                 break;
 
-            case TutorialStep.FireExtinguishers:
-                ShowUI(fireExtinguishersUI);
-                nextStep = TutorialStep.AirConditioners;
+
+            case TutorialStep.StatusPanel:
+                statusPanel.SetHighlight(true);
+                ShowUI(statusPanelUI);
+                nextStep = TutorialStep.AlertsButton;
                 break;
+
+            case TutorialStep.AlertsButton:
+                alertButton.SetHighlight(true);
+                ShowUI(alertButtonUI);
+                nextStep = TutorialStep.LocaliserDoor;
+                break;
+
+            case TutorialStep.LocaliserDoor:
+                localiserDoor.SetHighlight(true);
+                ShowUI(localiserDoorUI);
+                nextStep = TutorialStep.MODPA1;
+                break;
+
+            case TutorialStep.MODPA1:
+                foreach (var pa in powerAmplifiers1)
+                {
+                    pa.SetHighlight(true);
+                }
+
+                ShowUI(powerAmplifiers1UI);
+                nextStep = TutorialStep.MODPA2;
+                break;
+
+            case TutorialStep.MODPA2:
+                foreach (var pa in powerAmplifiers2)
+                {
+                    pa.SetHighlight(true);
+                }
+
+                ShowUI(powerAmplifiers2UI);
+                nextStep = TutorialStep.ECU;
+                break;
+
+
         }
     }
 
