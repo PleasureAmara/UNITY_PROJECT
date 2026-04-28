@@ -16,6 +16,8 @@ public class TutorialManager : MonoBehaviour
     public HighlightController localiserDoor;
     public HighlightController[] powerAmplifiers1;
     public HighlightController[] powerAmplifiers2;
+    public HighlightController[] synthesizers;
+    public HighlightController[] audioGenerators;
 
     [Header("Step UI Prefabs")]
     public GameObject outsideShelterUI;
@@ -26,6 +28,8 @@ public class TutorialManager : MonoBehaviour
     public GameObject localiserDoorUI;
     public GameObject powerAmplifiers1UI;
     public GameObject powerAmplifiers2UI;
+    public GameObject synthesizersUI;
+    public GameObject audioGeneratorsUI;
 
 
     private GameObject currentUI;
@@ -71,6 +75,16 @@ public class TutorialManager : MonoBehaviour
        foreach (var pa in powerAmplifiers2)
         {
             pa.SetHighlight(false);
+        }
+
+        foreach (var sy in synthesizers)
+        {
+            sy.SetHighlight(false);
+        }
+
+        foreach (var ag in audioGenerators)
+        {
+            ag.SetHighlight(false);
         }
 
 
@@ -131,6 +145,26 @@ public class TutorialManager : MonoBehaviour
                 }
 
                 ShowUI(powerAmplifiers2UI);
+                nextStep = TutorialStep.Synthesizers;
+                break;
+
+            case TutorialStep.Synthesizers:
+                foreach (var sy in synthesizers)
+                {
+                    sy.SetHighlight(true);
+                }
+
+                ShowUI(synthesizersUI);
+                nextStep = TutorialStep.AudioGenerators;
+                break;
+
+            case TutorialStep.AudioGenerators:
+                foreach (var ag in audioGenerators)
+                {
+                    ag.SetHighlight(true);
+                }
+
+                ShowUI(audioGeneratorsUI);
                 nextStep = TutorialStep.ECU;
                 break;
 

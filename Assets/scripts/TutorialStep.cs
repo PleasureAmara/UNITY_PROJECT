@@ -10,6 +10,8 @@ public enum TutorialStep
     LocaliserDoor,
     MODPA1,
     MODPA2,
+    Synthesizers,
+    AudioGenerators,
     ECU,
     FireExtinguishers,
     LocalizerOverview,
