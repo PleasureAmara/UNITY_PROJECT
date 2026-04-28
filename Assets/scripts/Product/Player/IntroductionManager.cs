@@ -133,7 +133,7 @@ namespace localizer.product.player
 
         private void Update()
         {
-            if (airplaneTakeOff != null) airplaneTakeOff.DestroyAircraft();
+            //if (airplaneTakeOff != null) airplaneTakeOff.DestroyAircraft();
         }
 
         void DisablePlayerHands()
@@ -183,7 +183,6 @@ namespace localizer.product.player
                     break;
                 case Stages.stage6:
                     StopAllCoroutines();
-                    airplaneTaxi.DestroyAircraft();
                     generalSettings.showDescription.RenderScreen();
                     break;
 
@@ -218,7 +217,6 @@ namespace localizer.product.player
 
         void DescribeTaxiway()
         {
-            airplaneTaxi.StartTaxing();
             ManagePlayerTeleportation( ActionsAfterTaxiwayTeleportation, specificAnchor.taxiwayAnchor);
         }
 
@@ -230,7 +228,6 @@ namespace localizer.product.player
 
         void DescribeRunway()
         {
-            airplaneTakeOff.StartTakeOff();
             ManagePlayerTeleportation(ActionsAfterRunwayTeleportation, specificAnchor.runwayAnchor);
         }
 

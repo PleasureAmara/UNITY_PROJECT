@@ -11,12 +11,19 @@ namespace localizer.product.airplane
         [SerializeField] private float climbSpeed = 5.0f;
         [SerializeField] private float startClimbLimit = 50.0f;
         private readonly float visualLimit = -900.0f;
-        private bool isAircraftVisual;
+        public bool isAircraftVisual;
         
         public void StartTakeOff()
         {
             isAircraftVisual = true;
             StartCoroutine(TakeOffManager());
+            StartCoroutine(TrackAircraft()); 
+        }
+
+        private void Update()
+        {
+            //if ( gameObject != null) DestroyAircraft();
+            
         }
 
         IEnumerator TakeOffManager()
@@ -28,20 +35,24 @@ namespace localizer.product.airplane
 
                 if (transform.position.z < startClimbLimit)
                 {
-                    Debug.Log("climbing speed reached");
                     transform.Rotate(climbSpeed * Time.deltaTime * Vector3.left);
                 }
                 yield return null;
             }
         }
 
+        IEnumerator TrackAircraft()
+        {
+            while(transform.position.z < visualLimit)
+            {
+                yield return null;
+            }
+            isAircraftVisual = false;
+        }
         public void DestroyAircraft()
         {
-            if (transform.position.z < visualLimit)
-            {
                 StopAllCoroutines();
                 Destroy(gameObject);
-            }
         }
     }
 }

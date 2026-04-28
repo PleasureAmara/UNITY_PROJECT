@@ -1,63 +1,76 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace localizer.product.airplane
 {
 
     public class AirplaneTaxi : MonoBehaviour
     {
-        [SerializeField] private float taxiSpeed = 15.0f;
-        [SerializeField] private float holdPositionLimit = -70.0f;
+        AirplaneTaxi instance;
+        [SerializeField] private float taxiSpeed = 7.0f;
+        [SerializeField] private float holdPositionLimit = 250.0f;
 
         [SerializeField] GameObject[] aircraftRotors;
+        [SerializeField] private bool hasRotors = false;
         [SerializeField] private float rotorSpeed = 50.0f;
-        private bool isRotorRotating;
+        public bool finishedTaxing;
 
-        public void StartTaxing()
+        private void Awake()
         {
-            isRotorRotating = true;
+            instance = this;
+        }
+
+        //public void StartTaxing()
+        //{
+        //    Debug.Log("Taxing started.");
+        //    finishedTaxing = false;
+        //    StartCoroutine(TaxiAircraft());
+        //}
+
+        private void Start()
+        {
+            Debug.Log("Taxing started.");
+            finishedTaxing = false;
             StartCoroutine(TaxiAircraft());
-            StartCoroutine(ControlRotorMovement()); 
+        }
+
+        private void Update()
+        {
+            if (hasRotors) RotateRotors();
         }
 
         IEnumerator TaxiAircraft()
         {
-            Debug.Log($"Starting position: {transform.position.z}");
-            Debug.Log($"Hold limit: {holdPositionLimit}");
-            Debug.Log($"Condition check: {transform.position.z < holdPositionLimit}");
-
             while (transform.position.z < holdPositionLimit)
             {
-                Debug.Log($"Moving... Current z: {transform.position.z}");
                 transform.Translate(taxiSpeed * Time.deltaTime * Vector3.forward, Space.Self);
+                transform.Rotate(0, 0.001f, 0);
                 yield return null;
             }
-
-            Debug.Log($"Stopped at z: {transform.position.z}");
-        }
-
-        IEnumerator ControlRotorMovement()
-        {
-            while (isRotorRotating)
+            while (transform.position.x < 1380)
             {
-                foreach (var rotor in aircraftRotors)
-                {
-                    rotor.transform.Rotate(rotorSpeed * Time.deltaTime * Vector3.forward);
-                }
+                transform.Translate(taxiSpeed * Time.deltaTime * Vector3.forward, Space.Self);
+                transform.Rotate(0, 0.07f, 0);
                 yield return null;
             }
+            while (Math.Abs(Mathf.DeltaAngle(transform.eulerAngles.y, 179.9f)) > 0.09)
+            {
+                transform.Rotate(0, 0.09f, 0);
+                yield return null;
+            }
+
+            transform.rotation = Quaternion.Euler(0,180,0);
+            finishedTaxing = true;
         }
 
-        public void DestroyAircraft()
+        private void RotateRotors()
         {
-            StopAllCoroutines();
-            Destroy(gameObject);
-        }
-
-        private bool checkAirCraftPosition()
-        {
-            return transform.position.z < holdPositionLimit;
+            foreach (var rotor in aircraftRotors)
+            {
+                rotor.transform.Rotate(rotorSpeed * Time.deltaTime * Vector3.forward);
+            }
         }
     }
 }
