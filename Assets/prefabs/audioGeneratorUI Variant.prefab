@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2306849541323958144
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3812987494493051232, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_text
+      value: "                                                           Audio Generator
+        \n Is like the \u201Cvoice\u201D of the localizer. It creates the special
+        navigation tones and identification signals that help airplanes find the
+        correct path to land safely. Think of it as a smart radio painter: it draws
+        very precise sound patterns that tell the pilot if the plane is too far left,
+        too far right, or right on the centerline. This helps the plane stay on track
+        even in bad weather.Generator for  TX1 on the left & TX2 on the right"
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 363.377
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5638836
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.8258543
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1314.2756
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 49.991
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 111.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 6010378698960846737, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9005971172083554695, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
+      propertyPath: m_Name
+      value: audioGeneratorUI Variant
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ddea10e42251e7e43b6ac2de41636fee, type: 3}
