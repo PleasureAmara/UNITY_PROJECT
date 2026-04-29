@@ -4,30 +4,40 @@ using UnityEngine.UI;
 
 using localizer.product.descriptions;
 using System.Linq;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace localizer.product.player
 {
     public class LearnVRControllers1 : MonoBehaviour
     {
-        [Tooltip("Under the introduction panel in the items canvas, drag the title gameobject.")]
+        [SerializeField] private Canvas itemsCanvas;
+
+        //[Tooltip("Under the introduction panel in the items canvas, drag the title gameobject.")]
         [SerializeField] private TextMeshProUGUI title;
 
-        [Tooltip("Under the introduction panel in the items canvas, drag the content gameobject.")]
+        //[Tooltip("Under the introduction panel in the items canvas, drag the content gameobject.")]
         [SerializeField] private TextMeshProUGUI content;
 
-        [Tooltip("Under the introduction panel in the items canvas, drag the okay button gameobject.")]
-        [SerializeField] private Button okayButton;
+        //[Tooltip("Under the introduction panel in the items canvas, drag the okay button gameobject.")]
+        [SerializeField] private XRSimpleInteractable okayButton;
 
         private int count = 0;
-        public bool isIntroFinished = false;
+        [HideInInspector]public bool isIntroFinished;
 
         public void SetUpInitialState()
         {
-            // this setting prevents two listeners on  asingle button. i.e. before we set a listener, we make sure all existing listeners are removed.
-            okayButton.onClick.RemoveAllListeners();
-            okayButton.onClick.AddListener(ManageContent);
+            isIntroFinished = false;
+            if (okayButton != null)
+            {
+                // this setting prevents two listeners on  asingle button. i.e. before we set a listener, we make sure all existing listeners are removed.
+                okayButton.selectEntered.RemoveAllListeners();
+                okayButton.selectEntered.AddListener(ManageContent);
 
-            ManageContent();
+                ManageContent();
+                return;
+            }
+            Debug.LogError("The canvas attached has no button as a child game object");
         }
 
         private void GetNextContent(string searchKey)
@@ -39,12 +49,16 @@ namespace localizer.product.player
                 Debug.LogError($"The search key: '{searchKey}' doesnt exist.");
                 return;
             }
+            if (content == null || title == null)
+            {
+                Debug.LogError("No title or content gameobjects attached.");
+                return;
+            }
             content.text = searchedContent;
             title.text = searchKey;
-            
         }
         //we removed the count from the arguments of ManageContent(int count) because the event onClick expects methods with no parameter.
-        public void ManageContent()
+        public void ManageContent(SelectEnterEventArgs args = null )
         {
             switch (count)
             {

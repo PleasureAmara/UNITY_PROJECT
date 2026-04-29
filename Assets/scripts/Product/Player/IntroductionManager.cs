@@ -1,21 +1,10 @@
-using localizer.core.enums;
-using localizer.product.descriptions;
-using localizer.product.airplane;
 using System;
-using System.Reflection;
 using System.Collections;
-using System.Threading;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
-//TODO: under the NavigateIntroductionMenu() method, we have finished instantiating the  TeleoportPlayer
-//instance. so the next part is to make sure we await the bool hasTeleported of TeleportPlayer class. so we shall make
-//the method an asynchronous one, then test.
-//we shall make everyother method waiting for teleportation as the one above, this is to make sure we dont do anything
-//until the player has teleported. 
-
+using localizer.core.enums;
+using localizer.product.descriptions;
 
 namespace localizer.product.player
 {
@@ -79,11 +68,6 @@ namespace localizer.product.player
         [Tooltip("Attach the XR ORIGIN gameobject")]
         public CharacterController playerController;
 
-        //[Tooltip("The speed with which the character is to move forward along the runway")]
-        //public float forwardMovementSpeed;
-
-        //[Tooltip("The speed with which player is moving sideways from loc antennas to the shelter")]
-        //public float sidesMovementSpeed;
     }
 
     [Serializable]
@@ -103,8 +87,8 @@ namespace localizer.product.player
         /// <summary>
         /// The Description screen is used to describe features in the scene.
         /// </summary>
-        //[Tooltip("Drag the 'description screen' under the items canvas game object")]
-        //public GameObject descriptionScreen;
+        [Tooltip("Drag the 'description screen' under the items canvas game object")]
+        public GameObject descriptionScreen;
     }
     public class IntroductionManager : MonoBehaviour
     {
@@ -113,27 +97,17 @@ namespace localizer.product.player
         [SerializeField] private SpecificAnchor specificAnchor;
         [SerializeField] private CharacterSettings characterSettings;
         [SerializeField] private TargetedAudios targetedAudios;
-        [SerializeField] private AirplaneTakeOff airplaneTakeOff;
-        [SerializeField] private AirplaneTaxi airplaneTaxi;
 
-
-        [Tooltip("Drag the canvas game object which contains the 'description screen' game object.")]
+        //[Tooltip("Drag the canvas game object which contains the 'description screen' game object.")]
         [SerializeField] private Canvas itemsCanvas;
 
         void Start()
         {
-            generalSettings.showDescription.descriptionScreen.SetActive(true);
+            generalSettings.showDescription.descriptionScreen.SetActive(false);
             learnVRSettings.introScreen.SetActive(false);
-            itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            //StageManager(Stages.stage0);
+            //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            StageManager(Stages.stage0);
 
-            //testing
-            generalSettings.showDescription.RenderScreen();
-        }
-
-        private void Update()
-        {
-            if (airplaneTakeOff != null) airplaneTakeOff.DestroyAircraft();
         }
 
         void DisablePlayerHands()
@@ -183,14 +157,12 @@ namespace localizer.product.player
                     break;
                 case Stages.stage6:
                     StopAllCoroutines();
-                    airplaneTaxi.DestroyAircraft();
                     generalSettings.showDescription.RenderScreen();
                     break;
 
             }
         }
 
-        //awaiting before the player teleports makes the method an asynchronous method.
         void NavigateIntroductionMenu()
         {
             //we set the boolean to false to track the next stage of teleportation.
@@ -218,19 +190,22 @@ namespace localizer.product.player
 
         void DescribeTaxiway()
         {
-            airplaneTaxi.StartTaxing();
-            ManagePlayerTeleportation( ActionsAfterTaxiwayTeleportation, specificAnchor.taxiwayAnchor);
+            ManagePlayerTeleportation( 
+                () => {
+                    AudioSource[] taxiwayAudios = new AudioSource[] { targetedAudios.taxiway_1, targetedAudios.taxiway_2 };
+                    StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
+                },
+                specificAnchor.taxiwayAnchor);
         }
 
-        void ActionsAfterTaxiwayTeleportation()
-        {
-            AudioSource[] taxiwayAudios = new AudioSource[] {targetedAudios.taxiway_1, targetedAudios.taxiway_2};
-            StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
-        }
+        //void ActionsAfterTaxiwayTeleportation()
+        //{
+        //    AudioSource[] taxiwayAudios = new AudioSource[] {targetedAudios.taxiway_1, targetedAudios.taxiway_2};
+        //    StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
+        //}
 
         void DescribeRunway()
         {
-            airplaneTakeOff.StartTakeOff();
             ManagePlayerTeleportation(ActionsAfterRunwayTeleportation, specificAnchor.runwayAnchor);
         }
 

@@ -1,4 +1,3 @@
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
@@ -49,13 +48,11 @@ namespace localizer.product.player
 
         private void ManageLocomotionEnd(LocomotionProvider locomotionProvider)
         {
-            Debug.Log("Locomotion has ended.");
             hasTeleported = true;
         }
 
         private void ManageLocomotionStart(LocomotionProvider locomotionProvider)
         {
-            Debug.Log("Locomotion has started.");
             //hasTeleported = false;
         }
     }
