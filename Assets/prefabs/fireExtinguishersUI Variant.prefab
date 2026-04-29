@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &647401217956082892
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 362.877
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1314.679
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 50.241
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 589538245156469694, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2863428912352763304, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_Name
+      value: fireExtinguishersUI Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047125014080625999, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_text
+      value: 'Fire Extinguishers
+
+        The red objects above you are fire extinguishers
+        used during electrical or fire emergencies in the shelter'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047125014080625999, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_fontSize
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8047125014080625999, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 9
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c4b21f680f77ec745a57c89fd0aa7a43, type: 3}

@@ -1,8 +1,4 @@
-using localizer.core.interfaces;
-using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Searcher;
 using UnityEngine;
 
 namespace localizer.product.descriptions

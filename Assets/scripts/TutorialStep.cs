@@ -3,10 +3,19 @@ using UnityEngine;
 public enum TutorialStep 
 {
     OutsideShelter,
-    OpenDoor,
     TurnOnLights,
-    LocaliserOverView,
-    HighlightLocaliserKnob,
+    DistributionBoard,
+    StatusPanel,
+    AlertsButton,
+    LocaliserDoor,
+    MODPA1,
+    MODPA2,
+    Synthesizers,
+    AudioGenerators,
+    ECU,
+    FireExtinguishers,
+    LocalizerOverview,
+    AirConditioners,
     ShowUIPanels,
     Completed
 
