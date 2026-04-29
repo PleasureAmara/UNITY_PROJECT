@@ -23,7 +23,7 @@ namespace localizer.product.player
         [SerializeField] private XRSimpleInteractable okayButton;
 
         private int count = 0;
-        [HideInInspector]public bool isIntroFinished;
+        [HideInInspector] public bool isIntroFinished;
 
         public void SetUpInitialState()
         {
@@ -43,7 +43,6 @@ namespace localizer.product.player
         private void GetNextContent(string searchKey)
         {
             string searchedContent = ActionsDescriptions.FindDescription(searchKey);
-            //string searchedContent = ActionsDescriptions._allActionsArray.First(item => item.Name == searchKey).Description;
             if (string.IsNullOrEmpty(searchedContent))
             {
                 Debug.LogError($"The search key: '{searchKey}' doesnt exist.");
@@ -64,22 +63,27 @@ namespace localizer.product.player
             {
                 case 0:
                     GetNextContent("Welcome to VR");
+                    Debug.Log($"The isIntroFInished state: {isIntroFinished}");
                     count++;
                     break;
                 case 1:
                     GetNextContent("Straight locomotion");
+                    Debug.Log($"The isIntroFInished state: {isIntroFinished}");
                     count++;
                     break;
                 case 2:
                     GetNextContent("Rotating Around");
+                    Debug.Log($"The isIntroFInished state: {isIntroFinished}");
                     count++;
                     break;
                 case 3:
                     GetNextContent("Opening and closing Doors");
+                    Debug.Log($"The isIntroFInished state: {isIntroFinished}");
                     count++;
                     break;
                 case 4:
                     GetNextContent("Clicking buttons and switches");
+                    Debug.Log($"The isIntroFInished state: {isIntroFinished}");
                     count++;
                     break;
 

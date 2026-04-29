@@ -157,7 +157,7 @@ namespace localizer.product.player
                     break;
                 case Stages.stage6:
                     StopAllCoroutines();
-                    generalSettings.showDescription.RenderScreen();
+                    //generalSettings.showDescription.RenderScreen();
                     break;
 
             }
@@ -198,52 +198,39 @@ namespace localizer.product.player
                 specificAnchor.taxiwayAnchor);
         }
 
-        //void ActionsAfterTaxiwayTeleportation()
-        //{
-        //    AudioSource[] taxiwayAudios = new AudioSource[] {targetedAudios.taxiway_1, targetedAudios.taxiway_2};
-        //    StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
-        //}
-
         void DescribeRunway()
         {
-            ManagePlayerTeleportation(ActionsAfterRunwayTeleportation, specificAnchor.runwayAnchor);
+            ManagePlayerTeleportation(
+                () => {
+                    StartCoroutine(WaitForAudio(targetAudio: targetedAudios.runway, nextStage: Stages.stage3));
+                }, specificAnchor.runwayAnchor);
         }
 
-        void ActionsAfterRunwayTeleportation()
-        {
-            StartCoroutine(WaitForAudio(targetAudio: targetedAudios.runway, nextStage: Stages.stage3));
-        }
         void DescribeAccessRoad()
         {
-            ManagePlayerTeleportation(ActionsAfterAccessRoadTeleportation, specificAnchor.accessRoadAnchor);
-        }
-
-        void ActionsAfterAccessRoadTeleportation()
-        {
-            StartCoroutine(WaitForAudio(targetAudio: targetedAudios.accessRoad, nextStage: Stages.stage4));
+            ManagePlayerTeleportation(
+                ()=> {
+                    StartCoroutine(WaitForAudio(targetAudio: targetedAudios.accessRoad, nextStage: Stages.stage4));
+                }, specificAnchor.accessRoadAnchor);
         }
 
         void DescribeLocAntenna()
         {
-            ManagePlayerTeleportation(ActionsAfterLocAntennaTeleportation, specificAnchor.locAntennaAnchor);
+            ManagePlayerTeleportation(() =>
+            {
+                AudioSource[] locAntennaAudios = new AudioSource[] { targetedAudios.locAntenna_1, targetedAudios.locAntenna_2 };
+                StartCoroutine(WaitForAudio(targetAudios: locAntennaAudios, nextStage: Stages.stage5));
+            }, specificAnchor.locAntennaAnchor);
         }
-
-        void ActionsAfterLocAntennaTeleportation()
-        {
-            AudioSource[] locAntennaAudios = new AudioSource[] { targetedAudios.locAntenna_1, targetedAudios.locAntenna_2 };
-            StartCoroutine(WaitForAudio(targetAudios: locAntennaAudios, nextStage: Stages.stage5));
-        }
-
         void PositionPlayerToFinalAnchor()
         {
-            ManagePlayerTeleportation(ActionsAfterFinalAnchorTeleportation, specificAnchor.finalAnchor);
+            ManagePlayerTeleportation(
+                ()=> {
+                    AudioSource[] locshelterAudios = new AudioSource[] { targetedAudios.locShelter_1, targetedAudios.locShelter_2 };
+                    StartCoroutine(WaitForAudio(targetAudios: locshelterAudios, nextStage: Stages.stage6));
+                }, specificAnchor.finalAnchor);
         }
 
-        void ActionsAfterFinalAnchorTeleportation()
-        {
-            AudioSource[] locshelterAudios = new AudioSource[] { targetedAudios.locShelter_1, targetedAudios.locShelter_2 };
-            StartCoroutine(WaitForAudio(targetAudios: locshelterAudios, nextStage: Stages.stage6));
-        }
 
         /// <summary>
         /// This method is used to wait for any event controlled by a booolean, any other actions performed after the boolean is true will be passed to the actionMethod 
