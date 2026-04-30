@@ -68,9 +68,5 @@ namespace localizer.product.airplane
             Destroy(gameObject);
         }
 
-        private bool checkAirCraftPosition()
-        {
-            return transform.position.z < holdPositionLimit;
-        }
     }
 }

@@ -103,10 +103,10 @@ namespace localizer.product.player
 
         void Start()
         {
-            generalSettings.showDescription.descriptionScreen.SetActive(false);
-            learnVRSettings.introScreen.SetActive(false);
+            //generalSettings.showDescription.descriptionScreen.SetActive(false);
+            //learnVRSettings.introScreen.SetActive(false);
             //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            StageManager(Stages.stage0);
+            //StageManager(Stages.stage0);
 
         }
 
