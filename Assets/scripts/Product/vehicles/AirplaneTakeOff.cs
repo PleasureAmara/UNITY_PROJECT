@@ -2,7 +2,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace localizer.product.airplane
+namespace localizer.product.vehicle
 {
     public class AirplaneTakeOff : MonoBehaviour
     {

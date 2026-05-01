@@ -5,6 +5,9 @@ using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 using localizer.core.enums;
 using localizer.product.descriptions;
+using localizer.product.vehicle;
+using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion;
 
 namespace localizer.product.player
 {
@@ -100,13 +103,17 @@ namespace localizer.product.player
 
         //[Tooltip("Drag the canvas game object which contains the 'description screen' game object.")]
         [SerializeField] private Canvas itemsCanvas;
+        [SerializeField] private LocomotionMediator locomotion;
+
+        [Header("Vehicles")]
+        [SerializeField] private NavigateCar navigateCar;
 
         void Start()
         {
             //generalSettings.showDescription.descriptionScreen.SetActive(false);
             //learnVRSettings.introScreen.SetActive(false);
             //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            //StageManager(Stages.stage0);
+            StageManager(Stages.stage1);
 
         }
 
@@ -134,12 +141,14 @@ namespace localizer.product.player
 
                 case Stages.stage1:
                     StopAllCoroutines();
+                    locomotion.gameObject.SetActive(false);
                     DescribeTaxiway();
                     break;
 
                 case Stages.stage2:
-                    StopAllCoroutines();
-                    DescribeRunway();   
+                    //StopAllCoroutines();
+                    Debug.Log($"We made it, all went smooth at car position {navigateCar.gameObject.transform.position}");
+                    //DescribeRunway();   
                     break;
 
                 case Stages.stage3:
@@ -188,14 +197,32 @@ namespace localizer.product.player
             ));
         }
 
+        bool hasAudioEnded;
         void DescribeTaxiway()
         {
-            ManagePlayerTeleportation( 
-                () => {
-                    AudioSource[] taxiwayAudios = new AudioSource[] { targetedAudios.taxiway_1, targetedAudios.taxiway_2 };
-                    StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
-                },
-                specificAnchor.taxiwayAnchor);
+            StartCoroutine(navigateCar.MoveCarForward(282.0f));
+            AudioSource[] taxiwayAudios = new AudioSource[] { targetedAudios.taxiway_1, targetedAudios.taxiway_2 };
+            StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
+            StartCoroutine(WaitForStage());
+            //StartCoroutine(WaitForStageCompletion(
+            //    Stages.stage2,
+            //    () => navigateCar.hasCarReached,
+            //    () => hasAudioEnded));
+            //ManagePlayerTeleportation( 
+            //    () => {
+            //        AudioSource[] taxiwayAudios = new AudioSource[] { targetedAudios.taxiway_1, targetedAudios.taxiway_2 };
+            //        StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
+            //    },
+            //    specificAnchor.taxiwayAnchor);
+        }
+
+        IEnumerator WaitForStage()
+        {
+            while (!navigateCar.hasCarReached && !hasAudioEnded)
+            {
+                yield return null;  
+            }
+            StageManager(Stages.stage2);
         }
 
         void DescribeRunway()
@@ -253,13 +280,15 @@ namespace localizer.product.player
 
         IEnumerator WaitForAudio(AudioSource[] targetAudios, Enum nextStage)
         {
+            hasAudioEnded = false;
             foreach(AudioSource audioSource in targetAudios)
             {
                 generalSettings.soundController.PlaySound(audioSource);
                 yield return new WaitWhile(() => audioSource.isPlaying);
             }
 
-            StageManager(nextStage);
+            //StageManager(nextStage);
+            hasAudioEnded = true;
         }
 
         IEnumerator WaitForAudio(AudioSource targetAudio, Enum nextStage = null)
@@ -268,6 +297,16 @@ namespace localizer.product.player
             yield return new WaitWhile(() => targetAudio.isPlaying);
 
             if (nextStage != null) StageManager(nextStage);
+        }
+
+        IEnumerator WaitForStageCompletion(Enum nextStage, Func<bool> conditionMethod1, Func<bool> conditionMethod2)
+        {
+            while (!conditionMethod1() && !conditionMethod2())
+            {
+                yield return null;
+            }
+
+            StageManager(nextStage);
         }
 
         private void ManagePlayerTeleportation(Action ExecuteLogicAfterTeleport, TeleportationAnchor targetAnchor)
