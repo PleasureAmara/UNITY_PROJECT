@@ -12,11 +12,11 @@ public enum TutorialStep
     MODPA2,
     Synthesizers,
     AudioGenerators,
+    monitor,
     ECU,
+    batteries,
     FireExtinguishers,
-    LocalizerOverview,
     AirConditioners,
-    ShowUIPanels,
     Completed
 
 }

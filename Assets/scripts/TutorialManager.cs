@@ -18,6 +18,9 @@ public class TutorialManager : MonoBehaviour
     public HighlightController[] powerAmplifiers2;
     public HighlightController[] synthesizers;
     public HighlightController[] audioGenerators;
+    public HighlightController[] monitor;
+    public HighlightController ecu;
+    public HighlightController[] batteries;
 
     [Header("Step UI Prefabs")]
     public GameObject outsideShelterUI;
@@ -30,6 +33,10 @@ public class TutorialManager : MonoBehaviour
     public GameObject powerAmplifiers2UI;
     public GameObject synthesizersUI;
     public GameObject audioGeneratorsUI;
+    public GameObject monitorUI;
+    public GameObject ecuUI;
+    public GameObject batteriesUI;
+    
 
 
     private GameObject currentUI;
@@ -67,7 +74,8 @@ public class TutorialManager : MonoBehaviour
         statusPanel.SetHighlight(false);
         alertButton.SetHighlight(false);
         localiserDoor.SetHighlight(false);
-       foreach(var pa in powerAmplifiers1)
+        ecu.SetHighlight(false);
+        foreach (var pa in powerAmplifiers1)
         {
             pa.SetHighlight(false);
         }
@@ -87,6 +95,15 @@ public class TutorialManager : MonoBehaviour
             ag.SetHighlight(false);
         }
 
+        foreach (var mr in monitor)
+        {
+            mr.SetHighlight(false);
+        }
+
+        foreach (var bt in batteries)
+        {
+            bt.SetHighlight(false);
+        }
 
         HideCurrentUI();
 
@@ -165,7 +182,39 @@ public class TutorialManager : MonoBehaviour
                 }
 
                 ShowUI(audioGeneratorsUI);
+                nextStep = TutorialStep.monitor;
+                break;
+
+
+            case TutorialStep.monitor:
+                foreach (var mr in monitor)
+                {
+                    mr.SetHighlight(true);
+                }
+                ShowUI(monitorUI);
                 nextStep = TutorialStep.ECU;
+                break;
+
+            case TutorialStep.ECU:
+               ecu.SetHighlight(true);
+                ShowUI(ecuUI);
+                nextStep = TutorialStep.batteries;
+                break;
+
+
+
+            case TutorialStep.batteries:
+                foreach (var bt in batteries)
+                {
+                    bt.SetHighlight(true);
+                }
+                ShowUI(batteriesUI);
+                nextStep = TutorialStep.FireExtinguishers;
+                break;
+
+            case TutorialStep.FireExtinguishers:
+                ShowUI(fireExtinguishersUI);
+                nextStep = TutorialStep.AirConditioners;
                 break;
 
 

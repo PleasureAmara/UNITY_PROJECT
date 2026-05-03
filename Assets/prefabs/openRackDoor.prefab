@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5574280216605716467}
   - component: {fileID: 3526967340529488126}
   m_Layer: 5
-  m_Name: modPA1UI Variant
+  m_Name: openRackDoor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,17 +26,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 656302624615150189}
-  m_LocalRotation: {x: -0, y: 0.8467596, z: -0, w: 0.5319757}
-  m_LocalPosition: {x: 0, y: 0, z: 363.437}
-  m_LocalScale: {x: 0.0017146191, y: 0.0016387042, z: 0.005}
+  m_LocalRotation: {x: 0, y: 0.84151083, z: 0, w: 0.54024035}
+  m_LocalPosition: {x: 0, y: 0, z: 363.397}
+  m_LocalScale: {x: 0.0020338811, y: 0.001944978, z: 0.005}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5391206025402233193}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 115.722, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 114.6, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1314.235, y: 50.012}
+  m_AnchoredPosition: {x: 1314.233, y: 49.991}
   m_SizeDelta: {x: 400, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8817495482668352749
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3, g: 0.3, b: 0.3, a: 0.7176471}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8156863}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -611,14 +611,13 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Modulator/Power Amplifier 1 (Main)
+  m_text: 'Open Rack Door
 
-    This is the **Active transmitter**.
-    It boosts the radio signal from a tiny whisper to a strong shout so the airplane
-    can hear it from far away.'
+    Point at Rack door knob and press grip to open the
+    Localizer Rack door'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
