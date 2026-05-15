@@ -12,17 +12,6 @@ namespace localizer.product.vehicle
         private float periodBeforeTakeOff = 3.0f;
         private float periodBeforeNewSpawn = 5.0f;
 
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        void Start()
-        {
-            //StartCoroutine(SpawnAircraft());
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        }
-
         IEnumerator SpawnAircraft()
         {
             GameObject chosenPrefab = aircrafts[Random.Range(0, aircrafts.Length)];

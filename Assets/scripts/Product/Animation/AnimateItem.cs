@@ -4,7 +4,7 @@ using System.Collections;
 public class AnimateItem : MonoBehaviour
 {
     private Coroutine magnifyNShrinkCoroutine;
-    private float magnifyValue = 1.1f;
+    private float magnifyValue = 1.02f;
     private float delayBtnMagnification = 1.0f;
 
     private void OnEnable()

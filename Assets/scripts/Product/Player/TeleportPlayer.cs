@@ -17,7 +17,7 @@ namespace localizer.product.player
         /// We use this field to track if the teleportation request was successful, and it activates only after the user
         /// has teleported, with this we can control when to render the introduction audios and screens. 
         /// </summary>
-        public bool hasTeleported;
+        [HideInInspector] public bool hasTeleported;
 
         public void OnEnable()
         {

@@ -17,7 +17,9 @@ namespace localizer.product.descriptions
 
         public void RenderScreen()
         {
-            var targetDescription = ActionsDescriptions.FindDescription(actionToPerform);
+            //the variable pressedKey stores the key pressed by the user on the controller. 
+
+            var targetDescription = ActionsDescriptions.FindDescription(actionToPerform, out string pressedKey);
             if (string.IsNullOrEmpty(targetDescription))
             {
                 Debug.LogError($"The search key: '{targetDescription}' doesnt exist.");

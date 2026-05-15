@@ -8,6 +8,7 @@ using localizer.product.descriptions;
 using localizer.product.vehicle;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion;
+using localizer.core.interfaces;
 
 namespace localizer.product.player
 {
@@ -25,6 +26,16 @@ namespace localizer.product.player
         [Tooltip("Drag the show description component attached to this gameobject.")]
         [SerializeField] public ShowDescription showDescription;
     }
+
+    [Serializable]
+    public class RotationPivots
+    {
+        public BasePivot taxiRunwayPivot;
+        public BasePivot runwayAccessRoadPivot;
+        public BasePivot accessRdRwyPivot;
+        //public BasePivot locAntennaPivot;
+    }
+
 
     [Serializable]
     public class SpecificAnchor
@@ -53,14 +64,11 @@ namespace localizer.product.player
     [Serializable]
     public class TargetedAudios
     {
-        public AudioSource taxiway_1;
-        public AudioSource taxiway_2;
+        public AudioSource taxiway;
         public AudioSource runway;
         public AudioSource accessRoad;
-        public AudioSource locAntenna_1;
-        public AudioSource locAntenna_2;
-        public AudioSource locShelter_1;
-        public AudioSource locShelter_2;
+        public AudioSource locAntenna;
+        public AudioSource locShelter;
         //public AudioSource antennaDescriptionAudio;
         //public AudioSource shelterDescriptionAudio;
     }
@@ -97,6 +105,7 @@ namespace localizer.product.player
     {
         [SerializeField] private LearnVRSettings learnVRSettings;
         [SerializeField] private GeneralSettings generalSettings;
+        [SerializeField] private RotationPivots rotationPivots;
         [SerializeField] private SpecificAnchor specificAnchor;
         [SerializeField] private CharacterSettings characterSettings;
         [SerializeField] private TargetedAudios targetedAudios;
@@ -106,15 +115,45 @@ namespace localizer.product.player
         [SerializeField] private LocomotionMediator locomotion;
 
         [Header("Vehicles")]
-        [SerializeField] private NavigateCar navigateCar;
+        [SerializeField] private NavigateVehicle navigateVehicle;
+
+        /// <summary>
+        /// this variable is set by other scripts specifically LifecycleManager script with the purpose of 
+        /// giving the player powers to skip all boring introduction. once set true, the player will be teleported
+        /// to the entrance of the localizer shelter.
+        /// </summary>
+        [HideInInspector] public bool shouldSkipIntro;
+
+        /// <summary>
+        /// the purpose of this boolean relates to shouldSkipIntro boolean field. we want to make sure we execute
+        /// the logic triggered by shouldSkipIntro in StageManager(Stages.stage6) only when the player is actually
+        /// in the introduction phase, otherwise do nothing. 
+        /// </summary>
+        private bool isIntroActive;
+
+        /// <summary>
+        /// Used to track the audio during introduction. 
+        /// </summary>
+        bool hasAudioEnded;
 
         void Start()
         {
-            //generalSettings.showDescription.descriptionScreen.SetActive(false);
-            //learnVRSettings.introScreen.SetActive(false);
+            generalSettings.showDescription.descriptionScreen.SetActive(false);
+            learnVRSettings.introScreen.SetActive(false);
             //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            StageManager(Stages.stage1);
+            StageManager(Stages.stage0);
 
+        }
+
+        private void Update()
+        {
+            if (shouldSkipIntro && isIntroActive)
+            {
+                StageManager(Stages.stage6);
+
+                //reset the variable to prevent trigger in the next frame.
+                shouldSkipIntro = false;
+            }
         }
 
         void DisablePlayerHands()
@@ -136,37 +175,62 @@ namespace localizer.product.player
             switch (stageToAccomplish)
             {
                 case Stages.stage0:
+                    isIntroActive = true;
                     NavigateIntroductionMenu();
                     break;
 
                 case Stages.stage1:
-                    StopAllCoroutines();
                     locomotion.gameObject.SetActive(false);
+
+                    //attach player into the vehicle.
+                    characterSettings.playerController.transform.SetParent(navigateVehicle.transform, worldPositionStays: false);
+                    characterSettings.playerController.transform.localPosition = new Vector3(-2.63f, 0.79f, 5.39f);
+                    characterSettings.playerController.transform.rotation = Quaternion.Euler(0,0,0);
                     DescribeTaxiway();
                     break;
 
                 case Stages.stage2:
-                    //StopAllCoroutines();
-                    Debug.Log($"We made it, all went smooth at car position {navigateCar.gameObject.transform.position}");
-                    //DescribeRunway();   
+                    DescribeRunway();
                     break;
 
                 case Stages.stage3:
-                    StopAllCoroutines();
                     DescribeAccessRoad();
                     break;
-
+                   
+                //we set hasAudioEnded = false in case statements in stage4 and 5 because of the teleportation. originally the variable is set inside the WaitForAudio() methods at their start.
+                //the methods that control stage4 and stage5 have 2 coroutines i.e the one that teleports the player and the one
+                //that waits for everything to end before calling next stage. however teleportation doesnt happen rightaway and
+                //since the methods are non blocking, the compiler will trigger the second coroutine before teleportation ends. the 
+                //variable tracked in the second coroutine hasAudioEnded is managed by the 1st coroutine, thus it can trigger next
+                //stage before the current one ends.
+                //setting the hasAudioEnded in the case statement ensures the next stage never triggers until the first coroutine finishes.
                 case Stages.stage4:
-                    StopAllCoroutines();
+                    hasAudioEnded = false;
+                    locomotion.gameObject.SetActive(true);
+                    characterSettings.playerController.transform.SetParent(null, true);
                     DescribeLocAntenna();
                     break;
+
                 case Stages.stage5:
-                    StopAllCoroutines();
+                    hasAudioEnded = false;
                     PositionPlayerToFinalAnchor();
+                    isIntroActive = false;
                     break;
+
+                //this stage 6 is only called if the boolean variable shouldSkipIntro is activated by the user
+                //during the introduction tutorials.
                 case Stages.stage6:
                     StopAllCoroutines();
-                    //generalSettings.showDescription.RenderScreen();
+
+                    //ensure the player isnt a child of any gameobject
+                    locomotion.gameObject.SetActive(true);
+                    characterSettings.playerController.transform.SetParent(null, true);
+
+                    // teleport player to the entrance of the shelter
+                    ManagePlayerTeleportation(
+                        specificAnchor.finalAnchor,
+                        () => { }
+                    );
                     break;
 
             }
@@ -176,86 +240,62 @@ namespace localizer.product.player
         {
             //we set the boolean to false to track the next stage of teleportation.
             learnVRSettings.learnVRControllers.isIntroFinished = false;
-            ManagePlayerTeleportation(ActionsAfterInitialTeleportation, specificAnchor.introAnchor);
-        
+            ManagePlayerTeleportation(specificAnchor.introAnchor, 
+                () => {
+                    learnVRSettings.introScreen.SetActive(true);
+
+                    //Start the learn VR screens.
+                    learnVRSettings.learnVRControllers.SetUpInitialState();
+
+                    StartCoroutine(WaitForAnyCondition(
+                        conditionMethod: () => learnVRSettings.learnVRControllers.isIntroFinished,
+                        actionMethod: () => {
+                            learnVRSettings.introScreen.SetActive(false);
+
+                            StageManager(Stages.stage1);
+                        }
+                    ));
+                });
+
         }
 
-        void ActionsAfterInitialTeleportation()
-        {
-            learnVRSettings.introScreen.SetActive(true);
-
-            //Start the learn VR screens.
-            learnVRSettings.learnVRControllers.SetUpInitialState();
-
-            StartCoroutine(WaitForAnyCondition(
-                conditionMethod: () => learnVRSettings.learnVRControllers.isIntroFinished,
-                actionMethod: () => {
-                    learnVRSettings.introScreen.SetActive(false);
-
-                    StageManager(Stages.stage1);
-                }
-            ));
-        }
-
-        bool hasAudioEnded;
         void DescribeTaxiway()
         {
-            StartCoroutine(navigateCar.MoveCarForward(282.0f));
-            AudioSource[] taxiwayAudios = new AudioSource[] { targetedAudios.taxiway_1, targetedAudios.taxiway_2 };
-            StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
-            StartCoroutine(WaitForStage());
-            //StartCoroutine(WaitForStageCompletion(
-            //    Stages.stage2,
-            //    () => navigateCar.hasCarReached,
-            //    () => hasAudioEnded));
-            //ManagePlayerTeleportation( 
-            //    () => {
-            //        AudioSource[] taxiwayAudios = new AudioSource[] { targetedAudios.taxiway_1, targetedAudios.taxiway_2 };
-            //        StartCoroutine(WaitForAudio(targetAudios: taxiwayAudios, nextStage: Stages.stage2));
-            //    },
-            //    specificAnchor.taxiwayAnchor);
-        }
-
-        IEnumerator WaitForStage()
-        {
-            while (!navigateCar.hasCarReached && !hasAudioEnded)
-            {
-                yield return null;  
-            }
-            StageManager(Stages.stage2);
+            ManagePlayerLocomotionDuringIntro(277.0f, targetedAudios.taxiway, rotationPivots.taxiRunwayPivot, Stages.stage2);
         }
 
         void DescribeRunway()
         {
-            ManagePlayerTeleportation(
-                () => {
-                    StartCoroutine(WaitForAudio(targetAudio: targetedAudios.runway, nextStage: Stages.stage3));
-                }, specificAnchor.runwayAnchor);
+            ManagePlayerLocomotionDuringIntro(-355.0f, targetedAudios.runway, rotationPivots.runwayAccessRoadPivot, Stages.stage3);
         }
 
         void DescribeAccessRoad()
         {
-            ManagePlayerTeleportation(
-                ()=> {
-                    StartCoroutine(WaitForAudio(targetAudio: targetedAudios.accessRoad, nextStage: Stages.stage4));
-                }, specificAnchor.accessRoadAnchor);
+            ManagePlayerLocomotionDuringIntro(290.0f, targetedAudios.accessRoad, rotationPivots.accessRdRwyPivot, Stages.stage4);
         }
 
         void DescribeLocAntenna()
         {
-            ManagePlayerTeleportation(() =>
-            {
-                AudioSource[] locAntennaAudios = new AudioSource[] { targetedAudios.locAntenna_1, targetedAudios.locAntenna_2 };
-                StartCoroutine(WaitForAudio(targetAudios: locAntennaAudios, nextStage: Stages.stage5));
-            }, specificAnchor.locAntennaAnchor);
+            //ManagePlayerLocomotionDuringIntro(290.0f, targetedAudios.accessRoad, rotationPivots.accessRdRwyPivot, Stages.stage4);
+            ManagePlayerTeleportation(
+                specificAnchor.locAntennaAnchor,
+                () => StartCoroutine(WaitForAudio(targetedAudios.locAntenna))
+            );
+            StartCoroutine(WaitForAnyCondition(
+                () => hasAudioEnded,
+                () => StageManager(Stages.stage5)
+                ));
         }
         void PositionPlayerToFinalAnchor()
         {
             ManagePlayerTeleportation(
-                ()=> {
-                    AudioSource[] locshelterAudios = new AudioSource[] { targetedAudios.locShelter_1, targetedAudios.locShelter_2 };
-                    StartCoroutine(WaitForAudio(targetAudios: locshelterAudios, nextStage: Stages.stage6));
-                }, specificAnchor.finalAnchor);
+                specificAnchor.finalAnchor,
+                () => StartCoroutine(WaitForAudio(targetedAudios.locShelter))
+            );
+            //StartCoroutine(WaitForAnyCondition(
+            //    () => hasAudioEnded,
+            //    () => StageManager(Stages.stage6)
+            //    ));
         }
 
 
@@ -267,6 +307,16 @@ namespace localizer.product.player
         /// <param name="actionMethod"> (Optional) The method that contains logic that runs after the control boolean becomes true. This method must not have parameters and must 
         /// not return any value</param>
         /// <returns></returns>
+        IEnumerator WaitForAnyCondition(Func<bool> conditionMethod1, Func<bool> conditionMethod2, Action actionMethod = null)
+        {
+            while (!conditionMethod1() || !conditionMethod2())
+            {
+                yield return null;
+            }
+
+            actionMethod?.Invoke();
+        }
+
         IEnumerator WaitForAnyCondition(Func<bool> conditionMethod, Action actionMethod = null)
         {
             while (!conditionMethod())
@@ -278,47 +328,41 @@ namespace localizer.product.player
         }
 
 
-        IEnumerator WaitForAudio(AudioSource[] targetAudios, Enum nextStage)
+        IEnumerator WaitForAudio(AudioSource targetAudio)
         {
             hasAudioEnded = false;
-            foreach(AudioSource audioSource in targetAudios)
-            {
-                generalSettings.soundController.PlaySound(audioSource);
-                yield return new WaitWhile(() => audioSource.isPlaying);
-            }
-
-            //StageManager(nextStage);
-            hasAudioEnded = true;
-        }
-
-        IEnumerator WaitForAudio(AudioSource targetAudio, Enum nextStage = null)
-        {
             generalSettings.soundController.PlaySound(targetAudio);
             yield return new WaitWhile(() => targetAudio.isPlaying);
 
-            if (nextStage != null) StageManager(nextStage);
+            hasAudioEnded = true;
         }
 
-        IEnumerator WaitForStageCompletion(Enum nextStage, Func<bool> conditionMethod1, Func<bool> conditionMethod2)
+        private void ManagePlayerLocomotionDuringIntro(float finalVehiclePositionZ, AudioSource targetAudio, BasePivot targetPivot, Enum nextStage)
         {
-            while (!conditionMethod1() && !conditionMethod2())
-            {
-                yield return null;
-            }
-
-            StageManager(nextStage);
+            StartCoroutine(navigateVehicle.MoveVehicleForward(finalVehiclePositionZ));
+            StartCoroutine(WaitForAudio(targetAudio));
+            StartCoroutine(WaitForAnyCondition(
+                () => navigateVehicle.hasVehicleReached,
+                () => hasAudioEnded,
+                () =>
+                {
+                    navigateVehicle.TurnVehicle(targetPivot);
+                    StartCoroutine(WaitForAnyCondition(
+                        () => navigateVehicle.hasFinishedTurning,
+                        () => StageManager(nextStage)
+                        ));
+                }
+            ));
         }
 
-        private void ManagePlayerTeleportation(Action ExecuteLogicAfterTeleport, TeleportationAnchor targetAnchor)
+        private void ManagePlayerTeleportation(TeleportationAnchor targetAnchor, Action ExecuteLogicAfterTeleport)
         {
             generalSettings.teleportPlayer.hasTeleported = false;
             generalSettings.teleportPlayer.RequestToTeleportToAnchor(targetAnchor);
 
             StartCoroutine(WaitForAnyCondition(
                 () => generalSettings.teleportPlayer.hasTeleported,
-                () => {
-                    ExecuteLogicAfterTeleport();
-                }
+                () => ExecuteLogicAfterTeleport() 
             ));
         }
     }

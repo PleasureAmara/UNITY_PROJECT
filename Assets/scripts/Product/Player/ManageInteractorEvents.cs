@@ -23,7 +23,7 @@ namespace localizer.product.player
 
         private void Awake()
         {
-            xrInteractable = GetComponent<XRBaseInteractable>();
+            //xrInteractable = GetComponent<XRBaseInteractable>();
         }
 
         private void OnEnable()
@@ -36,7 +36,7 @@ namespace localizer.product.player
             xrInteractable.selectEntered.RemoveListener(ManageSelectActions);
         }
 
-        void ManageSelectActions(SelectEnterEventArgs args)
+        public void ManageSelectActions(SelectEnterEventArgs args)
         {
             ManageDescription();
         }
