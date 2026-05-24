@@ -11,7 +11,6 @@ public class TrackerUserInput : MonoBehaviour
     InputActionMap leftLocomotion;
     InputActionMap rightLocomotion;
 
-    [HideInInspector] public bool userPressed;
     [HideInInspector] public string pressedKey;
 
     private void Awake()
@@ -42,16 +41,28 @@ public class TrackerUserInput : MonoBehaviour
         //UnMapActionMapToEventMethod(right);
         UnMapActionMapToEventMethod(leftLocomotion);
         UnMapActionMapToEventMethod(rightLocomotion);
+
     }
 
     void MapActionMapToEventMethod(InputActionMap actionMap)
     {
+
         foreach (var action in actionMap.actions)
         {
-            //if (action.type == InputActionType.Button)
-            //{
+            action.Enable();
+            //Debug.Log($"{action.name} : {action.type}");
+            if (action.type == InputActionType.Button)
+            {
                 action.performed += ManageCapturedAction;
-            //}
+                Debug.Log($"{action.name} : {action.type}");
+            }
+
+            if (action.type ==InputActionType.Value) // && action.name == "Move")
+            {
+                action.started += ManageCapturedAction;
+                action.performed += ManageCapturedAction;
+                Debug.Log($"{action.name} : {action.type}");
+            }
         }
     }
 
@@ -59,17 +70,49 @@ public class TrackerUserInput : MonoBehaviour
     {
         foreach (var action in actionMap.actions)
         {
-            action.performed -= ManageCapturedAction;
+            if (action.type == InputActionType.Value)
+            {
+                action.performed -= ManageCapturedAction;
+            }
+
+            if (action.type == InputActionType.Value) 
+            {
+                action.started -= ManageCapturedAction;
+                action.performed -= ManageCapturedAction;
+            }
+            action.Disable();
         }
     }
+
+
+    /// <summary>
+    /// Tracks when the user presses any controller button, it ensures the ManageCapturedAction method logic runs once, this 
+    /// prevents calling the method multiple times when user continously or intermittently presses the controller button. 
+    /// This bool is used externally in the LearnVrControllers1 class which it controls when the method logic triggers.
+    /// </summary>
+    [HideInInspector] public bool userPressed;
     void ManageCapturedAction(InputAction.CallbackContext context)
     {
-        if (userPressed) return; 
+        //if (context.action.type == InputActionType.Button && context.phase == InputActionPhase.Performed)
+        //{
+        //    if (userPressed) return;
+
+        //    userPressed = true;
+        //    pressedKey = context.action.name;
+        //    Debug.Log($"Key pressed: {pressedKey}");
+        //}
+
+        //else if (context.action.type == InputActionType.Value && (context.phase == InputActionPhase.Started || context.phase == InputActionPhase.Started)) // && context.action.name == "Move")
+        //{
+
+        //    Debug.Log($"{context.action.name} was pressed.");
+        //    //Vector2 values = context.ReadValue<Vector2>();
+        //    //Debug.Log($"vector pressed: {values}");
+        //}
 
         userPressed = true;
         pressedKey = context.action.name;
-        Debug.Log($"Key pressed: {context.action.name}");
-
+        Debug.Log($"Key pressed: {pressedKey}");
 
     }
 }

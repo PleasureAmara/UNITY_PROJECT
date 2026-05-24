@@ -50,8 +50,8 @@ namespace localizer.product.player
                 // this setting prevents two listeners on  asingle button. i.e. before we set a listener, we make sure all existing listeners are removed.
                 continueButton.selectEntered.RemoveAllListeners();
                 continueButton.selectEntered.AddListener(Continue);
-                //tryAgainButton.selectEntered.RemoveAllListeners();
-                //tryAgainButton.selectEntered.AddListener(TryAgain);
+                tryAgainButton.selectEntered.RemoveAllListeners();
+                tryAgainButton.selectEntered.AddListener(TryAgain);
 
 
                 //run the stage for the first time. 
@@ -131,51 +131,53 @@ namespace localizer.product.player
                 Debug.LogError("No title or content gameobjects attached.");
                 return;
             }
-            //if (relatedButton == null)
-            //{
-            //    content.text = searchedContent;
-            //    title.text = searchKey;
-                count++;
-            //    return;
-            //}
+
             content.text = searchedContent;
             title.text = searchKey;
 
+            if (relatedButton == null)
+            {
+                count++;
+                return;
+            }
 
             //disable the continue button
-            //continueButton.gameObject.SetActive(false);
-            //tryAgainButton.gameObject.SetActive(false);
-            //footer.gameObject.SetActive(false);
+            continueButton.gameObject.SetActive(false);
+            tryAgainButton.gameObject.SetActive(false);
+            footer.gameObject.SetActive(false);
 
+            //reset the track state
+            trackerUserInput.userPressed = false;
 
-            //StartCoroutine(TrackUserEntry(
-            //    actualEntry: relatedButton,
-            //    ToDoIfUserPasses: () => {
-            //        footer.color = Color.green;
-            //        footer.text = "That's right,";
-            //        footer.gameObject.SetActive(true);
+            StartCoroutine(TrackUserEntry(
+                actualEntry: relatedButton,
+                ToDoIfUserPasses: () =>
+                {
+                    footer.color = Color.green;
+                    footer.text = "That's right,";
+                    footer.gameObject.SetActive(true);
 
-            //        //reset the track state
-            //        //trackerUserInput.userPressed = false;
-            //        count++;
+                    //reset the track state
+                    //trackerUserInput.userPressed = false;
 
-            //        continueButton.gameObject.SetActive(true);
+                    continueButton.gameObject.SetActive(true);
 
-            //    },
-            //    ToDoIfUserFails: () => {
+                },
+                ToDoIfUserFails: () =>
+                {
 
-            //        //if (!isContinueButtonClicked)
-            //        //{
+                    //if (!isContinueButtonClicked)
+                    //{
 
-            //        footer.color = Color.red;
-            //        footer.text = "Not the correct button,";
-            //        footer.gameObject.SetActive(true);
-            //        tryAgainButton.gameObject.SetActive(true);
-            //        //trackerUserInput.userPressed = false;
-            //        //}
-            //        //else isContinueButtonClicked = false; 
-            //    }
-            //    ));
+                    footer.color = Color.red;
+                    footer.text = "Not the correct button,";
+                    footer.gameObject.SetActive(true);
+                    tryAgainButton.gameObject.SetActive(true);
+                    //trackerUserInput.userPressed = false;
+                    //}
+                    //else isContinueButtonClicked = false; 
+                }
+                ));
 
         }
 
@@ -191,6 +193,7 @@ namespace localizer.product.player
             // the TrackUserEntry never runs because the condition is already met. To prevent this, we set the 
             //variable to false so we can listen for the user input. 
             //trackerUserInput.userPressed=false;
+            count++;
             ManageContent();
         }
 

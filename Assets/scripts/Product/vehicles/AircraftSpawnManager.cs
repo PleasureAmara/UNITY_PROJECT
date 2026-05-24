@@ -13,10 +13,10 @@ namespace localizer.product.vehicle
         private float periodBeforeNewSpawn = 5.0f;
 
 
-        private void Start()
-        {
-            StartCoroutine(SpawnAircraft());
-        }
+        //private void Start()
+        //{
+        //    StartCoroutine(SpawnAircraft());
+        //}
 
         IEnumerator SpawnAircraft()
         {

@@ -143,7 +143,7 @@ namespace localizer.product.player
             generalSettings.showDescription.descriptionScreen.SetActive(false);
             learnVRSettings.introScreen.SetActive(false);
             //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            //StageManager(Stages.stage1);
+            StageManager(Stages.stage0);
 
         }
 
