@@ -141,7 +141,7 @@ namespace localizer.product.player
             generalSettings.showDescription.descriptionScreen.SetActive(false);
             learnVRSettings.introScreen.SetActive(false);
             //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            StageManager(Stages.stage0);
+            //StageManager(Stages.stage1);
 
         }
 
@@ -183,9 +183,9 @@ namespace localizer.product.player
                     locomotion.gameObject.SetActive(false);
 
                     //attach player into the vehicle.
-                    characterSettings.playerController.transform.SetParent(navigateVehicle.transform, worldPositionStays: false);
-                    characterSettings.playerController.transform.localPosition = new Vector3(-2.63f, 0.79f, 5.39f);
-                    characterSettings.playerController.transform.rotation = Quaternion.Euler(0,0,0);
+                    //characterSettings.playerController.transform.SetParent(navigateVehicle.transform, worldPositionStays: false);
+                    //characterSettings.playerController.transform.localPosition = new Vector3(-2.63f, 0.79f, 5.39f);
+                    //characterSettings.playerController.transform.rotation = Quaternion.Euler(0,0,0);
                     DescribeTaxiway();
                     break;
 
@@ -207,7 +207,7 @@ namespace localizer.product.player
                 case Stages.stage4:
                     hasAudioEnded = false;
                     locomotion.gameObject.SetActive(true);
-                    characterSettings.playerController.transform.SetParent(null, true);
+                    //characterSettings.playerController.transform.SetParent(null, true);
                     DescribeLocAntenna();
                     break;
 
