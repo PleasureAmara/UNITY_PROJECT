@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 5236128604155661619}
   - component: {fileID: 3155718709256769484}
   - component: {fileID: 3973143464164106820}
+  - component: {fileID: -5561735964287352457}
   m_Layer: 0
   m_Name: Passenger Aircraft V1
   m_TagString: Untagged
@@ -263,8 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16fc74776b00aa348a62eb411c0835fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::localizer.product.airplane.AirplaneTakeOff
-  takeOffSpeed: 10
-  acceleration: 1
+  navigateVehicle: {fileID: -5561735964287352457}
   climbSpeed: 5
   startClimbLimit: -50
   isAircraftVisual: 0
@@ -281,12 +281,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::localizer.product.airplane.AirplaneTaxi
   taxiSpeed: 7
-  holdPositionLimit: 245
+  holdPositionLimitZ: 277
   aircraftRotors:
   - {fileID: 5883518445242437248}
   - {fileID: 3250355090364692245}
   rotorSpeed: 700
+  navigateVehicle: {fileID: -5561735964287352457}
+  taxiRwyPivot: {fileID: 6959953269320780758, guid: 3ce3274e14204d94f832b75f17adfcac, type: 3}
   finishedTaxing: 0
+--- !u!114 &-5561735964287352457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092379697025543684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a21a0c23ba8e344be66693f93f2db6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::localizer.product.vehicle.NavigateVehicle
+  maxForwardSpeed: 15
+  minForwardSpeed: 5
+  stoppingSpeed: 3
+  hasVehicleReached: 0
+  hasFinishedTurning: 0
 --- !u!1 &5238622836817743594
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,10 @@ using localizer.product.player;
 
 namespace localizer.product.ui
 {
+    /// <summary>
+    /// Tracks only a single button on the Left controller i.e menu, once this button is clicked, everything that appears 
+    /// afterwards are controlled by this class. 
+    /// </summary>
     public class LifecycleManager : MonoBehaviour
     {
         /// <summary>
@@ -19,6 +23,9 @@ namespace localizer.product.ui
         /// trigger. 
         /// </summary>
         [SerializeField] private IntroductionManager introductionManager;
+
+        [Tooltip("Add the character controller component attached to the XR origin")]
+        [SerializeField] private CharacterController characterController;
 
         [Header("Input Actions")]
         [SerializeField] private InputAction menuButton;
@@ -40,9 +47,11 @@ namespace localizer.product.ui
         private bool isMenuActive;
 
         /// <summary>
-        /// Tracks the position of player at the time they activate the menu screen.
+        /// Tracks the position of player at the time they activate the menu screen. So that once they press exit, they are returned 
+        /// back to their original position and orientation. 
         /// </summary>
         private Vector3 playerPosition;
+        private Quaternion playerRotation;
 
         private void OnEnable()
         {
@@ -58,14 +67,29 @@ namespace localizer.product.ui
         private void OnDisable()
         {
             menuButton.Disable();
+            menuButton.performed -= OnMenuPress;
+
             stopButton.selectEntered.RemoveListener(ManageStop);
             restartButton.selectEntered.RemoveListener(ManageRestart);
             skipIntroButton.selectEntered.RemoveListener(ManageSkipIntro);
         }
 
+        private void Start()
+        {
+            if (characterController == null)
+            {
+                Debug.LogError("There is no attached character controller.");
+                return;
+            }
+        }
+
         void OnMenuPress(InputAction.CallbackContext context)
         {
             if (isMenuActive) return;
+
+            //save the position of player before they are teleported.
+            playerPosition = characterController.transform.position;
+            playerRotation = characterController.transform.rotation;
 
             //teleport to the menu anchor and after that start the actions in the lambda expression.
             StartCoroutine(TeleportToMenuPosition(
@@ -111,6 +135,9 @@ namespace localizer.product.ui
         {
             menuScreen.SetActive(false);
             isMenuActive = false;
+
+            //place player
+            characterController.transform.SetPositionAndRotation(playerPosition, playerRotation);
         }
     }
 
