@@ -33,7 +33,9 @@ namespace localizer.product.player
         public BasePivot taxiRunwayPivot;
         public BasePivot runwayAccessRoadPivot;
         public BasePivot accessRdRwyPivot;
-        //public BasePivot locAntennaPivot;
+        public BasePivot locAntennaPivot;
+        public BasePivot locAntennaToShelterPivot;
+        public BasePivot locShelterPivot;
     }
 
 
@@ -141,7 +143,7 @@ namespace localizer.product.player
             generalSettings.showDescription.descriptionScreen.SetActive(false);
             learnVRSettings.introScreen.SetActive(false);
             //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            StageManager(Stages.stage0);
+            //StageManager(Stages.stage1);
 
         }
 
@@ -185,7 +187,7 @@ namespace localizer.product.player
                     //attach player into the vehicle.
                     characterSettings.playerController.transform.SetParent(navigateVehicle.transform, worldPositionStays: false);
                     characterSettings.playerController.transform.localPosition = new Vector3(-2.63f, 0.79f, 5.39f);
-                    characterSettings.playerController.transform.rotation = Quaternion.Euler(0,0,0);
+                    characterSettings.playerController.transform.rotation = Quaternion.Euler(0, 0, 0);
                     DescribeTaxiway();
                     break;
 
@@ -196,7 +198,14 @@ namespace localizer.product.player
                 case Stages.stage3:
                     DescribeAccessRoad();
                     break;
-                   
+                  
+                case Stages.stage4:
+                    //hasAudioEnded = false;
+                    //locomotion.gameObject.SetActive(true);
+                    //characterSettings.playerController.transform.SetParent(null, true);
+                    DescribeLocAntenna();
+                    break;
+
                 //we set hasAudioEnded = false in case statements in stage4 and 5 because of the teleportation. originally the variable is set inside the WaitForAudio() methods at their start.
                 //the methods that control stage4 and stage5 have 2 coroutines i.e the one that teleports the player and the one
                 //that waits for everything to end before calling next stage. however teleportation doesnt happen rightaway and
@@ -204,24 +213,17 @@ namespace localizer.product.player
                 //variable tracked in the second coroutine hasAudioEnded is managed by the 1st coroutine, thus it can trigger next
                 //stage before the current one ends.
                 //setting the hasAudioEnded in the case statement ensures the next stage never triggers until the first coroutine finishes.
-                case Stages.stage4:
-                    hasAudioEnded = false;
-                    locomotion.gameObject.SetActive(true);
-                    characterSettings.playerController.transform.SetParent(null, true);
-                    DescribeLocAntenna();
-                    break;
-
                 case Stages.stage5:
-                    hasAudioEnded = false;
-                    PositionPlayerToFinalAnchor();
-                    isIntroActive = false;
+                    //hasAudioEnded = false;
+                    DescribeLocShelter();
+                    //isIntroActive = false;
                     break;
 
                 //this stage 6 is only called if the boolean variable shouldSkipIntro is activated by the user
                 //during the introduction tutorials.
                 case Stages.stage6:
                     StopAllCoroutines();
-
+                    Debug.Log("At last, we completed the battle.");
                     //ensure the player isnt a child of any gameobject
                     locomotion.gameObject.SetActive(true);
                     characterSettings.playerController.transform.SetParent(null, true);
@@ -258,40 +260,57 @@ namespace localizer.product.player
                 });
 
         }
-
+        /// <summary>
+        /// tracks the stop position of the vehicle as it moves during introduction.  
+        /// </summary>
+        Vector3 vehicleStopPosition;
         void DescribeTaxiway()
         {
-            ManagePlayerLocomotionDuringIntro(277.0f, targetedAudios.taxiway, rotationPivots.taxiRunwayPivot, Stages.stage2);
+            vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, 277);
+            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.taxiway, Stages.stage2, rotationPivots.taxiRunwayPivot);
         }
 
         void DescribeRunway()
         {
-            ManagePlayerLocomotionDuringIntro(-355.0f, targetedAudios.runway, rotationPivots.runwayAccessRoadPivot, Stages.stage3);
+            vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, -355);
+            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.runway, Stages.stage3, rotationPivots.runwayAccessRoadPivot);
         }
 
         void DescribeAccessRoad()
         {
-            ManagePlayerLocomotionDuringIntro(290.0f, targetedAudios.accessRoad, rotationPivots.accessRdRwyPivot, Stages.stage4);
+            vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, 292);
+            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.accessRoad, Stages.stage4, rotationPivots.accessRdRwyPivot);
         }
 
         void DescribeLocAntenna()
         {
-            //ManagePlayerLocomotionDuringIntro(290.0f, targetedAudios.accessRoad, rotationPivots.accessRdRwyPivot, Stages.stage4);
-            ManagePlayerTeleportation(
-                specificAnchor.locAntennaAnchor,
-                () => StartCoroutine(WaitForAudio(targetedAudios.locAntenna))
-            );
-            StartCoroutine(WaitForAnyCondition(
-                () => hasAudioEnded,
-                () => StageManager(Stages.stage5)
-                ));
+            vehicleStopPosition = new Vector3(1374, navigateVehicle.transform.position.y, navigateVehicle.transform.position.z);
+            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.locAntenna, Stages.stage5);
+            //ManagePlayerTeleportation(
+            //    specificAnchor.locAntennaAnchor,
+            //    () => StartCoroutine(WaitForAudio(targetedAudios.locAntenna))
+            //);
+            //StartCoroutine(WaitForAnyCondition(
+            //    () => hasAudioEnded,
+            //    () => StageManager(Stages.stage5)
+            //    ));
         }
-        void PositionPlayerToFinalAnchor()
+        void DescribeLocShelter()
         {
-            ManagePlayerTeleportation(
-                specificAnchor.finalAnchor,
-                () => StartCoroutine(WaitForAudio(targetedAudios.locShelter))
-            );
+            vehicleStopPosition = new Vector3(1313, navigateVehicle.transform.position.y, navigateVehicle.transform.position.z);
+            //navigateVehicle.hasFinishedTurning = false;
+            //navigateVehicle.TurnVehicle(rotationPivots.locAntennaToShelterPivot);
+            //StartCoroutine(WaitForAnyCondition(
+            //    conditionMethod: () => navigateVehicle.hasFinishedTurning,
+            //    actionMethod: ()=>
+            //    {
+            //        ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.locShelter, Stages.stage6, rotationPivots.locShelterPivot);
+            //    }));
+            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.locShelter, Stages.stage6);
+            //ManagePlayerTeleportation(
+            //    specificAnchor.finalAnchor,
+            //    () => StartCoroutine(WaitForAudio(targetedAudios.locShelter))
+            //);
             //StartCoroutine(WaitForAnyCondition(
             //    () => hasAudioEnded,
             //    () => StageManager(Stages.stage6)
@@ -337,21 +356,22 @@ namespace localizer.product.player
             hasAudioEnded = true;
         }
 
-        private void ManagePlayerLocomotionDuringIntro(float finalVehiclePositionZ, AudioSource targetAudio, BasePivot targetPivot, Enum nextStage)
+        /// <summary>
+        /// Ensures player movement from current position to finalVehiclePosition. the method has an optional parameter targetPivot.
+        /// If at the end of the movement there is no turning, do not assign a value to the parameter.
+        /// </summary>
+        /// <param name="finalVehiclePosition">The target final position</param>
+        /// <param name="targetAudio">Audios you want to play along as the vehicle moves.</param>
+        /// <param name="targetPivot">An optional parameter, the pivot which will help the vehicle turn</param>
+        /// <param name="nextStage">The enum value that triggers the next stage.</param>
+        private void ManagePlayerLocomotionDuringIntro(Vector3 finalVehiclePosition, AudioSource targetAudio, Enum nextStage, BasePivot targetPivot = null)
         {
-            StartCoroutine(navigateVehicle.MoveVehicleForward(finalVehiclePositionZ));
+            StartCoroutine(navigateVehicle.MoveVehicleForward(finalVehiclePosition, targetPivot));
             StartCoroutine(WaitForAudio(targetAudio));
             StartCoroutine(WaitForAnyCondition(
                 () => navigateVehicle.hasVehicleReached,
                 () => hasAudioEnded,
-                () =>
-                {
-                    navigateVehicle.TurnVehicle(targetPivot);
-                    StartCoroutine(WaitForAnyCondition(
-                        () => navigateVehicle.hasFinishedTurning,
-                        () => StageManager(nextStage)
-                        ));
-                }
+                () => StageManager(nextStage)
             ));
         }
 

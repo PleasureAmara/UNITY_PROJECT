@@ -8,9 +8,15 @@ namespace localizer.product.vehicle
     public class AircraftSpawnManager : MonoBehaviour
     {
         public GameObject[] aircrafts;
-        private Vector3 spawnPosition = new Vector3(1287, 50.73f, -70);
+        private Vector3 spawnPosition = new Vector3(1302, 50.73f, -70);
         private float periodBeforeTakeOff = 3.0f;
         private float periodBeforeNewSpawn = 5.0f;
+
+
+        private void Start()
+        {
+            StartCoroutine(SpawnAircraft());
+        }
 
         IEnumerator SpawnAircraft()
         {
@@ -19,6 +25,8 @@ namespace localizer.product.vehicle
 
             AirplaneTaxi taxiScript = chosenAircraft.GetComponent<AirplaneTaxi>();
             AirplaneTakeOff takeOffScript = chosenAircraft.GetComponent<AirplaneTakeOff>();
+
+            taxiScript.StartTaxi();
             while (!taxiScript.finishedTaxing)
             {
                 yield return null;

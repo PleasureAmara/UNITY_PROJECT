@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using localizer.core.interfaces;
+using UnityEngine.UIElements;
 
 namespace localizer.product.vehicle
 {
@@ -33,63 +34,73 @@ namespace localizer.product.vehicle
         /// <param name="stopPosition"></param>
         /// <param name="movementAxis"> the axis of movement to the final position, i.e x or z </param>
         /// <returns></returns>
-        public IEnumerator MoveVehicleForward(float stopPositionZ)
+        public IEnumerator MoveVehicleForward(Vector3 stopPosition, BasePivot rotationPivot = null)
         {
-            //string movtAxis = movementAxis.ToLower();
-            float startPositionZ = transform.position.z;
-            float divisor = (stopPositionZ - startPositionZ) * 1 / 8;
-            float deceleratingPositionZ = (divisor * 6) + startPositionZ;
-            float stoppingPositionZ = divisor * 7 + startPositionZ;
+            Vector3 startPosition = transform.position;
+            float distanceBtnStopNStart = Vector3.Distance(startPosition, stopPosition);
+            float distanceToDeceleratePosition = 0.75f * distanceBtnStopNStart; 
+            float distanceToStoppingPosition = 0.875f * distanceBtnStopNStart;
 
-            //switch (movementAxis.ToLower())
-            //{
-            //    case "z":
-
-            //        break;
-            //}
             hasVehicleReached = false;
 
-            Vector3 deceleratingPosition = new Vector3(transform.position.x, transform.position.y, deceleratingPositionZ);
-            Vector3 stoppingPosition = new Vector3(transform.position.x, transform.position.y, stoppingPositionZ);
-            Vector3 finalPosition = new Vector3(transform.position.x, transform.position.y, stopPositionZ);
+            ///##################THE MATH:###########################
+            // start                                                decelerating                stopping            stop
+            // point                                                   point                     point              point
+            // |<-------------------------------------a--------------------------------------------------------------->|
+            // |<-------------------------------------b = (7/8) * a-------------------------------->|
+            // |<------------------------------c = (6/8) * a ----------->|
+            //                  |<--------------------d--------------------------------------------------------------->|
+            // |<----e=(a-d)--->|
+            // 
+            //  d -> the instanteneous distance of the vehicle to the stop point.
+            //  e -> the instanteneous distance of vehicle from start point
+            //  depending on the target e.g stopping point, we check if the distance 'e' < 'b' for each movement.
+            // this is what's implemented in the while loops below.
 
-            Vector3 direction = (deceleratingPosition - transform.position).normalized;
+
             Coroutine AccelerateCoroutine = StartCoroutine(AccelerateVehicle(maxForwardSpeed, acceleration));
-            while (Vector3.Distance(transform.position, deceleratingPosition) > 0.05f)
+            while (Mathf.Abs(distanceBtnStopNStart- Vector3.Distance(transform.position, stopPosition)) < distanceToDeceleratePosition)
             {
-                transform.position = Vector3.MoveTowards(transform.position, deceleratingPosition, vehicleSpeed * Time.deltaTime);
+                Debug.Log($"Vehicle speed: {vehicleSpeed}");
+                transform.position = Vector3.MoveTowards(transform.position, stopPosition, vehicleSpeed * Time.deltaTime);
                 yield return null;
-                //rb.linearVelocity = transform.forward * vehicleSpeed ;
-                //yield return new WaitForFixedUpdate();
             }
 
             StopCoroutine(AccelerateCoroutine);
             Coroutine decelerateCoroutine = StartCoroutine(DecelerateVehicle(minForwardSpeed, deceleration));
-            while (Vector3.Distance(transform.position, stoppingPosition) > 0.05f)
+            while (Mathf.Abs(distanceBtnStopNStart - Vector3.Distance(transform.position, stopPosition)) < distanceToStoppingPosition)
             {
-                transform.position = Vector3.MoveTowards(transform.position, stoppingPosition, vehicleSpeed * Time.deltaTime);
-                //Debug.Log($"Current Car position: {transform.position} and speed: {vehicleSpeed}");
+                Debug.Log($"Vehicle speed: {vehicleSpeed}");
+                transform.position = Vector3.MoveTowards(transform.position, stopPosition, vehicleSpeed * Time.deltaTime);
                 yield return null;
-                //rb.linearVelocity = transform.forward * vehicleSpeed ;
-                //yield return new WaitForFixedUpdate();
             }
 
             StopCoroutine(decelerateCoroutine);
             Coroutine stopCoroutine = StartCoroutine(DecelerateVehicle(stoppingSpeed, finalDeceleration));
-            while (Vector3.Distance(transform.position, finalPosition) > 0.05f)
+            while (Mathf.Abs(distanceBtnStopNStart - Vector3.Distance(transform.position, stopPosition)) < distanceBtnStopNStart)
             {
-                transform.position = Vector3.MoveTowards(transform.position, finalPosition, vehicleSpeed * Time.deltaTime);
-                //Debug.Log($"Current Car position: {transform.position} and speed: {vehicleSpeed}");
+                Debug.Log($"Vehicle speed: {vehicleSpeed}");
+                transform.position = Vector3.MoveTowards(transform.position, stopPosition, vehicleSpeed * Time.deltaTime);
                 yield return null;
-                //rb.linearVelocity = transform.forward * vehicleSpeed;
-                //yield return new WaitForFixedUpdate();
             }
 
+            //in some situations moving forward may include turning too at the end of the straight line motion, thus the
+            //condition below ensure satisfaction of that scenario.
+            if (rotationPivot != null)
+            {
+                TurnVehicle(rotationPivot);
+                //wait for turning to finish before you set the boolean hasVehicleReached to true. 
+                while (!hasFinishedTurning)
+                {
+                    yield return null;
+                }
+            }
             hasVehicleReached = true;
         }
 
         IEnumerator AccelerateVehicle(float maxSpeed, float accelerationValue)
         {
+            Debug.Log($"max forward speed: {maxSpeed}");
             while (vehicleSpeed < maxSpeed)
             {
                 vehicleSpeed += accelerationValue;
@@ -112,7 +123,7 @@ namespace localizer.product.vehicle
             pivot.attachedVehicleScript = this;
             StartCoroutine(pivot.RotatePivot());
             return;
-            //Debug.LogError("The gameobject containing taxiRwyPivot is missing, Drag it on the gameobject having NavigateVehicle component.");
+           
         }
     }
 }
