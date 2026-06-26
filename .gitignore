@@ -1,0 +1,32 @@
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+
+# Memory captures
+MemoryCaptures/
+
+# Asset meta data (sometimes optional but usually ignored)
+*.pidb
+*.booproj
+*.svd
+*.pdb
+
+# Visual Studio / IDE
+.vs/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+
+# OS files
+.DS_Store
+Thumbs.db
