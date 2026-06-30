@@ -29,7 +29,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GlowStrength: 50
+    - _GlowStrength: 30
     - _Parallax: 0.005
     - _PulseSpeed: 0.5
     - _QueueControl: 0

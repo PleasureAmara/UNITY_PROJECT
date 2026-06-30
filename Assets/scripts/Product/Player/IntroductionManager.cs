@@ -30,11 +30,12 @@ namespace localizer.product.player
     [Serializable]
     public class RotationPivots
     {
+        public BasePivot apron5Pivot;
         public BasePivot taxiRunwayPivot;
         public BasePivot runwayAccessRoadPivot;
         public BasePivot accessRdRwyPivot;
         public BasePivot locAntennaPivot;
-        public BasePivot locAntennaToShelterPivot;
+        //public BasePivot locAntennaToShelterPivot;
         public BasePivot locShelterPivot;
     }
 
@@ -45,22 +46,16 @@ namespace localizer.product.player
         [Header("Introduction anchor")]
         public TeleportationAnchor introAnchor;
 
-        [Header("taxiway position anchor")]
-        public TeleportationAnchor taxiwayAnchor;
-
-        [Header("runway position anchor")]
-        public TeleportationAnchor runwayAnchor;
-
-        [Header("access road position anchor")]
-        public TeleportationAnchor accessRoadAnchor;
-
-        [Header("localizer antenna position anchor")]
-        public TeleportationAnchor locAntennaAnchor;
-
         [Header("Final position anchor")]
         public TeleportationAnchor finalAnchor;
 
-        
+        [Header("Vehicle front passenger seat anchor")]
+        public TeleportationAnchor passengerSeatAnchor;
+
+        //This isnt type TeleportationAnchor because we arent teleporting XR Origin which has a teleportation provider but 
+        //rather a normal gameobject i.e steering Pivot.
+        [Header("Vehicle steering anchor")]
+        public GameObject steeringAnchor;
     }
 
     [Serializable]
@@ -71,8 +66,7 @@ namespace localizer.product.player
         public AudioSource accessRoad;
         public AudioSource locAntenna;
         public AudioSource locShelter;
-        //public AudioSource antennaDescriptionAudio;
-        //public AudioSource shelterDescriptionAudio;
+        public AudioSource finalStatement;
     }
 
     [Serializable]
@@ -83,6 +77,8 @@ namespace localizer.product.player
 
     }
 
+
+    //TODO: TO BE DELETED.
     [Serializable]
     public class LearnVRSettings
     {
@@ -115,9 +111,18 @@ namespace localizer.product.player
         //[Tooltip("Drag the canvas game object which contains the 'description screen' game object.")]
         [SerializeField] private Canvas itemsCanvas;
         [SerializeField] private LocomotionMediator locomotion;
+        [SerializeField] private AircraftSpawnManager aircraftSpawnManager;
+
+        //We initialise this to subscribe to the event isLearnVRFinished, this helps us to start moving the user in the car 
+        [SerializeField] private TutorialManager tutorialManager;
 
         [Header("Vehicles")]
         [SerializeField] private NavigateVehicle navigateVehicle;
+        
+        //We use this gameobject to lock the steering onto the car as it moves. We make the steering an independent gameobject  from the
+        //car bacause we want to perform an easy tracking of the steering movement inside the corners.
+        [Tooltip("Drag the steering pivot of your vehicle. This only works if you have enabled the above boolean doesVehicleHaveSteering")]
+        [SerializeField] private GameObject steeringPivot;
 
         /// <summary>
         /// this variable is set by other scripts specifically LifecycleManager script with the purpose of 
@@ -130,32 +135,76 @@ namespace localizer.product.player
         /// the purpose of this boolean relates to shouldSkipIntro boolean field. we want to make sure we execute
         /// the logic triggered by shouldSkipIntro in StageManager(Stages.stage6) only when the player is actually
         /// in the introduction phase, otherwise do nothing. 
+        /// also its used in AircraftSpawnManager script, to start aircraft movement only after the introduction is finished.
         /// </summary>
-        private bool isIntroActive;
+        //[HideInInspector] public bool isIntroActive;
 
         /// <summary>
         /// Used to track the audio during introduction. 
         /// </summary>
         bool hasAudioEnded;
 
-        void Start()
-        {
-            generalSettings.showDescription.descriptionScreen.SetActive(false);
-            learnVRSettings.introScreen.SetActive(false);
-            //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            StageManager(Stages.stage0);
+        /// <summary>
+        /// used to keep player locked to the car seat as the car moves. 
+        /// </summary>
+        bool isPlayerInsideCar;
 
+        /// <summary>
+        /// Event which triggers when introduction finishes. This is access by event callback methods that must run after the introduction.
+        /// </summary>
+        [HideInInspector] public event Action isIntroFinished;
+
+        private void OnEnable()
+        {
+            //if (tutorialManager != null) tutorialManager.isLearnVRFinished += StartCarNavigation;
+        }
+
+        private void OnDisable()
+        {
+            //if (tutorialManager != null) tutorialManager.isLearnVRFinished -= StartCarNavigation;
+        }
+
+        private void Start()
+        {
+            //// make sure the steering in the car is at the right position.
+            //generalSettings.teleportPlayer.hasTeleported = false;
+            //generalSettings.teleportPlayer.RequestToTeleportToAnchor(targetAnchor);
+
+        }
+
+        void StartCarNavigation()
+        {
+            //start the introduction
+            //isIntroActive = true;
+            //StageManager(Stages.stage1);
+
+            //generalSettings.showDescription.descriptionScreen.SetActive(false);
+            //learnVRSettings.introScreen.SetActive(false);
+            //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
         }
 
         private void Update()
         {
-            if (shouldSkipIntro && isIntroActive)
+            //generalSettings.teleportPlayer.RequestToTeleportToAnchor(specificAnchor.passengerSeatAnchor);
+
+            if (shouldSkipIntro )
             {
                 StageManager(Stages.stage6);
 
                 //reset the variable to prevent trigger in the next frame.
                 shouldSkipIntro = false;
             }
+        }
+
+        private void LateUpdate()
+        {
+            if (isPlayerInsideCar)
+            {
+                //lock player in car seat
+                characterSettings.playerController.transform.SetPositionAndRotation(specificAnchor.passengerSeatAnchor.transform.position, specificAnchor.passengerSeatAnchor.transform.rotation);
+
+            }
+            //generalSettings.teleportPlayer.RequestToTeleportToAnchor(specificAnchor.passengerSeatAnchor);
         }
 
         void DisablePlayerHands()
@@ -176,19 +225,19 @@ namespace localizer.product.player
             //we use enums instead of strings, to prevent bugs that come from typos "stage1" vs "stge1"
             switch (stageToAccomplish)
             {
-                case Stages.stage0:
-                    isIntroActive = true;
-                    NavigateIntroductionMenu();
-                    break;
+                //case Stages.stage0:
+                //    isIntroActive = true;
+                //    NavigateIntroductionMenu();
+                //    break;
 
                 case Stages.stage1:
-                    locomotion.gameObject.SetActive(false);
+                    //locomotion.gameObject.SetActive(false);
 
                     //attach player into the vehicle.
-                    characterSettings.playerController.transform.SetParent(navigateVehicle.transform, worldPositionStays: false);
-                    characterSettings.playerController.transform.localPosition = new Vector3(-2.63f, 0.79f, 5.39f);
-                    characterSettings.playerController.transform.rotation = Quaternion.Euler(0, 0, 0);
-                    DescribeTaxiway();
+                    ManagePlayerTeleportation(specificAnchor.passengerSeatAnchor, () => {
+                        isPlayerInsideCar = true;
+                        DescribeTaxiway();
+                    });
                     break;
 
                 case Stages.stage2:
@@ -200,121 +249,131 @@ namespace localizer.product.player
                     break;
                   
                 case Stages.stage4:
-                    //hasAudioEnded = false;
-                    //locomotion.gameObject.SetActive(true);
-                    //characterSettings.playerController.transform.SetParent(null, true);
                     DescribeLocAntenna();
                     break;
 
-                //we set hasAudioEnded = false in case statements in stage4 and 5 because of the teleportation. originally the variable is set inside the WaitForAudio() methods at their start.
-                //the methods that control stage4 and stage5 have 2 coroutines i.e the one that teleports the player and the one
-                //that waits for everything to end before calling next stage. however teleportation doesnt happen rightaway and
-                //since the methods are non blocking, the compiler will trigger the second coroutine before teleportation ends. the 
-                //variable tracked in the second coroutine hasAudioEnded is managed by the 1st coroutine, thus it can trigger next
-                //stage before the current one ends.
-                //setting the hasAudioEnded in the case statement ensures the next stage never triggers until the first coroutine finishes.
                 case Stages.stage5:
-                    //hasAudioEnded = false;
                     DescribeLocShelter();
-                    //isIntroActive = false;
                     break;
 
-                //this stage 6 is only called if the boolean variable shouldSkipIntro is activated by the user
-                //during the introduction tutorials.
                 case Stages.stage6:
                     StopAllCoroutines();
-                    Debug.Log("At last, we completed the battle.");
-                    //ensure the player isnt a child of any gameobject
-                    locomotion.gameObject.SetActive(true);
-                    characterSettings.playerController.transform.SetParent(null, true);
 
+                    //detach the player from the car.
+                    isPlayerInsideCar = false;
                     // teleport player to the entrance of the shelter
                     ManagePlayerTeleportation(
                         specificAnchor.finalAnchor,
-                        () => { }
+                        () => {
+                            // trigger the event that publishes the end of introduction.
+                            isIntroFinished?.Invoke();
+                        }
                     );
                     break;
 
             }
         }
 
-        void NavigateIntroductionMenu()
-        {
-            //we set the boolean to false to track the next stage of teleportation.
-            learnVRSettings.learnVRControllers.isIntroFinished = false;
-            ManagePlayerTeleportation(specificAnchor.introAnchor, 
-                () => {
-                    learnVRSettings.introScreen.SetActive(true);
+        //void NavigateIntroductionMenu()
+        //{
+        //    //we set the boolean to false to track the next stage of teleportation.
+        //    learnVRSettings.learnVRControllers.isIntroFinished = false;
+        //    ManagePlayerTeleportation(specificAnchor.introAnchor, 
+        //        () => {
+        //            learnVRSettings.introScreen.SetActive(true);
 
-                    //Start the learn VR screens.
-                    learnVRSettings.learnVRControllers.SetUpInitialState();
+        //            //Start the learn VR screens.
+        //            learnVRSettings.learnVRControllers.SetUpInitialState();
 
-                    StartCoroutine(WaitForAnyCondition(
-                        conditionMethod: () => learnVRSettings.learnVRControllers.isIntroFinished,
-                        actionMethod: () => {
-                            learnVRSettings.introScreen.SetActive(false);
+        //            StartCoroutine(WaitForAnyCondition(
+        //                conditionMethod: () => learnVRSettings.learnVRControllers.isIntroFinished,
+        //                actionMethod: () => {
+        //                    learnVRSettings.introScreen.SetActive(false);
 
-                            StageManager(Stages.stage1);
-                        }
-                    ));
-                });
+        //                    StageManager(Stages.stage1);
+        //                }
+        //            ));
+        //        });
 
-        }
+        //}
+
+
         /// <summary>
         /// tracks the stop position of the vehicle as it moves during introduction.  
         /// </summary>
         Vector3 vehicleStopPosition;
         void DescribeTaxiway()
         {
-            vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, 277);
-            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.taxiway, Stages.stage2, rotationPivots.taxiRunwayPivot);
+            //ensure the boolean is false so that turning can take place.
+            navigateVehicle.hasFinishedTurning = false;
+            StartCoroutine(WaitForAudio(targetedAudios.taxiway));
+            navigateVehicle.TurnVehicle(rotationPivots.apron5Pivot);
+            StartCoroutine(WaitForAnyCondition(
+                conditionMethod: () => navigateVehicle.hasFinishedTurning,
+                actionMethod: () =>
+                {
+                    navigateVehicle.hasFinishedTurning = false;
+                    vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, 278);
+                    StartCoroutine(navigateVehicle.MoveVehicleForward(vehicleStopPosition, rotationPivots.taxiRunwayPivot));
+                    StartCoroutine(WaitForAnyCondition(
+                        () => navigateVehicle.hasVehicleReached,
+                        () => StageManager(Stages.stage2)
+                    ));
+                }
+            ));
+            
         }
 
         void DescribeRunway()
         {
-            vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, -355);
-            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.runway, Stages.stage3, rotationPivots.runwayAccessRoadPivot);
+            vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, 100);
+            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.runway,()=> StageManager(Stages.stage3), rotationPivots.runwayAccessRoadPivot);
         }
 
         void DescribeAccessRoad()
         {
-            vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, 292);
-            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.accessRoad, Stages.stage4, rotationPivots.accessRdRwyPivot);
+            vehicleStopPosition = new Vector3(navigateVehicle.transform.position.x, navigateVehicle.transform.position.y, 284);
+            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.accessRoad, () => StageManager(Stages.stage4), rotationPivots.accessRdRwyPivot);
         }
 
         void DescribeLocAntenna()
         {
-            vehicleStopPosition = new Vector3(1374, navigateVehicle.transform.position.y, navigateVehicle.transform.position.z);
-            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.locAntenna, Stages.stage5);
-            //ManagePlayerTeleportation(
-            //    specificAnchor.locAntennaAnchor,
-            //    () => StartCoroutine(WaitForAudio(targetedAudios.locAntenna))
-            //);
-            //StartCoroutine(WaitForAnyCondition(
-            //    () => hasAudioEnded,
-            //    () => StageManager(Stages.stage5)
-            //    ));
+            navigateVehicle.hasFinishedTurning = false;
+            vehicleStopPosition = new Vector3(1399, navigateVehicle.transform.position.y, navigateVehicle.transform.position.z);
+            StartCoroutine(navigateVehicle.MoveVehicleForward(vehicleStopPosition));
+            StartCoroutine(WaitForAudio(targetedAudios.locAntenna));
+            StartCoroutine(WaitForAnyCondition(
+                () => navigateVehicle.hasVehicleReached,
+                () => { 
+                    navigateVehicle.TurnVehicle(rotationPivots.locAntennaPivot);
+                }
+            ));
+            StartCoroutine(WaitForAnyCondition(
+               conditionMethod: () => navigateVehicle.hasFinishedTurning,
+               actionMethod: () => StageManager(Stages.stage5)
+           ));
         }
         void DescribeLocShelter()
         {
-            vehicleStopPosition = new Vector3(1313, navigateVehicle.transform.position.y, navigateVehicle.transform.position.z);
-            //navigateVehicle.hasFinishedTurning = false;
-            //navigateVehicle.TurnVehicle(rotationPivots.locAntennaToShelterPivot);
-            //StartCoroutine(WaitForAnyCondition(
-            //    conditionMethod: () => navigateVehicle.hasFinishedTurning,
-            //    actionMethod: ()=>
-            //    {
-            //        ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.locShelter, Stages.stage6, rotationPivots.locShelterPivot);
-            //    }));
-            ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.locShelter, Stages.stage6);
-            //ManagePlayerTeleportation(
-            //    specificAnchor.finalAnchor,
-            //    () => StartCoroutine(WaitForAudio(targetedAudios.locShelter))
-            //);
-            //StartCoroutine(WaitForAnyCondition(
-            //    () => hasAudioEnded,
-            //    () => StageManager(Stages.stage6)
-            //    ));
+            navigateVehicle.hasFinishedTurning = false;
+            navigateVehicle.TurnVehicle(rotationPivots.locShelterPivot);
+            StartCoroutine(WaitForAnyCondition(
+                conditionMethod: () => navigateVehicle.hasFinishedTurning,
+                actionMethod: () =>
+                {
+                    vehicleStopPosition = new Vector3(1355, navigateVehicle.transform.position.y, navigateVehicle.transform.position.z);
+                    ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.locShelter,
+                        () =>
+                        {
+                            StartCoroutine(WaitForAudio(targetedAudios.finalStatement));
+                            StartCoroutine(WaitForAnyCondition(
+                                conditionMethod: () => hasAudioEnded,
+                                actionMethod: () => StageManager(Stages.stage6)
+                            ));
+                           
+                        }
+                    );
+                }));
         }
 
 
@@ -364,14 +423,14 @@ namespace localizer.product.player
         /// <param name="targetAudio">Audios you want to play along as the vehicle moves.</param>
         /// <param name="targetPivot">An optional parameter, the pivot which will help the vehicle turn</param>
         /// <param name="nextStage">The enum value that triggers the next stage.</param>
-        private void ManagePlayerLocomotionDuringIntro(Vector3 finalVehiclePosition, AudioSource targetAudio, Enum nextStage, BasePivot targetPivot = null)
+        private void ManagePlayerLocomotionDuringIntro(Vector3 finalVehiclePosition, AudioSource targetAudio, Action actionAfterLocomotion, BasePivot targetPivot = null)
         {
             StartCoroutine(navigateVehicle.MoveVehicleForward(finalVehiclePosition, targetPivot));
             StartCoroutine(WaitForAudio(targetAudio));
             StartCoroutine(WaitForAnyCondition(
                 () => navigateVehicle.hasVehicleReached,
                 () => hasAudioEnded,
-                () => StageManager(nextStage)
+                () => actionAfterLocomotion()
             ));
         }
 

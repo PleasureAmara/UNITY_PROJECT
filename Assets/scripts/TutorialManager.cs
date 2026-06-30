@@ -1,6 +1,52 @@
-using System.Linq;
+using localizer.core.enums;
+//local imports
+using localizer.product.descriptions;
+using localizer.product.player;
+using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+
+
+/*##########################################################################
+  #                                                                        #
+  #             for lear*ning how to use controllers.                       #
+  #                                                                        #
+  ##########################################################################*/
+[Serializable]
+public class LearnVRControllers
+{
+    //for target gameobjects
+    public HighlightController grip;
+    public HighlightController snapTurn;
+    public HighlightController MoveThumbstick;
+
+    public Canvas itemsCanvas;
+
+    //[Tooltip("Under the introduction panel in the items canvas, drag the title gameobject.")]
+    public TextMeshProUGUI title;
+
+    //[Tooltip("Under the introduction panel in the items canvas, drag the content gameobject.")]
+    public TextMeshProUGUI content;
+    public TextMeshProUGUI footer;
+
+    //[Tooltip("Under the introduction panel in the items canvas, drag the okay button gameobject.")]
+    public XRSimpleInteractable continueButton;
+    public XRSimpleInteractable tryAgainButton;
+
+    public TrackerUserInput trackUserInput;
+
+    public CharacterController xrOriginCharacterController;
+
+    /// <summary>
+    /// Represents the true value stored that is matching the active controller key expected from the user. 
+    /// It's used whenever we call the method ActionsDescriptions.FindDescription()
+    /// </summary>
+    [HideInInspector] public TargetControllerKeys actualControllerKey;
+
+}
 
 public class TutorialManager : MonoBehaviour
 {
@@ -10,55 +56,96 @@ public class TutorialManager : MonoBehaviour
     public HighlightController doorKnob;
     public HighlightController lightSwitch;
     public HighlightController localiserKnob;
-    public HighlightController distributionBoard;
+    public HighlightController[] distributionBoard;
     public HighlightController statusPanel;
     public HighlightController alertButton;
     public HighlightController localiserDoor;
     public HighlightController[] powerAmplifiers1;
     public HighlightController[] powerAmplifiers2;
+    public HighlightController interfaceCard;
     public HighlightController[] synthesizers;
     public HighlightController[] audioGenerators;
     public HighlightController[] monitor;
     public HighlightController ecu;
     public HighlightController[] batteries;
+    public HighlightController stabilizer;
+    public HighlightController awos35;
+    public HighlightController airConditioners;
+    public HighlightController[] upsBatteries;
+   
+
 
     [Header("Step UI Prefabs")]
     public GameObject outsideShelterUI;
+    public GameObject switchUI;
     public GameObject distributionBoardUI;
-    public GameObject fireExtinguishersUI;
+    
     public GameObject statusPanelUI;
     public GameObject alertButtonUI;
     public GameObject localiserDoorUI;
     public GameObject powerAmplifiers1UI;
     public GameObject powerAmplifiers2UI;
+    public GameObject interfaceCardUI;
     public GameObject synthesizersUI;
     public GameObject audioGeneratorsUI;
     public GameObject monitorUI;
     public GameObject ecuUI;
     public GameObject batteriesUI;
+    public GameObject fireExtinguishersUI;
+    public GameObject stabilizerUI;
+    public GameObject awos35UI;
+    public GameObject airConditionerUI;
+    public GameObject upsBatteriesUI;
     
-
-
     private GameObject currentUI;
     private TutorialStep nextStep;
 
     [Header("Interactions")]
     public LightSwitchInteraction lightSwitchInteraction;
 
+
+    //the learn vr class
+    //public HighlightController grip;
+    //[SerializeField] private LearnVRControllers learnVRControllers;
+
+    /// <summary>
+    /// the role is to notify all callback methods that should start only after the learn VR Tutorials are finished.
+    /// </summary>
+    //[HideInInspector] public event Action isLearnVRFinished;
+
+    //private void OnEnable()
+    //{
+    //    learnVRControllers.trackUserInput.OnUserPressed += ManageUserActions;
+    //    learnVRControllers.continueButton.selectEntered.RemoveAllListeners();
+    //    learnVRControllers.continueButton.selectEntered.AddListener(ManageContinueButton);
+    //}
+
+    //private void OnDisable()
+    //{
+    //    learnVRControllers.trackUserInput.OnUserPressed -= ManageUserActions;
+    //    learnVRControllers.continueButton.selectEntered.RemoveAllListeners();
+
+    //}
+
+
     void Start()
     {
-        DoorInteraction.DoorOpened += HandleDoorOpened;
         LightSwitchInteraction.LightsToggle += HandleLightsToggled;
-       // CloseBtn.CloseBtnPressed += HandleCloseBtnPressed;
-
         SetState(TutorialStep.OutsideShelter);
+
+        ////Wait for the xrorigin to initialise all its children gameobjects before we SetState()
+        //StartCoroutine(StartSetState());
+
+        ////============================TODO =========================: Find why the method returns error for xrorigin
+        //////objects but not for normal objects.
+        //if (learnVRControllers.itemsCanvas != null)  learnVRControllers.itemsCanvas.gameObject.SetActive(true);
+        //if (learnVRControllers.continueButton != null) learnVRControllers.continueButton.gameObject.SetActive(false);
     }
 
     private void OnDestroy()
     {
-        DoorInteraction.DoorOpened -= HandleDoorOpened;
         LightSwitchInteraction.LightsToggle -= HandleLightsToggled;
-        //CloseBtn.CloseBtnPressed -= HandleCloseBtnPressed;
+       
     }
 
     // ===================== STATE MANAGEMENT =====================
@@ -66,11 +153,19 @@ public class TutorialManager : MonoBehaviour
     public void SetState(TutorialStep newState)
     {
         currentState = newState;
-
+     
         // Reset highlights
+        //grip.SetHighlight(false);
+        //learnVRControllers.snapTurn.SetHighlight(false);
+        //learnVRControllers.MoveThumbstick.SetHighlight(false);
+
         doorKnob.SetHighlight(false);
         lightSwitch.SetHighlight(false);
-        distributionBoard.SetHighlight(false);
+        foreach (var db in distributionBoard)
+        {
+            db.SetHighlight(false);
+        }
+
         statusPanel.SetHighlight(false);
         alertButton.SetHighlight(false);
         localiserDoor.SetHighlight(false);
@@ -104,11 +199,69 @@ public class TutorialManager : MonoBehaviour
         {
             bt.SetHighlight(false);
         }
+        stabilizer.SetHighlight(false);
+        awos35.SetHighlight(false);
+        airConditioners.SetHighlight(false);
+        interfaceCard.SetHighlight(false);
 
+        foreach (var bt in upsBatteries)
+        {
+            bt.SetHighlight(false);
+        }
         HideCurrentUI();
 
+        //string associatedContent;
         switch (currentState)
         {
+            
+            ////learning vr controllers
+            //case TutorialStep.WelcomeToVR:
+            //    string associatedContent = ActionsDescriptions.FindDescription(TutorialStep.WelcomeToVR, out learnVRControllers.actualControllerKey);
+            //    learnVRControllers.title.text = "Welcome to VR tutorial";
+            //    learnVRControllers.content.text = associatedContent;
+            //    //highlight the button and set stage for the next step
+            //    learnVRControllers.grip.SetHighlight(true);
+            //    nextStep = TutorialStep.LearningGrip;
+            //    break;
+
+            //case TutorialStep.LearningGrip:
+            //    associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningGrip, out learnVRControllers.actualControllerKey);
+            //    learnVRControllers.title.text = "Selecting buttons and Opening doors";
+            //    learnVRControllers.content.text = associatedContent;
+                
+            //    learnVRControllers.snapTurn.SetHighlight(true);
+            //    nextStep = TutorialStep.LearningTurning;
+            //    break;
+
+            //case TutorialStep.LearningTurning:
+            //    associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningTurning, out learnVRControllers.actualControllerKey);
+            //    learnVRControllers.title.text = "Turning with controllers.";
+            //    learnVRControllers.content.text = associatedContent;
+
+            //    learnVRControllers.MoveThumbstick.SetHighlight(true);
+            //    nextStep = TutorialStep.LearningStraightMovt;
+
+            //    //try
+            //    learnVRControllers.continueButton.gameObject.SetActive(true);
+            //    nextStep = TutorialStep.OutsideShelter;
+            //    break;
+
+            //case TutorialStep.LearningStraightMovt:
+            //    associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningStraightMovt, out learnVRControllers.actualControllerKey);
+            //    learnVRControllers.title.text = "Straight Locomotion";
+            //    learnVRControllers.content.text = associatedContent;
+            //    nextStep = TutorialStep.FinishVRControllerLearning;
+            //    break;
+
+            //case TutorialStep.FinishVRControllerLearning:
+            //    associatedContent = ActionsDescriptions.FindDescription(TutorialStep.FinishVRControllerLearning, out learnVRControllers.actualControllerKey);
+            //    learnVRControllers.title.text = "Conclusion";
+            //    learnVRControllers.content.text = associatedContent;
+            //    learnVRControllers.continueButton.gameObject.SetActive(true);
+
+            //    nextStep = TutorialStep.OutsideShelter;
+            //    break;
+
             case TutorialStep.OutsideShelter:
                 doorKnob.SetHighlight(true);
                 ShowUI(outsideShelterUI);
@@ -117,11 +270,15 @@ public class TutorialManager : MonoBehaviour
 
             case TutorialStep.TurnOnLights:
                 lightSwitch.SetHighlight(true);
+                ShowUI(switchUI);
                 nextStep = TutorialStep.DistributionBoard;
                 break;
 
             case TutorialStep.DistributionBoard:
-                distributionBoard.SetHighlight(true);
+                foreach (var db in distributionBoard)
+                {
+                    db.SetHighlight(true);
+                }
                 ShowUI(distributionBoardUI);
                 nextStep = TutorialStep.StatusPanel;
                 break;
@@ -160,10 +317,16 @@ public class TutorialManager : MonoBehaviour
                 {
                     pa.SetHighlight(true);
                 }
-
                 ShowUI(powerAmplifiers2UI);
+                nextStep = TutorialStep.interfaceCard;
+                break;
+
+            case TutorialStep.interfaceCard:
+                interfaceCard.SetHighlight(true);
+                ShowUI(interfaceCardUI);
                 nextStep = TutorialStep.Synthesizers;
                 break;
+
 
             case TutorialStep.Synthesizers:
                 foreach (var sy in synthesizers)
@@ -214,7 +377,34 @@ public class TutorialManager : MonoBehaviour
 
             case TutorialStep.FireExtinguishers:
                 ShowUI(fireExtinguishersUI);
+                nextStep = TutorialStep.voltageStabilizer;
+                break;
+
+            case TutorialStep.voltageStabilizer:
+                stabilizer.SetHighlight(true);
+                ShowUI(stabilizerUI);
+                nextStep = TutorialStep.awosCabinet;
+                break;
+
+            case TutorialStep.awosCabinet:
+                awos35.SetHighlight(true);
+                ShowUI(awos35UI);
                 nextStep = TutorialStep.AirConditioners;
+                break;
+
+            case TutorialStep.AirConditioners:
+                airConditioners.SetHighlight(true);
+                ShowUI(airConditionerUI);
+                nextStep = TutorialStep.upsBatteries;
+                break;
+
+            case TutorialStep.upsBatteries:
+                foreach (var bt in upsBatteries)
+                {
+                    bt.SetHighlight(true);
+                }
+                ShowUI(upsBatteriesUI);
+                nextStep = TutorialStep.Completed;
                 break;
 
 
@@ -233,7 +423,7 @@ public class TutorialManager : MonoBehaviour
 
         currentUI = Instantiate(prefab);
 
-        // No positioning logic ? prefab keeps its designed position
+        
         currentUI.SetActive(true);
         XRBaseInteractable xrButton = currentUI.GetComponentInChildren<XRBaseInteractable>(true);
 
@@ -261,13 +451,7 @@ public class TutorialManager : MonoBehaviour
 
     // ===================== EVENTS =====================
 
-    private void HandleDoorOpened(DoorInteraction door)
-    {
-        if (currentState != TutorialStep.OutsideShelter)
-            return;
-
-        SetState(TutorialStep.TurnOnLights);
-    }
+  
 
     private void HandleLightsToggled(LightSwitchInteraction swh, bool isOn)
     {
@@ -280,13 +464,45 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    //private void HandleCloseBtnPressed(CloseBtn button)
+    /// <summary>
+    /// For managing callbacks whenever  a user presses controller key.
+    /// </summary>
+    /// <param name="pressedKeys"> the List of actions triggered by a key press.</param>
+    //private void ManageUserActions(string pressedKey)
     //{
-    //    HideCurrentUI();
+    //    string actualControllerKeyString = learnVRControllers.actualControllerKey.ToString();
+    //    //Debug.Log($"Actual string:------------> {actualControllerKeyString}");
 
-    //    if (currentState == TutorialStep.LocaliserOverView)
+    //    //Correct the snap turn string. 
+    //    if (actualControllerKeyString == "SnapTurn") actualControllerKeyString = "Snap Turn";
+    //    //if (pressedKeys.Contains(actualControllerKeyString))
+    //    if (pressedKey == actualControllerKeyString)
     //    {
-    //        SetState(TutorialStep.HighlightLocaliserKnob);
+    //        //Debug.Log("Condition passed. Advancing to next level.");
+    //        SetState(nextStep);
+
     //    }
+
     //}
+
+    /// <summary>
+    /// only triggers when the continue button is clicked.
+    /// </summary>
+    /// <param name="args"></param>
+    //private void ManageContinueButton(SelectEnterEventArgs args)
+    //{
+    //    learnVRControllers.itemsCanvas.gameObject.SetActive(false);
+    //    isLearnVRFinished?.Invoke();
+    //}
+
+    //IEnumerator StartSetState()
+    //{
+    //    while (learnVRControllers.xrOriginCharacterController.transform.GetComponentInChildren<HighlightController>() == null)
+    //    {
+    //        yield return null;
+    //    }
+
+    //    SetState(TutorialStep.WelcomeToVR);
+    //}
+
 }

@@ -10,13 +10,23 @@ public enum TutorialStep
     LocaliserDoor,
     MODPA1,
     MODPA2,
+    interfaceCard,
     Synthesizers,
     AudioGenerators,
     monitor,
     ECU,
     batteries,
     FireExtinguishers,
+    voltageStabilizer,
+    awosCabinet,
     AirConditioners,
-    Completed
+    upsBatteries,
+    Completed,
 
+    //learning controls
+    WelcomeToVR,
+    LearningGrip,
+    LearningTurning,
+    LearningStraightMovt,
+    FinishVRControllerLearning
 }

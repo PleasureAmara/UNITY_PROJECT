@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class HighlightController : MonoBehaviour
 {
-
     private MeshRenderer rend;
     private MaterialPropertyBlock propBlock;
 
@@ -14,7 +13,6 @@ public class HighlightController : MonoBehaviour
         propBlock = new MaterialPropertyBlock();
         if (rend == null)
             rend = GetComponent<MeshRenderer>();
-        
     }
 
     public void SetHighlight(bool active)

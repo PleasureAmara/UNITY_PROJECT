@@ -9,35 +9,36 @@ namespace localizer.product.vehicle
         /// we use the general logic of NavigateVehicle class to move the aircrafts too. this is the role of this instance.
         [SerializeField] private NavigateVehicle navigateVehicle;
 
-        //[SerializeField] private float maxTakeOffSpeed = 30.0f;
-        //[SerializeField] private float acceleration = 1.0f;
-        [SerializeField] private float climbSpeed = 8.0f;
-        [SerializeField] private float startClimbLimit = 50.0f;
+        private float climbSpeed = 0.1f;
+        private float startClimbLimit = -870.0f;
 
-        private readonly float visualLimitZ = -2500.0f;
+        private readonly float visualLimitZ = -6000.0f;
         [HideInInspector] public bool isAircraftVisual;
         
         public void StartTakeOff()
         {
-            StartCoroutine(TakeOffTh17());
+            //StartCoroutine(TakeOffTh17());
+            StartCoroutine(TakeOffManager());
             StartCoroutine(TrackAircraft());
         }
 
-        //IEnumerator TakeOffManager()
-        //{
-        //    while (isAircraftVisual)
-        //    {
-        //        transform.Translate(takeOffSpeed * Time.deltaTime * Vector3.forward, Space.Self);
-        //        takeOffSpeed += acceleration;
+        IEnumerator TakeOffManager()
+        {
+            isAircraftVisual = true;
+            StartCoroutine(navigateVehicle.AccelerateVehicle(navigateVehicle.maxForwardSpeed, navigateVehicle.acceleration));
+            while (isAircraftVisual)
+            {
+                //Debug.Log($"Vehicle posistion z: {transform.position.z}");
+                transform.Translate(navigateVehicle.vehicleSpeed * Time.deltaTime * Vector3.forward, Space.Self);
 
-        //        if (transform.position.z < startClimbLimit)
-        //        {
-        //            transform.Rotate(climbSpeed * Time.deltaTime * Vector3.left);
-        //        }
-        //        yield return null;
-        //    }
+                if (transform.position.z < startClimbLimit)
+                {
+                    transform.Rotate(climbSpeed * Time.deltaTime * Vector3.left);
+                }
+                yield return null;
+            }
 
-        //}
+        }
 
 
         IEnumerator TakeOffTh17()

@@ -10,14 +10,17 @@ namespace localizer.product.vehicle
         //[SerializeField] private TaxiRwyPivot taxiRwyPivot;
 
         [Header("Speed values")]
-        [SerializeField] private float maxForwardSpeed = 15.0f;
+        [SerializeField] public  float maxForwardSpeed = 15.0f;
         [SerializeField] private float minForwardSpeed = 5.0f;
-        [SerializeField] private float stoppingSpeed = 3.0f;
+        [SerializeField] private float stoppingSpeed = 3.0f; 
+        [SerializeField] private bool doesVehicleHaveSteering;
+        [Tooltip("Drag the steering pivot of your vehicle. This only works if you have enabled the above boolean doesVehicleHaveSteering")]
+        [SerializeField] private GameObject steeringPivot;
 
         [HideInInspector] public bool hasVehicleReached;
 
-        float vehicleSpeed = 0f;
-        float acceleration = 0.5f;
+        [HideInInspector] public float vehicleSpeed = 0f;
+        [HideInInspector] public readonly float acceleration = 0.5f;
         float deceleration = 1.0f;
         float finalDeceleration = 0.5f;
 
@@ -36,10 +39,15 @@ namespace localizer.product.vehicle
         /// <returns></returns>
         public IEnumerator MoveVehicleForward(Vector3 stopPosition, BasePivot rotationPivot = null)
         {
+            
             Vector3 startPosition = transform.position;
             float distanceBtnStopNStart = Vector3.Distance(startPosition, stopPosition);
             float distanceToDeceleratePosition = 0.75f * distanceBtnStopNStart; 
             float distanceToStoppingPosition = 0.875f * distanceBtnStopNStart;
+
+            Debug.Log($"Start position: {startPosition}");
+            Debug.Log($"stop position passed as parameter: {stopPosition}");
+            Debug.Log($"Distance Start n stop position: {distanceBtnStopNStart}");
 
             hasVehicleReached = false;
 
@@ -61,26 +69,31 @@ namespace localizer.product.vehicle
             Coroutine AccelerateCoroutine = StartCoroutine(AccelerateVehicle(maxForwardSpeed, acceleration));
             while (Mathf.Abs(distanceBtnStopNStart- Vector3.Distance(transform.position, stopPosition)) < distanceToDeceleratePosition)
             {
-                Debug.Log($"Vehicle speed: {vehicleSpeed}");
+                //Debug.Log($"Vehicle speed: {vehicleSpeed}");
                 transform.position = Vector3.MoveTowards(transform.position, stopPosition, vehicleSpeed * Time.deltaTime);
+                //Debug.Log($"Vehicle position: {transform.position}");
                 yield return null;
             }
 
-            StopCoroutine(AccelerateCoroutine);
+            //StopCoroutine(AccelerateCoroutine);
+            StopAllCoroutines();
             Coroutine decelerateCoroutine = StartCoroutine(DecelerateVehicle(minForwardSpeed, deceleration));
             while (Mathf.Abs(distanceBtnStopNStart - Vector3.Distance(transform.position, stopPosition)) < distanceToStoppingPosition)
             {
-                Debug.Log($"Vehicle speed: {vehicleSpeed}");
+                //Debug.Log($"Vehicle speed: {vehicleSpeed}");
                 transform.position = Vector3.MoveTowards(transform.position, stopPosition, vehicleSpeed * Time.deltaTime);
+                //Debug.Log($"Vehicle position: {transform.position}");
                 yield return null;
             }
 
-            StopCoroutine(decelerateCoroutine);
+            //StopCoroutine(decelerateCoroutine);
+            StopAllCoroutines();
             Coroutine stopCoroutine = StartCoroutine(DecelerateVehicle(stoppingSpeed, finalDeceleration));
             while (Mathf.Abs(distanceBtnStopNStart - Vector3.Distance(transform.position, stopPosition)) < distanceBtnStopNStart)
             {
-                Debug.Log($"Vehicle speed: {vehicleSpeed}");
+                
                 transform.position = Vector3.MoveTowards(transform.position, stopPosition, vehicleSpeed * Time.deltaTime);
+                //Debug.Log($"Vehicle position: {transform.position}");
                 yield return null;
             }
 
@@ -98,9 +111,9 @@ namespace localizer.product.vehicle
             hasVehicleReached = true;
         }
 
-        IEnumerator AccelerateVehicle(float maxSpeed, float accelerationValue)
+        public IEnumerator AccelerateVehicle(float maxSpeed, float accelerationValue)
         {
-            Debug.Log($"max forward speed: {maxSpeed}");
+            //Debug.Log($"max forward speed: {maxSpeed}");
             while (vehicleSpeed < maxSpeed)
             {
                 vehicleSpeed += accelerationValue;
@@ -121,9 +134,12 @@ namespace localizer.product.vehicle
         public void TurnVehicle(BasePivot pivot)
         {
             pivot.attachedVehicleScript = this;
+            if (doesVehicleHaveSteering && steeringPivot != null)
+            {
+                StartCoroutine(pivot.RotatePivot(steeringPivot));
+                return;
+            }
             StartCoroutine(pivot.RotatePivot());
-            return;
-           
         }
     }
 }

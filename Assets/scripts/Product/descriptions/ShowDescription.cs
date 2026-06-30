@@ -15,22 +15,22 @@ namespace localizer.product.descriptions
 
         [SerializeField] private TextMeshProUGUI textInScreen;
 
-        public void RenderScreen()
-        {
-            //the variable pressedKey stores the key pressed by the user on the controller. 
+        //public void RenderScreen()
+        //{
+        //    //the variable pressedKey stores the key pressed by the user on the controller. 
 
-            var targetDescription = ActionsDescriptions.FindDescription(actionToPerform, out string pressedKey);
-            if (string.IsNullOrEmpty(targetDescription))
-            {
-                Debug.LogError($"The search key: '{targetDescription}' doesnt exist.");
-                return;
-            }
-            //var targetAction = ActionsDescriptions._allActionsArray.First(a => a.Name == actionToPerform);
+        //    var targetDescription = ActionsDescriptions.FindDescription(actionToPerform, out string pressedKey);
+        //    if (string.IsNullOrEmpty(targetDescription))
+        //    {
+        //        Debug.LogError($"The search key: '{targetDescription}' doesnt exist.");
+        //        return;
+        //    }
+        //    //var targetAction = ActionsDescriptions._allActionsArray.First(a => a.Name == actionToPerform);
 
-            textInScreen.text  = targetDescription;
-            descriptionScreen.SetActive(true);
+        //    textInScreen.text  = targetDescription;
+        //    descriptionScreen.SetActive(true);
            
-        }
+        //}
 
     }
 }

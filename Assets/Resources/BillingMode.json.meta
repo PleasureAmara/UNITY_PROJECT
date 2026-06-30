@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/prefabs/ECUI.prefab.meta
+guid: 9268479977456c2458f182d49a00fa9e
+PrefabImporter:
+========
 guid: a97ceea174d68ec40ab3dfe49d81d95b
 TextScriptImporter:
+>>>>>>>> Stashed changes:Assets/Resources/BillingMode.json.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

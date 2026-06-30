@@ -21,6 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/localizer110.unity
     guid: 25ebfbc2981cdd549b88d0a5c2b243f4
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8e91003b5f1aa54489ed7d62d38a9d74, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 248df220f15a2c2459a4067a36783f52, type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: bb3eff8a4b0b5064fb99b66d13433e71, type: 2}

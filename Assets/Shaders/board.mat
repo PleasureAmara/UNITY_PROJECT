@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: board
   m_Shader: {fileID: -6465566751694194690, guid: e802c3fcc13f5f64a86cc3e2bf85ea7f, type: 3}
-  m_Parent: {fileID: 2100000, guid: 4252e539f880e5a41a3c0bbcc5be9d31, type: 2}
+  m_Parent: {fileID: -876546973899608171, guid: e802c3fcc13f5f64a86cc3e2bf85ea7f, type: 3}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -38,9 +38,12 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _GlowStrength: 50
+    - _PulseSpeed: 0.5
+    - _QueueControl: 0
     m_Colors:
     - _EmissionColor: {r: 0.061884284, g: 0.93710685, b: 0.9172121, a: 0}
-    - _NeonColor: {r: 0.5019608, g: 0.5019608, b: 0, a: 1}
+    - _NeonColor: {r: 0.3333333, g: 0.4196079, b: 0.1843137, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

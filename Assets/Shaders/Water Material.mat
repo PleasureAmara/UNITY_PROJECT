@@ -52,10 +52,11 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 1
-    - _Strength: 0.035
+    - _Strength: 0.055
+    - _XRMotionVectorsPass: 1
     m_Colors:
-    - _Deep_Water_Color: {r: 0.04509303, g: 0.77974087, b: 0.9559748, a: 0.9137255}
-    - _Shallow_Water_Color: {r: 0.18731451, g: 0.73909837, b: 0.7735849, a: 0.8156863}
+    - _Deep_Water_Color: {r: 0.11485406, g: 0.66364694, b: 0.8396226, a: 0.9137255}
+    - _Shallow_Water_Color: {r: 0.20496619, g: 0.7797798, b: 0.8867924, a: 0.8156863}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3752481208186891514

@@ -43,10 +43,10 @@ namespace localizer.product.player
 
         void ManageDescription()
         {
-            if (isAlreadySelected) return;
+            //    if (isAlreadySelected) return;
 
-            showDescriptionScript.RenderScreen();
-            isAlreadySelected = true;
+            //    showDescriptionScript.RenderScreen();
+            //    isAlreadySelected = true;
         }
 
     }

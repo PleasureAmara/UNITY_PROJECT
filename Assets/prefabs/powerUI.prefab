@@ -103,17 +103,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1397837522829723296}
-  m_LocalRotation: {x: 0, y: 0.84146357, z: 0, w: 0.54031384}
-  m_LocalPosition: {x: 0, y: 0, z: 363.397}
+  m_LocalRotation: {x: -0, y: 0.84235626, z: -0, w: 0.5389212}
+  m_LocalPosition: {x: 0, y: 0, z: 382.678}
   m_LocalScale: {x: 0.0020338811, y: 0.001944978, z: 0.005}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5813253492397458852}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 114.59, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 114.78, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1314.233, y: 49.991}
+  m_AnchoredPosition: {x: 1350.94, y: 49.032}
   m_SizeDelta: {x: 400, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6927577997144944672
@@ -478,7 +478,8 @@ MonoBehaviour:
 
     The power supply at the bottom of the equipment is taken
     from mains or from an existing DC power supply(batteries at the back of the room).
-    It therefore contains a mains module with battery charger (BCPS)'
+    It therefore contains a mains module with battery charger (BCPS). [Close the
+    rack door]'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
