@@ -19,10 +19,10 @@ namespace localizer.product.ui
     public class LifecycleManager : MonoBehaviour
     {
         /// <summary>
-        /// the purpose of this instance is to control when the shouldSkipIntro bool variable should 
-        /// trigger. 
+        /// the purpose of this event is to control the introduction logic IntroductionManager script
         /// </summary>
-        [SerializeField] private IntroductionManager introductionManager;
+        //[SerializeField] private IntroductionManager introductionManager;
+        public event Action shouldSkipIntro;
 
         [Tooltip("Add the character controller component attached to the XR origin")]
         [SerializeField] private CharacterController characterController;
@@ -127,7 +127,8 @@ namespace localizer.product.ui
 
         void ManageSkipIntro(SelectEnterEventArgs args)
         {
-            introductionManager.shouldSkipIntro = true;
+            //introductionManager.shouldSkipIntro = true;
+            shouldSkipIntro?.Invoke();
             CloseMenu();
         }
 

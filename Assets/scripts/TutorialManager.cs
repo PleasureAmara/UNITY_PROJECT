@@ -30,11 +30,11 @@ public class LearnVRControllers
 
     //[Tooltip("Under the introduction panel in the items canvas, drag the content gameobject.")]
     public TextMeshProUGUI content;
-    public TextMeshProUGUI footer;
+    //public TextMeshProUGUI footer;
 
     //[Tooltip("Under the introduction panel in the items canvas, drag the okay button gameobject.")]
     public XRSimpleInteractable continueButton;
-    public XRSimpleInteractable tryAgainButton;
+    //public XRSimpleInteractable tryAgainButton;
 
     public TrackerUserInput trackUserInput;
 
@@ -105,36 +105,35 @@ public class TutorialManager : MonoBehaviour
 
 
     //the learn vr class
-    //public HighlightController grip;
-    //[SerializeField] private LearnVRControllers learnVRControllers;
+    [SerializeField] private LearnVRControllers learnVRControllers;
 
     /// <summary>
     /// the role is to notify all callback methods that should start only after the learn VR Tutorials are finished.
     /// </summary>
-    //[HideInInspector] public event Action isLearnVRFinished;
+    [HideInInspector] public event Action isLearnVRFinished;
 
-    //private void OnEnable()
-    //{
-    //    learnVRControllers.trackUserInput.OnUserPressed += ManageUserActions;
-    //    learnVRControllers.continueButton.selectEntered.RemoveAllListeners();
-    //    learnVRControllers.continueButton.selectEntered.AddListener(ManageContinueButton);
-    //}
+    private void OnEnable()
+    {
+        learnVRControllers.trackUserInput.OnUserPressed += ManageUserActions;
+        learnVRControllers.continueButton.selectEntered.RemoveAllListeners();
+        learnVRControllers.continueButton.selectEntered.AddListener(ManageContinueButton);
+    }
 
-    //private void OnDisable()
-    //{
-    //    learnVRControllers.trackUserInput.OnUserPressed -= ManageUserActions;
-    //    learnVRControllers.continueButton.selectEntered.RemoveAllListeners();
+    private void OnDisable()
+    {
+        learnVRControllers.trackUserInput.OnUserPressed -= ManageUserActions;
+        learnVRControllers.continueButton.selectEntered.RemoveAllListeners();
 
-    //}
+    }
 
 
     void Start()
     {
         LightSwitchInteraction.LightsToggle += HandleLightsToggled;
-        SetState(TutorialStep.OutsideShelter);
+        //SetState(TutorialStep.OutsideShelter);
 
-        ////Wait for the xrorigin to initialise all its children gameobjects before we SetState()
-        //StartCoroutine(StartSetState());
+        //Wait for the xrorigin to initialise all its children gameobjects before we SetState()
+        StartCoroutine(StartSetState());
 
         ////============================TODO =========================: Find why the method returns error for xrorigin
         //////objects but not for normal objects.
@@ -155,9 +154,9 @@ public class TutorialManager : MonoBehaviour
         currentState = newState;
      
         // Reset highlights
-        //grip.SetHighlight(false);
-        //learnVRControllers.snapTurn.SetHighlight(false);
-        //learnVRControllers.MoveThumbstick.SetHighlight(false);
+        learnVRControllers.grip.SetHighlight(false);
+        learnVRControllers.snapTurn.SetHighlight(false);
+        learnVRControllers.MoveThumbstick.SetHighlight(false);
 
         doorKnob.SetHighlight(false);
         lightSwitch.SetHighlight(false);
@@ -213,54 +212,57 @@ public class TutorialManager : MonoBehaviour
         //string associatedContent;
         switch (currentState)
         {
-            
-            ////learning vr controllers
-            //case TutorialStep.WelcomeToVR:
-            //    string associatedContent = ActionsDescriptions.FindDescription(TutorialStep.WelcomeToVR, out learnVRControllers.actualControllerKey);
-            //    learnVRControllers.title.text = "Welcome to VR tutorial";
-            //    learnVRControllers.content.text = associatedContent;
-            //    //highlight the button and set stage for the next step
-            //    learnVRControllers.grip.SetHighlight(true);
-            //    nextStep = TutorialStep.LearningGrip;
-            //    break;
 
-            //case TutorialStep.LearningGrip:
-            //    associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningGrip, out learnVRControllers.actualControllerKey);
-            //    learnVRControllers.title.text = "Selecting buttons and Opening doors";
-            //    learnVRControllers.content.text = associatedContent;
-                
-            //    learnVRControllers.snapTurn.SetHighlight(true);
-            //    nextStep = TutorialStep.LearningTurning;
-            //    break;
+            //learning vr controllers
+            case TutorialStep.WelcomeToVR:
+                string associatedContent = ActionsDescriptions.FindDescription(TutorialStep.WelcomeToVR, out learnVRControllers.actualControllerKey);
+                learnVRControllers.title.text = "Welcome to VR tutorial";
+                learnVRControllers.content.text = associatedContent;
+                //highlight the button and set stage for the next step
+                learnVRControllers.grip.SetHighlight(true);
+                nextStep = TutorialStep.LearningGrip;
+                break;
 
-            //case TutorialStep.LearningTurning:
-            //    associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningTurning, out learnVRControllers.actualControllerKey);
-            //    learnVRControllers.title.text = "Turning with controllers.";
-            //    learnVRControllers.content.text = associatedContent;
+            case TutorialStep.LearningGrip:
+                associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningGrip, out learnVRControllers.actualControllerKey);
+                learnVRControllers.title.text = "Selecting buttons and Opening doors";
+                learnVRControllers.content.text = associatedContent;
 
-            //    learnVRControllers.MoveThumbstick.SetHighlight(true);
-            //    nextStep = TutorialStep.LearningStraightMovt;
+                learnVRControllers.snapTurn.SetHighlight(true);
+                nextStep = TutorialStep.LearningTurning;
+                break;
 
-            //    //try
-            //    learnVRControllers.continueButton.gameObject.SetActive(true);
-            //    nextStep = TutorialStep.OutsideShelter;
-            //    break;
+            case TutorialStep.LearningTurning:
+                associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningTurning, out learnVRControllers.actualControllerKey);
+                learnVRControllers.title.text = "Turning with controllers.";
+                learnVRControllers.content.text = associatedContent;
 
-            //case TutorialStep.LearningStraightMovt:
-            //    associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningStraightMovt, out learnVRControllers.actualControllerKey);
-            //    learnVRControllers.title.text = "Straight Locomotion";
-            //    learnVRControllers.content.text = associatedContent;
-            //    nextStep = TutorialStep.FinishVRControllerLearning;
-            //    break;
+                //learnVRControllers.MoveThumbstick.SetHighlight(true);
+                //nextStep = TutorialStep.LearningStraightMovt;
 
-            //case TutorialStep.FinishVRControllerLearning:
-            //    associatedContent = ActionsDescriptions.FindDescription(TutorialStep.FinishVRControllerLearning, out learnVRControllers.actualControllerKey);
-            //    learnVRControllers.title.text = "Conclusion";
-            //    learnVRControllers.content.text = associatedContent;
-            //    learnVRControllers.continueButton.gameObject.SetActive(true);
+                //try
+                learnVRControllers.continueButton.gameObject.SetActive(true);
+                nextStep = TutorialStep.OutsideShelter;
+                //SetState(nextStep);
+                //try
 
-            //    nextStep = TutorialStep.OutsideShelter;
-            //    break;
+                break;
+
+            case TutorialStep.LearningStraightMovt:
+                associatedContent = ActionsDescriptions.FindDescription(TutorialStep.LearningStraightMovt, out learnVRControllers.actualControllerKey);
+                learnVRControllers.title.text = "Straight Locomotion";
+                learnVRControllers.content.text = associatedContent;
+                nextStep = TutorialStep.FinishVRControllerLearning;
+                break;
+
+            case TutorialStep.FinishVRControllerLearning:
+                associatedContent = ActionsDescriptions.FindDescription(TutorialStep.FinishVRControllerLearning, out learnVRControllers.actualControllerKey);
+                learnVRControllers.title.text = "Conclusion";
+                learnVRControllers.content.text = associatedContent;
+                learnVRControllers.continueButton.gameObject.SetActive(true);
+
+                nextStep = TutorialStep.OutsideShelter;
+                break;
 
             case TutorialStep.OutsideShelter:
                 doorKnob.SetHighlight(true);
@@ -468,41 +470,41 @@ public class TutorialManager : MonoBehaviour
     /// For managing callbacks whenever  a user presses controller key.
     /// </summary>
     /// <param name="pressedKeys"> the List of actions triggered by a key press.</param>
-    //private void ManageUserActions(string pressedKey)
-    //{
-    //    string actualControllerKeyString = learnVRControllers.actualControllerKey.ToString();
-    //    //Debug.Log($"Actual string:------------> {actualControllerKeyString}");
+    private void ManageUserActions(string pressedKey)
+    {
+        string actualControllerKeyString = learnVRControllers.actualControllerKey.ToString();
+        //Debug.Log($"Actual string:------------> {actualControllerKeyString}");
 
-    //    //Correct the snap turn string. 
-    //    if (actualControllerKeyString == "SnapTurn") actualControllerKeyString = "Snap Turn";
-    //    //if (pressedKeys.Contains(actualControllerKeyString))
-    //    if (pressedKey == actualControllerKeyString)
-    //    {
-    //        //Debug.Log("Condition passed. Advancing to next level.");
-    //        SetState(nextStep);
+        //Correct the snap turn string. 
+        if (actualControllerKeyString == "SnapTurn") actualControllerKeyString = "Snap Turn";
+        if (pressedKey == actualControllerKeyString)
+        {
+            //Debug.Log("Condition passed. Advancing to next level.");
+            SetState(nextStep);
 
-    //    }
+        }
 
-    //}
+    }
 
     /// <summary>
     /// only triggers when the continue button is clicked.
     /// </summary>
     /// <param name="args"></param>
-    //private void ManageContinueButton(SelectEnterEventArgs args)
-    //{
-    //    learnVRControllers.itemsCanvas.gameObject.SetActive(false);
-    //    isLearnVRFinished?.Invoke();
-    //}
+    private void ManageContinueButton(SelectEnterEventArgs args)
+    {
+        learnVRControllers.itemsCanvas.gameObject.SetActive(false);
+        SetState(nextStep);
+        isLearnVRFinished?.Invoke();
+    }
 
-    //IEnumerator StartSetState()
-    //{
-    //    while (learnVRControllers.xrOriginCharacterController.transform.GetComponentInChildren<HighlightController>() == null)
-    //    {
-    //        yield return null;
-    //    }
+    IEnumerator StartSetState()
+    {
+        while (learnVRControllers.xrOriginCharacterController.transform.GetComponentInChildren<HighlightController>() == null)
+        {
+            yield return null;
+        }
 
-    //    SetState(TutorialStep.WelcomeToVR);
-    //}
+        SetState(TutorialStep.WelcomeToVR);
+    }
 
 }

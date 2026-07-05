@@ -45,9 +45,9 @@ namespace localizer.product.vehicle
             float distanceToDeceleratePosition = 0.75f * distanceBtnStopNStart; 
             float distanceToStoppingPosition = 0.875f * distanceBtnStopNStart;
 
-            Debug.Log($"Start position: {startPosition}");
-            Debug.Log($"stop position passed as parameter: {stopPosition}");
-            Debug.Log($"Distance Start n stop position: {distanceBtnStopNStart}");
+            //Debug.Log($"Start position: {startPosition}");
+            //Debug.Log($"stop position passed as parameter: {stopPosition}");
+            //Debug.Log($"Distance Start n stop position: {distanceBtnStopNStart}");
 
             hasVehicleReached = false;
 

@@ -26,13 +26,18 @@ namespace localizer.product.vehicle
         {
             isAircraftVisual = true;
             StartCoroutine(navigateVehicle.AccelerateVehicle(navigateVehicle.maxForwardSpeed, navigateVehicle.acceleration));
+            //Vector3 startClimbPosition = new (transform.position.x, transform.position.y, startClimbLimit);
+            //StartCoroutine(navigateVehicle.MoveVehicleForward(startClimbPosition));
+
+
             while (isAircraftVisual)
             {
                 //Debug.Log($"Vehicle posistion z: {transform.position.z}");
                 transform.Translate(navigateVehicle.vehicleSpeed * Time.deltaTime * Vector3.forward, Space.Self);
-
+                
                 if (transform.position.z < startClimbLimit)
                 {
+                    Debug.Log($"Vehicle position: {transform.position} and start climb limit is {startClimbLimit}");
                     transform.Rotate(climbSpeed * Time.deltaTime * Vector3.left);
                 }
                 yield return null;
@@ -41,21 +46,21 @@ namespace localizer.product.vehicle
         }
 
 
-        IEnumerator TakeOffTh17()
-        {
-            isAircraftVisual = true;
-            Vector3 visualLimit = new Vector3(transform.position.x, transform.position.y, visualLimitZ);
+        //IEnumerator TakeOffTh17()
+        //{
+        //    isAircraftVisual = true;
+        //    Vector3 visualLimit = new Vector3(transform.position.x, transform.position.y, visualLimitZ);
 
-            StartCoroutine(navigateVehicle.MoveVehicleForward(stopPosition: visualLimit));
-            while (isAircraftVisual)
-            {
-                if (transform.position.z < startClimbLimit)
-                {
-                    transform.Rotate(climbSpeed * Time.deltaTime * Vector3.left);
-                }
-                yield return null;
-            }
-        }
+        //    StartCoroutine(navigateVehicle.MoveVehicleForward(stopPosition: visualLimit));
+        //    while (isAircraftVisual)
+        //    {
+        //        if (transform.position.z < startClimbLimit)
+        //        {
+        //            transform.Rotate(climbSpeed * Time.deltaTime * Vector3.left);
+        //        }
+        //        yield return null;
+        //    }
+        //}
 
         IEnumerator TrackAircraft()
         {

@@ -10,7 +10,7 @@ public class RunwayEdgeGenerator : MonoBehaviour
     public Transform startingPoint;
     public Transform endPoint;
 
-    public  float runwayWidth = 22.0f;
+    public  float runwayWidth = 21.0f;
     private float lightIntervals = 30.0f;
 
     public void Generate() 

@@ -2,6 +2,7 @@ using localizer.core.enums;
 using localizer.product.vehicle;
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace localizer.product.airplane
@@ -163,14 +164,18 @@ namespace localizer.product.airplane
 
         public IEnumerator RotateRotors()
         {
-            while (true)
+            if (aircraftRotors.Count() > 0)
             {
-                foreach (var rotor in aircraftRotors)
+                while (true)
                 {
-                    rotor.transform.Rotate(rotorSpeed * Time.deltaTime * Vector3.forward);
+                    foreach (var rotor in aircraftRotors)
+                    {
+                        rotor.transform.Rotate(rotorSpeed * Time.deltaTime * Vector3.forward);
+                    }
+                    yield return null;
                 }
-                yield return null;
             }
+            
         }
 
         public void DestroyAircraft()

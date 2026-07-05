@@ -18,25 +18,25 @@ namespace localizer.product.vehicle
         private readonly float periodBeforeNewSpawn = 10.0f;
 
         //UNCOMMENT
-        //private void OnEnable()
-        //{
-        //    introductionManager.isIntroFinished += StartSpawn;
-        //}
+        private void OnEnable()
+        {
+            introductionManager.isIntroFinished += StartSpawn;
+        }
 
-        //private void OnDisable()
-        //{
-        //    introductionManager.isIntroFinished -= StartSpawn;
-        //}
+        private void OnDisable()
+        {
+            introductionManager.isIntroFinished -= StartSpawn;
+        }
 
-        private void Start()
+        private void StartSpawn()
         {
             StartCoroutine(SpawnAircraft());
         }
 
         public IEnumerator SpawnAircraft()
         {
-            if (aircrafts.Count == 0) yield break;
-
+            while (aircrafts.Count > 0)
+            { 
             GameObject chosenAircraft = aircrafts[0];
             AirplaneTaxi taxiScript = chosenAircraft.GetComponent<AirplaneTaxi>();
             AirplaneTakeOff takeOffScript = chosenAircraft.GetComponent<AirplaneTakeOff>();
@@ -54,15 +54,14 @@ namespace localizer.product.vehicle
             {
                 yield return null;
             }
-            StopAllCoroutines();
-            takeOffScript.DestroyAircraft();
-            
+
             //remove the aircraft from the list
             aircrafts.RemoveAt(0);
+            takeOffScript.DestroyAircraft();
 
             yield return new WaitForSeconds(periodBeforeNewSpawn);
 
-            StartCoroutine(SpawnAircraft());
+            }
         }
     }
 }

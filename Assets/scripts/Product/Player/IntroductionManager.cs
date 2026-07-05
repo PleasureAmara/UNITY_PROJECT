@@ -9,6 +9,7 @@ using localizer.product.vehicle;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion;
 using localizer.core.interfaces;
+using localizer.product.ui;
 
 namespace localizer.product.player
 {
@@ -124,6 +125,9 @@ namespace localizer.product.player
         [Tooltip("Drag the steering pivot of your vehicle. This only works if you have enabled the above boolean doesVehicleHaveSteering")]
         [SerializeField] private GameObject steeringPivot;
 
+        //this script contains an event which trigers whenever a user chooses an option to skip introduction and go straight to the cool stuff.
+        [SerializeField] private LifecycleManager lifecycleManager;
+
         /// <summary>
         /// this variable is set by other scripts specifically LifecycleManager script with the purpose of 
         /// giving the player powers to skip all boring introduction. once set true, the player will be teleported
@@ -156,37 +160,27 @@ namespace localizer.product.player
 
         private void OnEnable()
         {
-            //if (tutorialManager != null) tutorialManager.isLearnVRFinished += StartCarNavigation;
+            if (tutorialManager != null) tutorialManager.isLearnVRFinished += StartCarNavigation;
+            if (lifecycleManager != null) lifecycleManager.shouldSkipIntro += () => shouldSkipIntro = true;
         }
 
         private void OnDisable()
         {
-            //if (tutorialManager != null) tutorialManager.isLearnVRFinished -= StartCarNavigation;
-        }
-
-        private void Start()
-        {
-            //// make sure the steering in the car is at the right position.
-            //generalSettings.teleportPlayer.hasTeleported = false;
-            //generalSettings.teleportPlayer.RequestToTeleportToAnchor(targetAnchor);
-
+            if (tutorialManager != null) tutorialManager.isLearnVRFinished -= StartCarNavigation;
+            if (lifecycleManager != null) lifecycleManager.shouldSkipIntro -= () => shouldSkipIntro = true;
         }
 
         void StartCarNavigation()
         {
-            //start the introduction
-            //isIntroActive = true;
-            //StageManager(Stages.stage1);
+            learnVRSettings.introScreen.SetActive(false);
+            StageManager(Stages.stage1);
 
-            //generalSettings.showDescription.descriptionScreen.SetActive(false);
-            //learnVRSettings.introScreen.SetActive(false);
             //itemsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            //StageManager(Stages.stage6);
         }
 
         private void Update()
         {
-            //generalSettings.teleportPlayer.RequestToTeleportToAnchor(specificAnchor.passengerSeatAnchor);
-
             if (shouldSkipIntro )
             {
                 StageManager(Stages.stage6);
@@ -204,35 +198,14 @@ namespace localizer.product.player
                 characterSettings.playerController.transform.SetPositionAndRotation(specificAnchor.passengerSeatAnchor.transform.position, specificAnchor.passengerSeatAnchor.transform.rotation);
 
             }
-            //generalSettings.teleportPlayer.RequestToTeleportToAnchor(specificAnchor.passengerSeatAnchor);
         }
-
-        void DisablePlayerHands()
-        {
-            //transform.Find("Locomotion").gameObject.SetActive(false);
-            characterSettings.playerController.gameObject.transform.Find("Camera Offset/Right Controller").gameObject.SetActive(false);
-        }
-
-        void EnablePlayerHands()
-        {
-            //transform.Find("Locomotion").gameObject.SetActive(true);
-            characterSettings.playerController.gameObject.transform.Find("Camera Offset/Right Controller").gameObject.SetActive(true);
-        }
-
 
         void StageManager(Enum stageToAccomplish)
         {
             //we use enums instead of strings, to prevent bugs that come from typos "stage1" vs "stge1"
             switch (stageToAccomplish)
             {
-                //case Stages.stage0:
-                //    isIntroActive = true;
-                //    NavigateIntroductionMenu();
-                //    break;
-
                 case Stages.stage1:
-                    //locomotion.gameObject.SetActive(false);
-
                     //attach player into the vehicle.
                     ManagePlayerTeleportation(specificAnchor.passengerSeatAnchor, () => {
                         isPlayerInsideCar = true;
@@ -273,30 +246,6 @@ namespace localizer.product.player
 
             }
         }
-
-        //void NavigateIntroductionMenu()
-        //{
-        //    //we set the boolean to false to track the next stage of teleportation.
-        //    learnVRSettings.learnVRControllers.isIntroFinished = false;
-        //    ManagePlayerTeleportation(specificAnchor.introAnchor, 
-        //        () => {
-        //            learnVRSettings.introScreen.SetActive(true);
-
-        //            //Start the learn VR screens.
-        //            learnVRSettings.learnVRControllers.SetUpInitialState();
-
-        //            StartCoroutine(WaitForAnyCondition(
-        //                conditionMethod: () => learnVRSettings.learnVRControllers.isIntroFinished,
-        //                actionMethod: () => {
-        //                    learnVRSettings.introScreen.SetActive(false);
-
-        //                    StageManager(Stages.stage1);
-        //                }
-        //            ));
-        //        });
-
-        //}
-
 
         /// <summary>
         /// tracks the stop position of the vehicle as it moves during introduction.  
@@ -361,7 +310,7 @@ namespace localizer.product.player
                 conditionMethod: () => navigateVehicle.hasFinishedTurning,
                 actionMethod: () =>
                 {
-                    vehicleStopPosition = new Vector3(1355, navigateVehicle.transform.position.y, navigateVehicle.transform.position.z);
+                    vehicleStopPosition = new Vector3(1348, navigateVehicle.transform.position.y, navigateVehicle.transform.position.z);
                     ManagePlayerLocomotionDuringIntro(vehicleStopPosition, targetedAudios.locShelter,
                         () =>
                         {
