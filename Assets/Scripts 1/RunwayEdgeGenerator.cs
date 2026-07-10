@@ -37,7 +37,7 @@ public class RunwayEdgeGenerator : MonoBehaviour
 #if UNITY_EDITOR
             DestroyImmediate(runwayLightParent.GetChild(0).gameObject);
 #else
-        Destroy(runwayLightsParent.GetChild(0).gameObject);
+        Destroy(runwayLightParent.GetChild(0).gameObject);
 #endif
         }
     }

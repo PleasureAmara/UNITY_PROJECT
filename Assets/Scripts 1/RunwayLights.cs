@@ -12,12 +12,17 @@ public class RunwayLights : MonoBehaviour
     }
     void OnEnable()
     {
-        AirportLightingManager.Instance.RegisterRunwayLight(this);
+        if (AirportLightingManager.Instance != null)
+        {
+            AirportLightingManager.Instance.RegisterRunwayLight(this);
+        }
     }
 
     void OnDisable()
     {
+        if (AirportLightingManager.Instance != null) { 
         AirportLightingManager.Instance.UnRegisterRunwayLight(this);
+    }
     }
 
     public void ApplySettings(float intensity, float emission)

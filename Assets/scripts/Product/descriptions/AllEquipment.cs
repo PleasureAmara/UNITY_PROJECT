@@ -39,6 +39,7 @@ namespace localizer.product.descriptions
             [TutorialStep.LearningTurning] = new ControllerKeyDescription { nextTargetControllerKey = TargetControllerKeys.Move, Description = "The pressed button is used for turning around without moving your body. The turn provided is a snap turn to improve user experience.Try the next glowing button." },
             [TutorialStep.LearningStraightMovt] = new ControllerKeyDescription {Description = "The pressed thumbstick is used for moving in straight lines. i.e. forward, backwards, left and right. Press 'Grip' button to continue, (The button used for selecting)." },
             [TutorialStep.FinishVRControllerLearning] = new ControllerKeyDescription { Description = "Now you're ready for action. You're going to be teleported to the airside vehicle. Find a comfortable seat and enjoy your learning. Once ready, Point the controller to the CONTINUE button and press the 'Grip' button." },
+            [TutorialStep.Quit] = new ControllerKeyDescription { Description = "To quit, Press the button with a meta logo on the right controller . A Menu will appear, choose the QUIT APP option." },
         };
 
         public static string FindDescription(TutorialStep searchKey, out TargetControllerKeys relatedButton)
