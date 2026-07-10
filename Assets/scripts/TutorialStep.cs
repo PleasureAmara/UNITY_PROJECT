@@ -28,5 +28,6 @@ public enum TutorialStep
     LearningGrip,
     LearningTurning,
     LearningStraightMovt,
-    FinishVRControllerLearning
+    FinishVRControllerLearning,
+    Quit
 }

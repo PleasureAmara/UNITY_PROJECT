@@ -13,20 +13,13 @@ namespace localizer.product.vehicle
 
         //we use this instance to track when the introduction has been finished.
         [SerializeField] private IntroductionManager introductionManager;
-        //private Vector3 spawnPosition = new Vector3(1302, 50.73f, -70);
+
         private readonly float periodBeforeTakeOff = 3.0f;
         private readonly float periodBeforeNewSpawn = 10.0f;
 
-        //UNCOMMENT
-        private void OnEnable()
-        {
-            introductionManager.isIntroFinished += StartSpawn;
-        }
+        private void OnEnable() => introductionManager.isIntroFinished += StartSpawn;
+        private void OnDisable() => introductionManager.isIntroFinished -= StartSpawn;
 
-        private void OnDisable()
-        {
-            introductionManager.isIntroFinished -= StartSpawn;
-        }
 
         private void StartSpawn()
         {

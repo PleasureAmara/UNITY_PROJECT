@@ -1,13 +1,15 @@
+using localizer.core.enums;
+using localizer.product.descriptions;
+using localizer.product.player;
+using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
-using System.Collections;
-using UnityEngine.XR.Interaction.Toolkit.Interactables;
-using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.SceneManagement;
-using System;
-
-using localizer.product.player;
+using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 
 namespace localizer.product.ui
@@ -41,6 +43,17 @@ namespace localizer.product.ui
         [SerializeField] private XRSimpleInteractable skipIntroButton;
         [SerializeField] private XRSimpleInteractable cancelMenuButton;
 
+        [Header("Game restart variables")]
+        [SerializeField] private GameObject introScreen;
+        [SerializeField] private TextMeshProUGUI introTitle;
+        [SerializeField] private TextMeshProUGUI introContent;
+        [SerializeField] private XRSimpleInteractable introExitButton;
+        //[SerializeField] private HighlightController metaQuestButton;
+        /// <summary>
+        /// Holds the enum variable matching the quit statement inside ActionDescriptions Class 
+        /// </summary>
+        private TargetControllerKeys quit;
+
         /// <summary>
         /// Tracks the state of the menu screen
         /// </summary>
@@ -62,6 +75,7 @@ namespace localizer.product.ui
             restartButton.selectEntered.AddListener(ManageRestart);
             skipIntroButton.selectEntered.AddListener(ManageSkipIntro);
             cancelMenuButton.selectEntered.AddListener(CloseMenu);
+            introExitButton.selectEntered.AddListener(ManageExitIntro);
         }
 
         private void OnDisable()
@@ -72,15 +86,12 @@ namespace localizer.product.ui
             stopButton.selectEntered.RemoveListener(ManageStop);
             restartButton.selectEntered.RemoveListener(ManageRestart);
             skipIntroButton.selectEntered.RemoveListener(ManageSkipIntro);
+            introExitButton.selectEntered.RemoveListener(ManageExitIntro);
         }
 
         private void Start()
         {
-            if (characterController == null)
-            {
-                Debug.LogError("There is no attached character controller.");
-                return;
-            }
+            if (characterController == null) return;
         }
 
         void OnMenuPress(InputAction.CallbackContext context)
@@ -97,6 +108,7 @@ namespace localizer.product.ui
                 {
                     //pause the game
                     Time.timeScale = 0f;
+                    introScreen.SetActive(false);
                     menuScreen.SetActive(true);
                     isMenuActive = true;
                 }));
@@ -115,7 +127,18 @@ namespace localizer.product.ui
 
         void ManageStop(SelectEnterEventArgs args)
         {
-            Application.Quit();
+            //set the right screen
+            menuScreen.SetActive(false);
+            isMenuActive = false;
+
+            introScreen.SetActive(true);
+            introExitButton.gameObject.SetActive(true);
+
+            //add words to screen
+            string associatedContent = ActionsDescriptions.FindDescription(TutorialStep.Quit, out quit);
+            introTitle.text = "Quit VR";
+            introContent.text = associatedContent;
+            
         }
 
         void ManageRestart(SelectEnterEventArgs args)
@@ -127,7 +150,6 @@ namespace localizer.product.ui
 
         void ManageSkipIntro(SelectEnterEventArgs args)
         {
-            //introductionManager.shouldSkipIntro = true;
             shouldSkipIntro?.Invoke();
             CloseMenu();
         }
@@ -137,8 +159,17 @@ namespace localizer.product.ui
             menuScreen.SetActive(false);
             isMenuActive = false;
 
-            //place player
+            //place player TO oriGINAL POSITION
             characterController.transform.SetPositionAndRotation(playerPosition, playerRotation);
+        }
+
+        void ManageExitIntro(SelectEnterEventArgs args)
+        {
+            introExitButton.gameObject.SetActive(false);
+            introScreen.SetActive(false);
+            menuScreen.SetActive(true);
+            isMenuActive = true;
+            //metaQuestButton.SetHighlight(false);
         }
     }
 

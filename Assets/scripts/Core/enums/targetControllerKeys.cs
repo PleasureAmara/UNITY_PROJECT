@@ -8,6 +8,7 @@ namespace localizer.core.enums
         Select,
         Move,
         SnapTurn,
+        QuitGame,
         Empty
     }
 }
