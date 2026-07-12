@@ -207,10 +207,11 @@ namespace localizer.product.player
             {
                 case Stages.stage1:
                     //attach player into the vehicle.
-                    //ManagePlayerTeleportation(specificAnchor.passengerSeatAnchor, () => {
-                    //    isPlayerInsideCar = true;
-                        //DescribeTaxiway();
-                    //});
+                    ManagePlayerTeleportation(specificAnchor.passengerSeatAnchor, () =>
+                    {
+                        isPlayerInsideCar = true;
+                        DescribeTaxiway();
+                    });
                     break;
 
                 case Stages.stage2:

@@ -140,13 +140,13 @@ public class TutorialManager : MonoBehaviour
         //if (learnVRControllers.continueButton != null) learnVRControllers.continueButton.gameObject.SetActive(false);
     }
 
-    private void Update()
-    {
-        if (nextStep == TutorialStep.OutsideShelter)
-        {
-            SetState(TutorialStep.OutsideShelter);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (nextStep == TutorialStep.OutsideShelter)
+    //    {
+    //        SetState(TutorialStep.OutsideShelter);
+    //    }
+    //}
 
     private void OnDestroy()
     {
@@ -518,7 +518,7 @@ public class TutorialManager : MonoBehaviour
     private void ManageContinueButton(SelectEnterEventArgs args)
     {
         learnVRControllers.itemsCanvas.gameObject.SetActive(false);
-        SetState(nextStep);
+        SetState(TutorialStep.OutsideShelter);
         isLearnVRFinished?.Invoke();
     }
 
