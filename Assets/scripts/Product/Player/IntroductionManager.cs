@@ -8,8 +8,9 @@ using localizer.product.descriptions;
 using localizer.product.vehicle;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion;
-using localizer.core.interfaces;
+using localizer.utilities.soundControl;
 using localizer.product.ui;
+using System.Threading;
 
 namespace localizer.product.player
 {
@@ -188,6 +189,12 @@ namespace localizer.product.player
                 //reset the variable to prevent trigger in the next frame.
                 shouldSkipIntro = false;
             }
+            //if (isPlayerInsideCar)
+            //{
+            //    //lock player in car seat
+            //    characterSettings.playerController.transform.SetPositionAndRotation(specificAnchor.passengerSeatAnchor.transform.position, specificAnchor.passengerSeatAnchor.transform.rotation);
+
+            //}
         }
 
         private void LateUpdate()
@@ -257,6 +264,7 @@ namespace localizer.product.player
             //ensure the boolean is false so that turning can take place.
             navigateVehicle.hasFinishedTurning = false;
             StartCoroutine(WaitForAudio(targetedAudios.taxiway));
+            Thread.Sleep(1000);
             navigateVehicle.TurnVehicle(rotationPivots.apron5Pivot);
             StartCoroutine(WaitForAnyCondition(
                 conditionMethod: () => navigateVehicle.hasFinishedTurning,

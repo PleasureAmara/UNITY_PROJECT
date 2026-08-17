@@ -140,13 +140,6 @@ public class TutorialManager : MonoBehaviour
         //if (learnVRControllers.continueButton != null) learnVRControllers.continueButton.gameObject.SetActive(false);
     }
 
-    //private void Update()
-    //{
-    //    if (nextStep == TutorialStep.OutsideShelter)
-    //    {
-    //        SetState(TutorialStep.OutsideShelter);
-    //    }
-    //}
 
     private void OnDestroy()
     {

@@ -143,15 +143,16 @@ namespace localizer.product.ui
 
         void ManageRestart(SelectEnterEventArgs args)
         {
-            // its assumed that localizer110 will always be scene 0. 
-            SceneManager.LoadScene(0);
             CloseMenu();
+
+            // its assumed that localizer110 will always be scene 0. 
+            SceneManager.LoadScene(0);  
         }
 
         void ManageSkipIntro(SelectEnterEventArgs args)
         {
-            shouldSkipIntro?.Invoke();
             CloseMenu();
+            shouldSkipIntro?.Invoke();
         }
 
         void CloseMenu(SelectEnterEventArgs args = null)
