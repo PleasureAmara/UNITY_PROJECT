@@ -1,14 +1,14 @@
 using localizer.core.enums;
+//local imports
+using localizer.product.descriptions;
+using localizer.product.player;
 using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
-
-//local imports
-using localizer.product.descriptions;
-using localizer.product.player;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 
 
@@ -35,6 +35,9 @@ public class LearnVRControllers
     public TrackerUserInput trackUserInput;
 
     public CharacterController xrOriginCharacterController;
+
+    public TeleportationAnchor introAnchor;
+    public TeleportPlayer teleportPlayer;
 
     /// <summary>
     /// Represents the true value stored that is matching the active controller key expected from the user. 
@@ -223,6 +226,25 @@ public class TutorialManager : MonoBehaviour
                 //highlight the button and set stage for the next step
                 learnVRControllers.grip.SetHighlight(true);
                 nextStep = TutorialStep.LearningGrip;
+                //teleport to intro anchor.
+                //learnVRControllers.teleportPlayer.hasTeleported = false;
+                //learnVRControllers.teleportPlayer.RequestToTeleportToAnchor(learnVRControllers.introAnchor);
+
+                //StartCoroutine(WaitForTeleport(
+                //    () =>
+                //    {   
+                //        learnVRControllers.title.text = "Welcome to VR tutorial";
+                //        learnVRControllers.content.text = associatedContent;
+                //        learnVRControllers.exitIntroButton.gameObject.SetActive(false);
+                //        //highlight the button and set stage for the next step
+                //        learnVRControllers.grip.SetHighlight(true);
+                //        nextStep = TutorialStep.LearningGrip;
+                //    }
+                   
+                //));
+
+
+                
                 break;
 
             case TutorialStep.LearningGrip:
@@ -244,7 +266,7 @@ public class TutorialManager : MonoBehaviour
 
                 //try
                 //learnVRControllers.continueButton.gameObject.SetActive(true);
-                //nextStep = TutorialStep.OutsideShelter;
+                //nextStep = TutorialStep.FinishVRControllerLearning;
                 //SetState(nextStep);
                 //try
 
@@ -523,6 +545,15 @@ public class TutorialManager : MonoBehaviour
         }
         introActive = true;
         SetState(TutorialStep.WelcomeToVR);
+    }
+
+    IEnumerator WaitForTeleport(Action actionMethod)
+    {
+        while (!learnVRControllers.teleportPlayer.hasTeleported)
+        {
+            yield return null;
+        }
+        actionMethod.Invoke();
     }
 
 }

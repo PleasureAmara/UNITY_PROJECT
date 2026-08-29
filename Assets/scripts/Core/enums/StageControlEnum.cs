@@ -11,5 +11,6 @@ namespace localizer.core.enums
         stage4, 
         stage5,
         stage6,
+        stage7,
     }
 }

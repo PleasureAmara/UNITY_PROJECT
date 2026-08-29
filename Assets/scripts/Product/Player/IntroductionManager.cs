@@ -1,16 +1,16 @@
-using System;
-using System.Collections;
-using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
-
 using localizer.core.enums;
 using localizer.product.descriptions;
+using localizer.product.ui;
 using localizer.product.vehicle;
+using localizer.utilities.soundControl;
+using System;
+using System.Collections;
+using System.Threading;
+using Unity.XR.CoreUtils;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion;
-using localizer.utilities.soundControl;
-using localizer.product.ui;
-using System.Threading;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 namespace localizer.product.player
 {
@@ -76,6 +76,8 @@ namespace localizer.product.player
     {
         [Tooltip("Attach the XR ORIGIN gameobject")]
         public CharacterController playerController;
+
+        public XROrigin xrOrigin;
 
     }
 
@@ -201,9 +203,8 @@ namespace localizer.product.player
         {
             if (isPlayerInsideCar)
             {
-                //lock player in car seat
                 characterSettings.playerController.transform.SetPositionAndRotation(specificAnchor.passengerSeatAnchor.transform.position, specificAnchor.passengerSeatAnchor.transform.rotation);
-
+                //characterSettings.xrOrigin.transform.SetPositionAndRotation(specificAnchor.passengerSeatAnchor.transform.position, specificAnchor.passengerSeatAnchor.transform.rotation);
             }
         }
 
@@ -213,12 +214,14 @@ namespace localizer.product.player
             switch (stageToAccomplish)
             {
                 case Stages.stage1:
+
                     //attach player into the vehicle.
-                    ManagePlayerTeleportation(specificAnchor.passengerSeatAnchor, () =>
-                    {
-                        isPlayerInsideCar = true;
-                        DescribeTaxiway();
-                    });
+                    ManagePlayerTeleportation(specificAnchor.passengerSeatAnchor, 
+                        () =>
+                        {
+                            isPlayerInsideCar = true;
+                            DescribeTaxiway();
+                        });
                     break;
 
                 case Stages.stage2:
@@ -246,8 +249,10 @@ namespace localizer.product.player
                     ManagePlayerTeleportation(
                         specificAnchor.finalAnchor,
                         () => {
-                            // trigger the event that publishes the end of introduction.
+                            //characterSettings.xrOrigin.RequestedTrackingOriginMode = XROrigin.TrackingOriginMode.Floor;
+                            // trigger the event that publishes the end of introduction and destroy the car. 
                             isIntroFinished?.Invoke();
+                            Destroy(navigateVehicle.gameObject);
                         }
                     );
                     break;
